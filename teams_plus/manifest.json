@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
     "name": "TeamsPlus",
-    "description": "Extra features for MS Teams",
-    "version": "0.6.1",
+    "description": "Extra features for Teams",
+    "version": "0.7.0",
     "content_scripts": [{
         "js": [
             "main.bundle.js"
