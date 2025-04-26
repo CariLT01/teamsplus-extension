@@ -1,12 +1,9 @@
 # Changelog
 ---
-<<<<<<< HEAD
-=======
 ## [0.7.0] 2025-04-25
 ### Added
 - Added bi-directional encryption layer (safe-tunnels) to prevent SSL inspection
 
->>>>>>> master
 ## [0.6.1] 2025-04-24
 ### Changed
 - Better UI
