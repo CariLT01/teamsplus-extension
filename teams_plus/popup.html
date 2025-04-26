@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="grapick.min.css">
+    <title>Document</title>
+    <style>
+        /* For WebKit browsers (Chrome, Safari) */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 0, 0, 0.35);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Remove scrollbar buttons (arrows) */
+        ::-webkit-scrollbar-button {
+            display: none;
+        }
+    </style>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+        * {
+            font-family: "Inter", sans-serif;
+        }
+        html {
+            height: 600px;
+        }
+
+        .choose-color-btn {
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            border: 1px solid black;
+            border-radius: 0 !important;
+        }
+
+        body {
+            width: 500px;
+            
+            background: rgb(250, 250, 250);
+            overflow: auto;
+        }
+
+        .color-input {
+            display: flex;
+            width: 100%;
+            margin-bottom: 2px;
+        }
+
+        .value-input {
+            display: flex;
+            width: 100%;
+            margin-bottom: 2px;
+        }
+
+        .value-input label {
+            flex-grow: 1;
+        }
+
+        .value-input input {
+            max-width: 200px;
+        }
+
+        .color-input label {
+            flex-grow: 1;
+        }
+
+        .choose-color-btn-parent {
+            background-image: linear-gradient(45deg, #ccc 25%, transparent 25%), linear-gradient(-45deg, #ccc 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #ccc 75%), linear-gradient(-45deg, transparent 75%, #ccc 75%);
+            background-size: 8px 8px;
+            background-position: 0 0, 0 4px, 4px -4px, -4px 0px;
+        }
+
+        #variable-description {
+            width: auto;
+            height: auto;
+            padding: 5px 10px;
+            background-color: white;
+            position: fixed;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            pointer-events: none;
+            z-index: 9;
+            border-radius: 6px;
+            border: 1px solid rgba(0,0,0,0.35);
+        }
+
+        #variable-description p {
+            margin: 0;
+            padding: 0;
+        }
+
+        #variable-description strong {
+            text-decoration: underline;
+        }
+
+        button {
+            margin: 1px;
+            outline: none;
+            background-color: transparent;
+            color: black;
+            border: 1px solid rgba(0, 0, 0, 0.35);
+            padding: 6px 12px;
+            border-radius: 99999px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s, border 0.3s;
+            font-weight: 600;
+        }
+
+        h1 {
+            font-size: 2em !important;
+        }
+
+        h2 {
+            font-size: 1.5em !important;
+            font-weight: 500;
+        }
+
+        h3 {
+            font-size: 1.3em !important;
+            font-weight: 400;
+            text-decoration: underline;
+        }
+
+        p,
+        li,
+        p,
+        strong {
+            font-size: .95rem;
+            line-height: 1.4rem;
+        }
+        .main{
+            display: flex;
+            flex-direction: column;
+            height: 95vh;
+        }
+
+        .popup-title {
+            margin-left: 15px;
+        }
+
+        .popup-section {
+            text-decoration: none;
+            margin-bottom: 0;
+            margin-left: 15px;
+        }
+
+        button:hover {
+            background-color: black;
+            color: white;
+            border: 1px solid rgba(0, 0, 0, 0);
+        }
+
+        .document-content {
+            margin: auto;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            width: auto;
+            justify-content: space-evenly;
+            gap: 15px;
+            margin-top: 5px;
+        }
+
+        .actions button {
+            flex-grow: 1;
+        }
+
+        .icon-btn {
+            background-color: transparent;
+            color: black;
+            border: 1px solid black;
+            padding: 4px;
+            border-radius: 99999px;
+            width: 24px;
+            height: auto;
+            aspect-ratio: 1;
+        }
+
+        .icon-btn-img {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .text-btn {
+            background-color: transparent;
+            border: 1px solid rgba(0, 0, 0, 0.35);
+            color: black;
+        }
+
+        #apply-btn {
+            height: 100%;
+        }
+
+        #availableThemes {
+
+            overflow-y: scroll;
+            flex-grow: 1;
+        }
+
+        .theme-title {
+            text-decoration: none;
+            font-weight: 500;
+            margin: 0;
+            width: auto;
+        }
+
+        .theme-descripton {
+            color: rgba(0, 0, 0, 0.5);
+            font-weight: normal;
+            font-size: 0.8rem;
+            margin: 0;
+            width: auto;
+        }
+
+        .theme {
+            margin: 6px 0;
+            border: 1px solid rgba(0, 0, 0, 0.35);
+            border-radius: 1rem;
+            width: auto;
+            display: flex;
+            flex-direction: column;
+            padding: 10px 15px;
+            background-color: white;
+
+        }
+
+        .btn-with-icon-img {
+            width: 12px;
+            height: 12px;
+            transition: filter 0.3s;
+            margin-right: 5px;
+        }
+
+        .btn-with-icon {
+            display: flex;
+            align-items: center;
+        }
+
+        button.btn-with-icon:hover .btn-with-icon-img {
+            filter: invert(1);
+        }
+
+        .mode-switch {
+            position: fixed;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 95%;
+
+            background-color: white;
+            z-index: 9;
+            box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        }
+
+        .fade-bottom {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            /* Adjust height as needed */
+            pointer-events: none;
+            background: linear-gradient(to top, white, transparent);
+            z-index: 4;
+        }
+
+        .advanced {
+            padding-bottom: 50px;
+        }
+
+        .button-group {
+            display: inline-flex;
+            border: 1px solid #ccc;
+            border-radius: 99999999px !important;
+            justify-content: space-evenly;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .button-group button {
+            border: none;
+            padding: 8px 16px;
+            background: white;
+            cursor: pointer;
+            border-radius: 0 !important;
+            flex-grow: 1;
+        }
+
+        .button-group button:hover {
+            color: white;
+            background-color: black;
+        }
+
+        .button-group button+button {
+            border-left: 1px solid #ccc;
+        }
+
+        .text-center {
+            text-align: center;
+            width: 100%;
+        }
+
+        .text-notice {
+            font-size: 0.8rem;
+            color: rgba(0, 0, 0, 0.5);
+        }
+
+
+        .tooltip-btn {
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+            /* Keeps button content clipped */
+        }
+
+        .tooltip-text {
+            visibility: hidden;
+            position: absolute;
+            bottom: 125%;
+            /* Adjusts the position of the tooltip */
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 5px;
+            white-space: nowrap;
+            z-index: 10;
+            /* Ensure it is on top */
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .tooltip-btn:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="document-content">
+        <div id="variable-description" style="display: none;">
+            <strong>var.--colorNeutralBackground2</strong>
+            <p>Color of top ribbon band</p>
+        </div>
+        <div class="main">
+            <h1 class="popup-title">TeamsPlus</h1>
+            <div class="hidden">
+                <p>These settings will <strong>only apply</strong> on the following domain:
+                    https://teams.microsoft.com/v2
+                </p>
+                <p>If you need help, read the
+                    <a href="" id="opendocs"> documentation</a> for more info.
+                </p>
+            </div>
+
+
+            <div class="hidden">
+                <button id="deldata">Delete everything</button>
+            </div>
+
+
+
+            <div class="hidden">
+                <button id="copyvarcolors">Copy CSS Variables Colors Data</button>
+                <button id="copyclasscolors">Copy CSS Classes Colors Data</button>
+                <button id="copyfonts">Copy Custom Fonts Data</button>
+                <button id="copypixelvalues">Copy CSS Other Settings Data</button>
+            </div>
+
+
+
+            <div class="hidden">
+                <button id="importvarcolors">Import CSS Variables Colors Data</button>
+                <button id="importclasscolors">Import CSS Classes Colors Data</button>
+                <button id="importfonts">Import Custom Fonts Data</button>
+                <button id="importpixelvalues">Import CSS Other Settings Data</button>
+            </div>
+
+
+
+
+
+            <input type="text" id="pasteArea" placeholder="Paste your data here" style="display: none;">
+            <button id="pasteOK" style="display: none;">OK</button>
+
+            <h3 class="popup-section">Available themes</h3>
+            <div id="availableThemes">
+
+            </div>
+            <div class="button-group margin-left-15">
+                <button id="saveAsTheme" class="tooltip-btn">Save current settings as theme
+                    <span class="tooltip-text">This is a custom hint</span>
+                </button>
+                <button id="exportTheme" class="tooltip-btn">Export theme
+                    <span class="tooltip-text">This is a custom hint</span>
+                </button>
+                <button id="importTheme" class="tooltip-btn">Import theme
+                    <span class="tooltip-text">This is a custom hint</span>
+                </button>
+            </div>
+
+            <p class="text-center text-notice">Changes should update in realtime. If it does not, please refresh the page.</p>
+
+        </div>
+
+
+
+        <div class="advanced" style="display: none;">
+            <h1 class="popup-title">Advanced options</h1>
+            <h3>Experimental features</h3>
+            
+            <label for="twemojiSupport"><strong>EXPERIMENTAL</strong> Enable Twemoji</label>
+            
+            <input type="checkbox" name="" id="twemojiSupport">
+            <p class="text-notice">These features are experimental. Expect occasional glitches.</p>
+            <hr>
+            <h3>Custom fonts</h3>
+            <div id="fonts-container">
+                <p>Current fonts: </p>
+                <div id="current-font-container"></div>
+                <p>Imports: </p>
+                <div id="font-imports-container"></div>
+            </div>
+
+            <h3>CSS Variables Colors</h3>
+            <div id="css-variable-colors"></div>
+            <h3>CSS Classes Colo rs</h3>
+            <div id="css-classes-colors"></div>
+            <h3>CSS Other Settings</h3>
+            <div id="css-custom-values"></div>
+        </div>
+
+        <button class="btn-with-icon mode-switch" id="mode-switch">
+            <img src="https://www.svgrepo.com/show/509956/gear.svg" alt="" class="btn-with-icon-img">
+            <span>Create or edit theme</span>
+        </button>
+        <div class="fade-bottom"></div>
+
+        <script src="grapick.min.js"></script>
+        <script src="popup.bundle.js" type="module"></script>
+    </div>
+
+</body>
+
+</html>

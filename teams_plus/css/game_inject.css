@@ -1,0 +1,75 @@
+/* styles.css */
+
+:root {
+    --digitWidth: 48px;
+    --digitHeight: 72px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f4f4f4;
+}
+
+.counter-container {
+    width: var(--digitWidth);
+    overflow: hidden;
+}
+
+.counter {
+    display: flex;
+    flex-direction: column;
+    width: var(--digitWidth);
+    height: var(--digitHeight);
+    position: relative;
+    background-image: url("assets/digitBg.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    image-rendering: pixelated;
+}
+
+.digit {
+    font-size: 40px;
+    font-weight: bold;
+    height: var(--digitHeight);
+    width: var(--digitWidth);
+    background-color: transparent;
+    color: white;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    justify-content: center;
+    text-align: center;
+}
+
+img.digit {
+    image-rendering: pixelated;
+}
+
+.counters {
+    gap: 15px;
+    display: flex;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#roll {
+    position: fixed;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.window {
+    position: fixed;
+    width: 70%;
+    height: 70%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
