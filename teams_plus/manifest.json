@@ -1,0 +1,37 @@
+{
+    "manifest_version": 3,
+    "name": "TeamsPlus",
+    "description": "Extra features for MS Teams",
+    "version": "0.6.1",
+    "content_scripts": [{
+        "js": [
+            "main.bundle.js"
+        ],
+        "css": [
+            "css/inject.css",
+            "css/game_inject.css"
+        ],
+        "matches": [
+            "https://teams.microsoft.com/*"
+        ]
+    }],
+    "permissions": [
+        "storage"
+    ],
+
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": "icons/icon_577x577.png"
+    },
+    "options_page": "docs/docs.html",
+    "web_accessible_resources": [{
+        "resources": ["*.mp3", "sounds/*", "*.png", "assets/*"],
+        "matches": ["<all_urls>"]
+    }],
+    "icons": {
+        "16": "icons/icon_16x16.png",
+        "32": "icons/icon_32x32.png",
+        "48": "icons/icon_48x48.png",
+        "128": "icons/icon_128x128.png"
+    }
+}

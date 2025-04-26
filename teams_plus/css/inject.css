@@ -1,0 +1,581 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+:root {
+    --containerPrimaryColor: rgb(0, 0, 0);
+}
+
+.main-container {
+    font-family: "Inter", sans-serif;
+    position: fixed;
+    z-index: 99;
+    top: 50%;
+    left: 50%;
+    width: 70%;
+    height: 70%;
+    transform: translate(-50%, -50%);
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    border-radius: 6px;
+}
+
+.main-login-container {
+    z-index: 100;
+}
+
+.top-navbar {
+    width: 100%;
+    height: 40px;
+    min-height: 40px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    display: flex;
+}
+
+.container-search {
+    flex-grow: 1;
+    margin: 5px 20px;
+    padding: 0px 10px;
+    border-radius: 10000000px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.container-search:focus {
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    outline: none;
+}
+
+.container-search-submit {
+    background-color: var(--containerPrimaryColor);
+    border: none;
+    color: white;
+    border-radius: 1000000px;
+    padding: 0px 20px;
+    margin: 5px 10px;
+    margin-left: 2px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border 0.3s;
+    border: 1px solid rgba(0, 0, 0, 0);
+}
+
+.container-search-submit:hover {
+    background-color: white;
+    color: black;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.container-n-points {
+    margin: auto 10px;
+}
+
+.listings {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    /* 5 cards per row */
+    gap: 10px;
+    padding: 20px;
+    overflow-y: auto;
+    max-height: calc(100% - 5vh);
+    flex-grow: 1;
+}
+
+.listing-card {
+    height: 190px;
+    /* vertical layout */
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.theme-name {
+    margin: 5px;
+}
+
+.theme-description {
+    margin: 5px;
+    height: 100px;
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.5);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    position: relative;
+    flex-grow: 1;
+}
+
+.theme-description::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    /* how much of the fade effect you want */
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff);
+    pointer-events: none;
+}
+
+.actions {
+    display: flex;
+}
+
+.theme-install {
+    margin: 5px;
+    background-color: var(--containerPrimaryColor);
+    border: none;
+    color: white;
+    border-radius: 1000000px;
+    padding: 5px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border 0.3s;
+    border: 1px solid rgba(0, 0, 0, 0);
+}
+
+.theme-install:hover {
+    background-color: white;
+    color: black;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.star {
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.star-icon {
+    height: 20px;
+    width: 20px;
+}
+
+.star span {
+    margin-left: 5px;
+    vertical-align: middle;
+    line-height: 1;
+    transform: translateY(1px);
+    /* or -1px depending on direction */
+}
+
+.star:hover .star-icon {
+    stroke: black;
+    fill: black;
+}
+
+.starred {
+    stroke: black;
+    fill: black;
+}
+
+
+/*LOGIN CONTAINER*/
+
+
+/*LOGIN CONTAINER*/
+
+.main-login-container {
+    font-family: "Inter", sans-serif;
+    position: fixed;
+    width: min(80vw, 350px);
+    height: 50vh;
+    background-color: white;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px 20px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.rel {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.login-title {
+    width: 100%;
+    text-align: center;
+}
+
+.login-align-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.main-login-container input {
+    width: 90%;
+    margin: 10px 5px;
+    padding: 4px 2px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.main-login-container input:focus {
+    outline: none;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.login-btn-submit {
+    padding: 4px 20px;
+    margin-top: 15px;
+}
+
+
+/* Loading animations */
+
+.loader-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.login-loader {
+    border-color: black;
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+
+/* Loaders */
+
+.loader {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: inline-block;
+    border-top: 3px solid #000;
+    border-right: 3px solid transparent;
+    box-sizing: border-box;
+    animation: rotation .6s linear infinite;
+}
+
+@keyframes rotation {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+
+/* TAB BTN */
+
+.injected-tab {
+    align-items: center;
+    box-sizing: border-box;
+    display: inline-flex;
+    justify-content: center;
+    text-decoration-line: none;
+    vertical-align: middle;
+    margin: 0;
+    overflow: hidden;
+    color: var(--colorNeutralForeground1);
+    border: var(--strokeWidthThin) solid var(--colorNeutralStroke1);
+    font-family: var(--fontFamilyBase);
+    outline-style: none;
+    font-size: var(--fontSizeBase300);
+    line-height: var(--lineHeightBase300);
+    font-weight: var(--fontWeightRegular);
+    border: none;
+    padding: 1px;
+    background-color: var(--colorSubtleBackground);
+    height: 56px;
+    width: 68px;
+}
+.injected-tab:hover {
+    background-color: rgba(255,255,255,0.5);
+}
+.injected-tab-img {
+    text-transform: none;
+    color: var(--colorNeutralForeground1);
+    font-family: var(--fontFamilyBase);
+    font-weight: var(--fontWeightRegular);
+    user-select: none;
+    font-size: 20px;
+    pointer-events: none;
+    fill: var(--colorNeutralForeground3);
+    width: 24px !important;
+    height: 24px !important;
+    box-sizing: border-box;
+    display: inline;
+    line-height: 0;
+
+    fill: var(--colorNeutralForeground3) !important;
+}
+.injected-tab-span {
+    text-transform: none;
+    font-weight: var(--fontWeightRegular);
+    user-select: none;
+    pointer-events: none;
+    box-sizing: border-box;
+    overflow-y: hidden;
+    text-align: center;
+    align-items: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow-x: hidden;
+    display: block;
+    font-family: var(--fontFamilyBase);
+    font-size: var(--fontSizeBase100);
+    width: 60px;
+    margin-right: 7px;
+    margin-left: 7px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    line-height: var(--lineHeightBase100);
+    color: var(--colorNeutralForeground3);
+}
+.injected-tab-upper-div {
+    text-transform: none;
+    color: var(--colorNeutralForeground1);
+    font-family: var(--fontFamilyBase);
+    line-height: var(--lineHeightBase300);
+    font-weight: var(--fontWeightRegular);
+    user-select: none;
+    font-size: 20px;
+    pointer-events: none;
+    box-sizing: border-box;
+}
+.injected-tab-upper-span {
+    pointer-events: none;
+    text-transform: none;
+    color: var(--colorNeutralForeground1);
+    font-family: var(--fontFamilyBase);
+    line-height: var(--lineHeightBase300);
+    font-weight: var(--fontWeightRegular);
+    user-select: none;
+    box-sizing: border-box;
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    font-size: 20px;
+    height: 20px;
+    width: 20px;
+}
+.injected-parent-button {
+    align-items: center;
+    box-sizing: border-box;
+    display: inline-flex;
+    justify-content: center;
+    text-decoration-line: none;
+    vertical-align: middle;
+    cursor: pointer;
+    margin: 0;
+    overflow: hidden;
+    color: var(--colorNeutralForeground1);
+    border: var(--strokeWidthThin) solid var(--colorNeutralStroke1);
+    font-family: var(--fontFamilyBase);
+    outline-style: none;
+    font-size: var(--fontSizeBase300);
+    line-height: var(--lineHeightBase300);
+    font-weight: var(--fontWeightRegular);
+    border: none;
+    padding: 1px;
+    background-color: var(--colorSubtleBackground);
+    height: 56px;
+    width: 68px;
+}
+.injected-parent-div {
+    box-sizing: border-box;
+    position: relative;
+}
+.injected-tab-div2 {
+    text-transform: none;
+    color: var(--colorNeutralForeground1);
+    font-family: var(--fontFamilyBase);
+    line-height: var(--lineHeightBase300);
+    font-weight: var(--fontWeightRegular);
+    user-select: none;
+    font-size: 20px;
+    -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    height: 56px;
+    width: 68px;
+}
+
+/* Encryption UI */
+
+.encryption-ui-window {
+    font-family: "Inter", sans-serif;
+
+    position: fixed;
+    width: 70vw;
+    max-width: 70vw;
+    overflow: hidden;
+    height: max(70vh, 550px);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    background-color: white;
+}
+.encryption-ui-people {
+    min-width: 70vw;
+    height: max(15vh, 140px);
+    overflow-x: auto;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    padding: 0 4px;
+}
+
+.title-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.lock-icon-title {
+    width: 24px;
+    height: 24px;
+    margin: 4px;/
+}
+.title-sub-container {
+    display: flex;
+    align-items: center;
+}
+
+.person {
+    width: max(10vw, 100px);
+    min-width: max(10vw, 100px);
+    height: max(10vh, 94px);
+    background-color: rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    border-radius: 8px;
+    padding: 4px 4px;
+    padding-bottom: 12px;
+}
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#select {
+    padding: 6px 20px;
+    background-color: black;
+    color: white;
+    font-weight: 600;
+    border-radius: 100000000000px;
+    border: 1px solid rgba(0,0,0,0);
+    transition: 0.3s;
+    cursor: pointer;
+    margin-top: 10px;
+}
+#select:hover {
+    border: 1px solid black;
+    background-color: white;
+    color: black;
+}
+#account-info {
+    font-weight: 600;
+    margin-bottom: 0;
+}
+#account-id {
+    font-size: 11px;
+    margin: 0;
+}
+#selected{
+    margin: 0;
+    margin-left: 12px;
+}
+
+.encryption-ui-search {
+    width: 60%;
+    margin-left: 12px;
+    padding: 3px 5px;
+    border-radius: 100000000px;
+    border: 1px solid rgba(0,0,0,0.1);
+    transition: 0.3s border;
+}
+.encryption-ui-search:focus {
+    border: 1px solid rgba(0,0,0,0.5);
+    outline: none;
+}
+#encrypt-message {
+    padding: 3px 5px;
+    width: 90%;
+    resize: none;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 6px;
+    transition: 0.3s border;
+    font-family: "Inter", sans-serif;
+    margin-top: 15px;
+}
+#encrypt-message:focus {
+    border: 1px solid rgba(0,0,0,0.5);
+    outline: none;
+}
+
+#encrypt-btn {
+    padding: 10px 20px;
+    border-radius: 10000000px;
+    border: 1px solid black;
+    background-color: white;
+    color: black;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s background-color;
+    margin-top: 10px;
+}
+#encrypt-btn:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+.btn-with-icon {
+    display: flex;
+    align-items: center;
+}
+.btn-icon {
+    width:12px;
+    height:12px;
+    margin-right: 5px;
+}
+#encrypt-output{
+    padding: 3px 5px;
+    width: 90%;
+    resize: none;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 6px;
+    transition: 0.3s border;
+    font-family: "Inter", sans-serif;
+    margin-top: 15px;
+    white-space: pre;
+}
+#encrypt-output:focus {
+    border: 1px solid rgba(0,0,0,0.5);
+    outline: none;
+}
+
+.normal-button {
+    background-color: var(--containerPrimaryColor);
+    border: none;
+    color: white;
+    border-radius: 1000000px;
+    padding: 6px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border 0.3s;
+    border: 1px solid rgba(0, 0, 0, 0);
+}
+
+.normal-button:hover {
+    background-color: white;
+    color: black;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}

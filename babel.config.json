@@ -1,0 +1,9 @@
+{
+    "presets": [
+      "@babel/preset-env",  // For modern JS features
+      "@babel/preset-typescript"  // For TypeScript
+    ],
+    "plugins": [
+      // Add any additional plugins you need
+    ]
+  }
