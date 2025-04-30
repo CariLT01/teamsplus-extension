@@ -3,6 +3,7 @@ import { p_stringToElement } from "../utils";
 import { API_ENDPOINT } from "../config";
 import { AuthProvider } from "./authorizationProvider";
 import { SafeTunnel } from "./safeTunnel";
+import { promptAndWait } from "../ui/pwdPrompt";
 
 const ENCRYPTION_UI_WINDOW = `
 <div class="encryption-ui-window">
@@ -127,7 +128,7 @@ export class EncryptionProvider {
         this.currentSearch = '';
 
         const selectedP = this.win.querySelector("#selected");
-        if (selectedP != null) selectedP.textContent = "Selected: null";
+        if (selectedP != null) selectedP.innerHTML = "Selected: <strong>No account selected. Please select an account to encrypt.</strong>";
 
         const input: HTMLInputElement | null = this.win.querySelector("#encrypt-search");
         if (input != null) input.value='';
@@ -278,7 +279,7 @@ export class EncryptionProvider {
             const body = JSON.stringify({
                 destination: [this.currentSelected],
                 body: messageField.value,
-                pwd: prompt("Enter password to your account")
+                pwd: await promptAndWait()
             });
             const encryptedBody = await safeTunnel.safeTunnelEncrypt(body);
 
@@ -336,7 +337,7 @@ export class EncryptionProvider {
             key: jsonData["keys"],
             iv: jsonData["iv"],
             signature: jsonData["signature"],
-            pwd: prompt("Enter password to your account"),
+            pwd: await promptAndWait(),
             author: jsonData["author"]
         });
         fetch(`${API_ENDPOINT}/api/v1/encryption/decrypt`, {

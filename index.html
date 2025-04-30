@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popup</title>
+
+    <style>
+        .password-popup {
+            background-color: rgb(250, 250, 250);
+            border-radius: 1rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            position: fixed;
+            z-index: 9999999999;
+
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            height: auto;
+            width: min(95vw, 600px);
+            padding: 10px 8px;
+        }
+        .password-popup h3 {
+            margin: 0;
+        }
+        .password-popup input {
+            border: 1px solid rgba(0, 0, 0, 0.35);
+            border-radius: 6px;
+            -webkit-text-security: disc;
+        }
+        .password-popup button {
+            background-color: white;
+            color: black;
+            font-weight: bold;
+            border: 1px solid rgba(0, 0, 0, 0.35);
+            padding: 6px 12px;
+            border-radius: 99999999px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .password-popup button:hover {
+            background-color: black;
+            color: white;
+            border: 1px solid rgba(0, 0, 0, 0);
+        }
+    </style>
+</head>
+<body>
+    <div class="password-popup" id="pwd-popup">
+        <h3>Enter password</h3>
+        <p>Enter password to encryption key</p>
+
+        <input type="text" name="popup-pwd" id="popup-pwd-input" class="popup-pwd" autocomplete="off">
+
+        <button type="button" id="ok-btn">OK</button>
+    </div>
+</body>
+</html>

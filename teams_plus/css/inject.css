@@ -1,4 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Remove scrollbar buttons (arrows) */
+::-webkit-scrollbar-button {
+    display: none;
+}
+
 :root {
     --containerPrimaryColor: rgb(0, 0, 0);
 }
@@ -13,7 +37,7 @@
     height: 70%;
     transform: translate(-50%, -50%);
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    background-color: white;
+    background-color: rgb(250, 250, 250);
     display: flex;
     flex-direction: column;
     border-radius: 6px;
@@ -36,7 +60,7 @@
     margin: 5px 20px;
     padding: 0px 10px;
     border-radius: 10000000px;
-    border: 1px solid rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(0, 0, 0, 0.35);
 }
 
 .container-search:focus {
@@ -45,9 +69,9 @@
 }
 
 .container-search-submit {
-    background-color: var(--containerPrimaryColor);
+    background-color: transparent;
     border: none;
-    color: white;
+    color: black;
     border-radius: 1000000px;
     padding: 0px 20px;
     margin: 5px 10px;
@@ -55,14 +79,13 @@
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s, border 0.3s;
-    border: 1px solid rgba(0, 0, 0, 0);
+    border: 1px solid rgba(0, 0, 0, 0.35);
 }
 
 .container-search-submit:hover {
-    background-color: white;
-    color: black;
-    border: 1px solid rgba(0, 0, 0, 0.5);
-    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    background-color: black;
+    color: white;
+    border: 1px solid rgba(0, 0, 0, 0);
 }
 
 .container-n-points {
@@ -78,14 +101,79 @@
     overflow-y: auto;
     max-height: calc(100% - 5vh);
     flex-grow: 1;
+
+    position: relative;
+}
+
+.listings-loader-parent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 3;
+    transform: translate(-50%, -50%);
+}
+
+/* Listings loader style*/
+
+.listings-loader {
+    width: 60px;
+    height: 40px;
+    position: relative;
+    display: inline-block;
+    --base-color: white;
+    /*use your base color*/
+}
+
+
+.listings-loader::before {
+    content: '';
+    left: 0;
+    top: 0;
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #000;
+    background-image: radial-gradient(circle 8px at 18px 18px, var(--base-color) 100%, transparent 0), radial-gradient(circle 4px at 18px 0px, var(--base-color) 100%, transparent 0), radial-gradient(circle 4px at 0px 18px, var(--base-color) 100%, transparent 0), radial-gradient(circle 4px at 36px 18px, var(--base-color) 100%, transparent 0), radial-gradient(circle 4px at 18px 36px, var(--base-color) 100%, transparent 0), radial-gradient(circle 4px at 30px 5px, var(--base-color) 100%, transparent 0), radial-gradient(circle 4px at 30px 5px, var(--base-color) 100%, transparent 0), radial-gradient(circle 4px at 30px 30px, var(--base-color) 100%, transparent 0), radial-gradient(circle 4px at 5px 30px, var(--base-color) 100%, transparent 0), radial-gradient(circle 4px at 5px 5px, var(--base-color) 100%, transparent 0);
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+    animation: rotationBack 3s linear infinite;
+}
+
+.listings-loader::after {
+    content: '';
+    left: 35px;
+    top: 15px;
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #000;
+    background-image: radial-gradient(circle 5px at 12px 12px, var(--base-color) 100%, transparent 0), radial-gradient(circle 2.5px at 12px 0px, var(--base-color) 100%, transparent 0), radial-gradient(circle 2.5px at 0px 12px, var(--base-color) 100%, transparent 0), radial-gradient(circle 2.5px at 24px 12px, var(--base-color) 100%, transparent 0), radial-gradient(circle 2.5px at 12px 24px, var(--base-color) 100%, transparent 0), radial-gradient(circle 2.5px at 20px 3px, var(--base-color) 100%, transparent 0), radial-gradient(circle 2.5px at 20px 3px, var(--base-color) 100%, transparent 0), radial-gradient(circle 2.5px at 20px 20px, var(--base-color) 100%, transparent 0), radial-gradient(circle 2.5px at 3px 20px, var(--base-color) 100%, transparent 0), radial-gradient(circle 2.5px at 3px 3px, var(--base-color) 100%, transparent 0);
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+    animation: rotationBack 4s linear infinite reverse;
+}
+
+@keyframes rotationBack {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(-360deg);
+    }
 }
 
 .listing-card {
     height: 190px;
     /* vertical layout */
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    border-radius: 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.35);
     display: flex;
     flex-direction: column;
+    background-color: white;
+    padding: 5px 5px;
 }
 
 .theme-name {
@@ -121,22 +209,21 @@
 
 .theme-install {
     margin: 5px;
-    background-color: var(--containerPrimaryColor);
+    background-color: transparent;
     border: none;
-    color: white;
+    color: black;
     border-radius: 1000000px;
     padding: 5px 20px;
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s, border 0.3s;
-    border: 1px solid rgba(0, 0, 0, 0);
+    border: 1px solid rgba(0, 0, 0, 0.35);
 }
 
 .theme-install:hover {
-    background-color: white;
-    color: black;
-    border: 1px solid rgba(0, 0, 0, 0.5);
-    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    background-color: black;
+    color: white;
+    border: 1px solid rgba(0, 0, 0, 0);
 }
 
 .star {
@@ -264,6 +351,7 @@
     0% {
         transform: translate(-50%, -50%) rotate(0deg);
     }
+
     100% {
         transform: translate(-50%, -50%) rotate(360deg);
     }
@@ -294,9 +382,11 @@
     height: 56px;
     width: 68px;
 }
+
 .injected-tab:hover {
-    background-color: rgba(255,255,255,0.5);
+    background-color: rgba(255, 255, 255, 0.5);
 }
+
 .injected-tab-img {
     text-transform: none;
     color: var(--colorNeutralForeground1);
@@ -314,6 +404,7 @@
 
     fill: var(--colorNeutralForeground3) !important;
 }
+
 .injected-tab-span {
     text-transform: none;
     font-weight: var(--fontWeightRegular);
@@ -337,6 +428,7 @@
     line-height: var(--lineHeightBase100);
     color: var(--colorNeutralForeground3);
 }
+
 .injected-tab-upper-div {
     text-transform: none;
     color: var(--colorNeutralForeground1);
@@ -348,6 +440,7 @@
     pointer-events: none;
     box-sizing: border-box;
 }
+
 .injected-tab-upper-span {
     pointer-events: none;
     text-transform: none;
@@ -364,6 +457,7 @@
     height: 20px;
     width: 20px;
 }
+
 .injected-parent-button {
     align-items: center;
     box-sizing: border-box;
@@ -387,10 +481,12 @@
     height: 56px;
     width: 68px;
 }
+
 .injected-parent-div {
     box-sizing: border-box;
     position: relative;
 }
+
 .injected-tab-div2 {
     text-transform: none;
     color: var(--colorNeutralForeground1);
@@ -418,14 +514,18 @@
     position: fixed;
     width: 70vw;
     max-width: 70vw;
-    overflow: hidden;
-    height: max(70vh, 550px);
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: min(max(70vh, 550px), 95vh);
+    border: 1px solid rgb(180, 180, 180);
+    border-radius: 1rem;
     transform: translate(-50%, -50%);
     top: 50%;
     left: 50%;
-    background-color: white;
+    background-color: rgb(250, 250, 250);
+    z-index: 99;
 }
+
 .encryption-ui-people {
     min-width: 70vw;
     height: max(15vh, 140px);
@@ -434,6 +534,10 @@
     align-items: center;
     gap: 3px;
     padding: 0 4px;
+    background-color: white;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    border-top: 1px solid rgba(0,0,0,0.1);
+    margin-top: 5px;
 }
 
 .title-container {
@@ -441,11 +545,13 @@
     justify-content: center;
     align-items: center;
 }
+
 .lock-icon-title {
     width: 24px;
     height: 24px;
     margin: 4px;/
 }
+
 .title-sub-container {
     display: flex;
     align-items: center;
@@ -458,39 +564,46 @@
     background-color: rgba(0, 0, 0, 0.05);
     overflow: hidden;
     border-radius: 8px;
-    padding: 4px 4px;
+    padding: 0px 8px;
     padding-bottom: 12px;
+    border: 1px solid rgba(0,0,0,0.35);
 }
+
 .center {
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 #select {
     padding: 6px 20px;
-    background-color: black;
-    color: white;
+    background-color: white;
+    color: black;
     font-weight: 600;
     border-radius: 100000000000px;
-    border: 1px solid rgba(0,0,0,0);
+    border: 1px solid rgba(0, 0, 0, 0.35);
     transition: 0.3s;
     cursor: pointer;
     margin-top: 10px;
 }
+
 #select:hover {
-    border: 1px solid black;
-    background-color: white;
-    color: black;
+    border: 1px solid transparent;
+    background-color: black;
+    color: white;
 }
+
 #account-info {
     font-weight: 600;
     margin-bottom: 0;
 }
+
 #account-id {
     font-size: 11px;
     margin: 0;
 }
-#selected{
+
+#selected {
     margin: 0;
     margin-left: 12px;
 }
@@ -500,32 +613,35 @@
     margin-left: 12px;
     padding: 3px 5px;
     border-radius: 100000000px;
-    border: 1px solid rgba(0,0,0,0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
     transition: 0.3s border;
 }
+
 .encryption-ui-search:focus {
-    border: 1px solid rgba(0,0,0,0.5);
+    border: 1px solid rgba(0, 0, 0, 0.5);
     outline: none;
 }
+
 #encrypt-message {
     padding: 3px 5px;
     width: 90%;
     resize: none;
-    border: 1px solid rgba(0,0,0,0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 6px;
     transition: 0.3s border;
     font-family: "Inter", sans-serif;
     margin-top: 15px;
 }
+
 #encrypt-message:focus {
-    border: 1px solid rgba(0,0,0,0.5);
+    border: 1px solid rgba(0, 0, 0, 0.5);
     outline: none;
 }
 
 #encrypt-btn {
     padding: 10px 20px;
     border-radius: 10000000px;
-    border: 1px solid black;
+    border: 1px solid rgba(0,0,0,0.35);
     background-color: white;
     color: black;
     font-weight: 600;
@@ -533,49 +649,92 @@
     transition: 0.3s background-color;
     margin-top: 10px;
 }
+
 #encrypt-btn:hover {
     background-color: rgba(0, 0, 0, 0.1);
 }
+
 .btn-with-icon {
     display: flex;
     align-items: center;
 }
+
 .btn-icon {
-    width:12px;
-    height:12px;
+    width: 12px;
+    height: 12px;
     margin-right: 5px;
 }
-#encrypt-output{
+
+#encrypt-output {
     padding: 3px 5px;
     width: 90%;
     resize: none;
-    border: 1px solid rgba(0,0,0,0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 6px;
     transition: 0.3s border;
     font-family: "Inter", sans-serif;
     margin-top: 15px;
     white-space: pre;
 }
+
 #encrypt-output:focus {
-    border: 1px solid rgba(0,0,0,0.5);
+    border: 1px solid rgba(0, 0, 0, 0.5);
     outline: none;
 }
 
 .normal-button {
-    background-color: var(--containerPrimaryColor);
+    background-color: transparent;
     border: none;
-    color: white;
+    color: black;
     border-radius: 1000000px;
     padding: 6px 20px;
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s, border 0.3s;
-    border: 1px solid rgba(0, 0, 0, 0);
+    border: 1px solid rgba(0, 0, 0, 0.35);
 }
 
 .normal-button:hover {
+    background-color: black;
+    color: white;
+    border: 1px solid rgba(0, 0, 0, 0);
+}
+
+/* PWD PROMPT */
+.password-popup {
+    background-color: rgb(250, 250, 250);
+    border-radius: 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    position: fixed;
+    z-index: 9999999999;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: auto;
+    width: min(95vw, 600px);
+    padding: 10px 8px;
+}
+.password-popup h3 {
+    margin: 0;
+}
+.password-popup input {
+    border: 1px solid rgba(0, 0, 0, 0.35);
+    border-radius: 6px;
+    -webkit-text-security: disc;
+}
+.password-popup button {
     background-color: white;
     color: black;
-    border: 1px solid rgba(0, 0, 0, 0.5);
-    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    font-weight: bold;
+    border: 1px solid rgba(0, 0, 0, 0.35);
+    padding: 6px 12px;
+    border-radius: 99999999px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.password-popup button:hover {
+    background-color: black;
+    color: white;
+    border: 1px solid rgba(0, 0, 0, 0);
 }

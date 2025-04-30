@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="inject.css">
+</head>
+<body>
+    <div class="encryption-ui-window">
+        <div class="title-container">
+            <div class="title-sub-container">
+                <img src="https://www.svgrepo.com/show/513833/lock.svg" alt="" class="lock-icon-title">
+                <h2 class="encryption-title">Encryption</h2>
+            </div>
+            
+        </div>
+        
+        <input type="text" name="search" id="encrypt-search" class="encryption-ui-search" placeholder="Search for accounts..." autocomplete="off">
+        <div class="encryption-ui-people">
+            <div class="person">
+                <p id="account-info">Bob</p>
+                <span id="account-id">ID: 17</span>
+                <div class="center">
+                    <button type="button" id="select">Select</button>
+                </div>
+            </div>
+    
+        </div>
+        <p id="selected">Selected: null</p>
+        <div class="center">
+            <textarea name="encrypt-message" id="encrypt-message" rows="5" placeholder="Type your message here"></textarea>
+        </div>
+    
+        <div class="center">
+            <button type="button" id="encrypt-btn">
+                <div class="btn-with-icon">
+                    <img src="https://www.svgrepo.com/show/513833/lock.svg" alt="" class="btn-icon">
+                    <span>Encrypt</span>
+                </div>
+            </button>
+        </div>
+        
+        <div class="center">
+            <textarea name="" id="encrypt-output" placeholder="Output will appear here" rows="2"></textarea>
+        </div>
+        
+    </div>
+</body>
+</html>

@@ -21,49 +21,20 @@ const buttonHandlers = new ButtonHandlers(dataManager, themeManager);
 const colorInputs = new ColorInputsManager(dataManager);
 //// Onload functions ////
 
-
-
-async function p_postLoad() {
-
-    popupUI_init();
-
-    buttonHandlers.p_exportHandlers();
-    buttonHandlers.importHandlers();
+async function loadAdvanced() {
     await dataManager.loadColors();
     await dataManager.loadClassColors();
     await dataManager.loadPixelValues();
-    await dataManager.loadThemes();
 
-    ///// DELETE DATA HANDLER /////
-
-    document.querySelector("#deldata")?.addEventListener("click", function() {
-        const a = prompt("enter y/n");
-        if (a == 'y') {
-            chrome.storage.local.remove("colors");
-            chrome.storage.local.remove("fonts");
-            chrome.storage.local.remove("classColors");
-            chrome.storage.local.remove("pixelValues");
-            alert("deleted data");
-        } else {
-            alert("data not deleted");
-        }
-
-    })
-    console.error("Loaded");
-
-    ///// Documentation link /////
-    
-    const docsBtn = document.querySelector("#opendocs");
-    if (docsBtn) {
-        docsBtn.addEventListener("click", function() {
-            chrome.runtime.openOptionsPage();
-        })
-    }
 
     ////// FONTS //////
 
     const fontsContainer1 = document.querySelector("#current-font-container") as HTMLDivElement;
     const fontsContainer2 = document.querySelector("#font-imports-container") as HTMLDivElement;
+
+    fontsContainer1.innerHTML = '';
+    fontsContainer2.innerHTML = '';
+    
 
     // Fonts input
     const fontsInput = document.createElement("input");
@@ -93,9 +64,9 @@ async function p_postLoad() {
     const i = document.querySelector("#twemojiSupport") as HTMLInputElement;
     if (i) {
         i.checked = await dataManager.isTwemojiEnabled();
-        i.addEventListener("input", function() {
+        i.addEventListener("input", function () {
             console.log("Save Twemoji state");
-            chrome.storage.local.set({"twemoji": i.checked});
+            chrome.storage.local.set({ "twemoji": i.checked });
         })
     }
 
@@ -108,6 +79,49 @@ async function p_postLoad() {
     const pixelValuesDiv = document.createElement("div");
     colorInputs.p_createPixelValues(document.querySelector("#css-custom-values") as HTMLDivElement);
     document.body.appendChild(pixelValuesDiv);
+
+    for (let i = 0; i < 5; i++) {
+        await new Promise(requestAnimationFrame); // Wait for frame update
+    }
+    
+}
+
+async function p_postLoad() {
+
+    popupUI_init(loadAdvanced);
+
+    buttonHandlers.p_exportHandlers();
+    buttonHandlers.importHandlers();
+
+    await dataManager.loadThemes();
+
+    ///// DELETE DATA HANDLER /////
+
+    document.querySelector("#deldata")?.addEventListener("click", function () {
+        const a = prompt("enter y/n");
+        if (a == 'y') {
+            chrome.storage.local.remove("colors");
+            chrome.storage.local.remove("fonts");
+            chrome.storage.local.remove("classColors");
+            chrome.storage.local.remove("pixelValues");
+            alert("deleted data");
+        } else {
+            alert("data not deleted");
+        }
+
+    })
+    console.error("Loaded");
+
+    ///// Documentation link /////
+
+    const docsBtn = document.querySelector("#opendocs");
+    if (docsBtn) {
+        docsBtn.addEventListener("click", function () {
+            chrome.runtime.openOptionsPage();
+        })
+    }
+
+
     // Update theme //
     await themeManager.updateThemesList();
 

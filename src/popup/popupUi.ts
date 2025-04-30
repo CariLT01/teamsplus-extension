@@ -39,7 +39,7 @@ function animate_opacity(visibility: boolean, element: HTMLDivElement) {
 
 }
 
-export function popupUI_init() {
+export function popupUI_init(advancedLoadCallback: () => Promise<void>) {
     const modeSwitchBtn: HTMLButtonElement | null = document.querySelector("#mode-switch");
     const mainDiv: HTMLDivElement | null = document.querySelector(".main");
     const advancedDiv: HTMLDivElement | null = document.querySelector(".advanced");
@@ -58,9 +58,10 @@ export function popupUI_init() {
             //mainDiv.style.display = "none";
 
             animate_opacity(false, mainDiv);
-            setTimeout(() => {
+            setTimeout(async () => {
                 mainDiv.style.display = "none";
                 advancedDiv.style.display = 'block';
+                await advancedLoadCallback();
                 animate_opacity(true, advancedDiv);
             }, 300);
 

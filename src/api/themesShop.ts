@@ -33,8 +33,9 @@ const THEME_SHOP = `
         <p class="container-n-points">0 coins</p>
     </div>
     <div class="listings">
-
-
+        <div class="listings-loader-parent" id="listings-loader">
+            <span class="listings-loader"></span>
+        </div>
     </div>
 </div>
 `;
@@ -101,6 +102,44 @@ export class ThemesShopHandler {
             }
         })
         console.log("Injected button");
+    }
+
+    private loaderState(visibility: boolean) {
+        if (this.themeShopUI == null) return;
+        const loader: HTMLSpanElement | null = this.themeShopUI.querySelector("#listings-loader");
+        if (loader == null) return;
+
+        if (visibility) {
+            loader.style.display = "block";
+            loader.animate(
+                [
+                    {transform: 'translateY(-15px)', opacity: "0"},
+                    {transform: 'translateY(0px)', opacity: "1"}
+                ],
+                {
+                    duration: 500,
+                    easing: "ease-out",
+                    iterations: 1,
+                    fill: "forwards"
+                }
+            )
+        } else {
+            loader.animate(
+                [
+                    {transform: 'translateY(0px)', opacity: "1"},
+                    {transform: 'translateY(-15px)', opacity: "0"}
+                ],
+                {
+                    duration: 500,
+                    easing: "ease-in",
+                    iterations: 1,
+                    fill: "forwards"
+                }
+            )
+            setTimeout(() => {
+                loader.style.display = "none";
+            }, 500);
+        }
     }
 
     private p_didIstarThis(name: string) {
@@ -249,7 +288,7 @@ export class ThemesShopHandler {
         listingsElement.innerHTML = '';
 
         // Fetch
-
+        this.loaderState(true);
         fetch(`${API_ENDPOINT}/api/v1/themes/get?search=${searchQuery}`)
             .then(response => response.json())
             .then((data: { data: {[key: string]: { name: string, desc: string, author: string, data: string, stars: number } }}) => {
@@ -280,8 +319,11 @@ export class ThemesShopHandler {
                         )
                     }
                 }
+
+                this.loaderState(false);
             })
             .catch(error => {
+                this.loaderState(false);
                 console.error('Error:', error);
                 alert("Error");
             });

@@ -23,7 +23,7 @@
         "default_popup": "popup.html",
         "default_icon": "icons/icon_577x577.png"
     },
-    "options_page": "docs/docs.html",
+    "options_page": "popup.html",
     "web_accessible_resources": [{
         "resources": ["*.mp3", "sounds/*", "*.png", "assets/*"],
         "matches": ["<all_urls>"]
