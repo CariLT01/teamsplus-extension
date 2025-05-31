@@ -1,5 +1,18 @@
 # Changelog
 ---
+## [0.7.1] 2025-04-29
+### Added
+- Password popup box for typing your encryption password (prevent password leak)
+- Loading icon for theme shop
+- Make color inputs load after the user clicks advanced tab option (improves popup load time)
+- Encryption password being different from your account password (API)
+### Fixed
+- Line clips through encryption provider UI
+### Changed
+- Encryption instructions easier to understand
+- Encryption UI
+- UI theme in general
+
 ## [0.7.0] 2025-04-25
 ### Added
 - Added bi-directional encryption layer (safe-tunnels) to prevent SSL inspection

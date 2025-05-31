@@ -4,14 +4,15 @@
         "@simonwep/pickr": "^1.9.1",
         "@types/canvas-confetti": "^1.9.0",
         "@types/node-emoji": "^1.8.2",
+        "archiver": "^7.0.1",
         "canvas-confetti": "^1.9.3",
         "esbuild": "^0.25.2",
         "node-emoji": "^2.2.0",
         "twemoji": "^14.0.2",
         "unicode-emoji-json": "^0.8.0"
     },
-    "name": "teams-colors",
-    "version": "1.0.0",
+    "name": "teams-plus",
+    "version": "0.7.2",
     "main": "src/main.ts",
     "devDependencies": {
         "@babel/core": "^7.26.10",
@@ -38,7 +39,8 @@
         "webskit-gradient-parser": "^1.0.14"
     },
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "npx webpack && node scripts/updateManifestJSON.js && node scripts/extensionBuild.js"
     },
     "author": "",
     "license": "ISC",

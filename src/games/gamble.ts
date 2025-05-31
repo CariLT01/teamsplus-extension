@@ -9,9 +9,10 @@ const BUTTON_ELEMENT_HTML = `
 `;
 
 const GAMBLING_GAME_HTML = `
-    <div class="window">
+        <div class="window">
+        <img class="window-background" src="assets/gamble_bg_normal.png">
         <div class="counters">
-            <div class="counter-container">
+            <div class="counter-container" id="counter0">
                 <div id="counter" class="counter" data-counter-id="0">
                     <img src="assets/digit0.png" alt="0" class="digit" data-number="0">
                     <img src="assets/digit1.png" alt="1" class="digit" data-number="1">
@@ -25,7 +26,7 @@ const GAMBLING_GAME_HTML = `
                     <img src="assets/digit9.png" alt="9" class="digit" data-number="9">
                 </div>
             </div>
-            <div class="counter-container ">
+            <div class="counter-container "  id="counter1">
                 <div id="counter " class="counter " data-counter-id="1">
                     <img src="assets/digit0.png" alt="0" class="digit" data-number="0">
                     <img src="assets/digit1.png" alt="1" class="digit" data-number="1">
@@ -39,7 +40,7 @@ const GAMBLING_GAME_HTML = `
                     <img src="assets/digit9.png" alt="9" class="digit" data-number="9">
                 </div>
             </div>
-            <div class="counter-container ">
+            <div class="counter-container "  id="counter2">
                 <div id="counter " class="counter " data-counter-id="2">
                     <img src="assets/digit0.png" alt="0" class="digit" data-number="0">
                     <img src="assets/digit1.png" alt="1" class="digit" data-number="1">
@@ -55,6 +56,7 @@ const GAMBLING_GAME_HTML = `
             </div>
         </div>
         <button id="roll">Roll</button>
+        <img src="assets/gamble_handle.png" alt="" class="handle-img">
 
     </div>
 `;
@@ -80,7 +82,7 @@ const BgPicture = "assets/digitBg.png";
 
 export class GamblingGame {
 
-    windowElement: HTMLDivElement;
+    windowElement: HTMLImageElement;
     currentDigits: { [key: number]: number };
 
     audio = new Audio(new AudioContext());
@@ -96,7 +98,7 @@ export class GamblingGame {
         this.currentDigits = {};
 
         // Create the fucking window
-        this.windowElement = p_stringToElement(GAMBLING_GAME_HTML) as HTMLDivElement;
+        this.windowElement = p_stringToElement(GAMBLING_GAME_HTML) as HTMLImageElement;
 
         // Put the fucking window in the fucking body
         document.body.appendChild(this.windowElement);
@@ -134,6 +136,13 @@ export class GamblingGame {
 
             element.style.backgroundImage = `url(${url})`;
         }
+
+        // Window background
+        const img: HTMLImageElement = this.windowElement.querySelector(".window-background") as HTMLImageElement;
+        const counters: HTMLDivElement = this.windowElement.querySelector(".counters") as HTMLDivElement;
+        img.src = chrome.runtime.getURL("assets/gamble_bg_normal.png");
+        const img2: HTMLImageElement = this.windowElement.querySelector(".handle-img") as HTMLImageElement;
+        img2.src = chrome.runtime.getURL("assets/gamble_handle.png");
     }
 
     private async p_injectButton() {
@@ -384,7 +393,7 @@ export class GamblingGame {
     
     
       private randomizeFunction(): {values: number[], order: number[]} {
-        const shouldTryTrickChance = 100;
+        const shouldTryTrickChance = 50;
         const trickChance = 70;
         const numDigits = 3;
     
@@ -475,6 +484,10 @@ export class GamblingGame {
     
     private async shuffle() {
         if (this.rolling == true) return;
+
+        const img: HTMLImageElement = this.windowElement.querySelector(".window-background") as HTMLImageElement;
+        img.src = chrome.runtime.getURL("assets/gamble_bg_normal.png");
+
         const numDigits = 3;
         const delay = 1000;
         const a = 70;
@@ -519,6 +532,8 @@ export class GamblingGame {
                 break;
             } else if (i == numDigits - 1) {
                 console.log("WIN!");
+                const img: HTMLImageElement = this.windowElement.querySelector(".window-background") as HTMLImageElement;
+                img.src = chrome.runtime.getURL("assets/gamble_bg_win.png");
                 this.winAudio.playSound(1);
                 confetti();
                 this.confettiSides();

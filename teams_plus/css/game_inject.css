@@ -14,6 +14,8 @@ body {
     background-color: #f4f4f4;
 }
 
+
+
 .counter-container {
     width: var(--digitWidth);
     overflow: hidden;
@@ -50,19 +52,26 @@ img.digit {
 }
 
 .counters {
-    gap: 15px;
     display: flex;
-    position: fixed;
+    gap: 10px;
+    position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
 
 #roll {
-    position: fixed;
-    top: 60%;
-    left: 50%;
+    position: absolute;
+    width: calc((var(--digitWidth) * 3 + 50px) / 36 * 3);
+
+    position: absolute;
+    top: calc(50% + 20px);
+    left: calc(50% + calc((var(--digitWidth) * 3 + 50px) / 2 + 7px));
     transform: translate(-50%, -50%);
+    height: 100px;
+    z-index: 99;
+    cursor: pointer;
+    opacity: 0;
 }
 
 .window {
@@ -72,4 +81,25 @@ img.digit {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.window-background {
+    position: absolute;
+    width: calc(var(--digitWidth) * 3 + 50px);
+    height: auto;
+    top: calc(50% + 20px);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+.handle-img {
+    width: calc((var(--digitWidth) * 3 + 50px) / 36 * 3);
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+    position: absolute;
+    top: calc(50% + 20px);
+    left: calc(50% + calc((var(--digitWidth) * 3 + 50px) / 2 + 7px));
+    transform: translate(-50%, -50%);
+    pointer-events: none;
 }
