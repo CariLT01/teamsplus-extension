@@ -84,6 +84,19 @@ export class EncryptionProvider {
 
     }
 
+    private termsOfServiceAgree(): boolean {
+
+        // Is it alreay present
+        if (localStorage.getItem("tos_agree") != null) return true;
+
+        const agree = confirm("By using TeamsPlus encryption services, you agree to our terms of service, which can be found on our website at https://apiteamsplus.pythonanywhere.com/terms_of_service. Confirm below if you agree.");
+        if (agree) {
+            localStorage.setItem("tos_agree", "yes");
+            return true;
+        }
+        return false;
+    }
+
     private hideWindow() {
         this.win.animate(
             [
@@ -273,7 +286,8 @@ export class EncryptionProvider {
                 alert("Please select an account before encrypting!");
                 return;
             }
-            alert(LONG_YAP);
+            //alert(LONG_YAP);
+            this.termsOfServiceAgree();
 
             const safeTunnel = new SafeTunnel();
             const body = JSON.stringify({
@@ -330,7 +344,7 @@ export class EncryptionProvider {
     }
 
     private async attemptDecrypt(jsonData: {author: number, body: string, iv: string, keys: {[key: number]: string}, signature: string}) {
-
+        this.termsOfServiceAgree();
         const safeTunnel = new SafeTunnel();
         const content = JSON.stringify({
             body: jsonData["body"],
