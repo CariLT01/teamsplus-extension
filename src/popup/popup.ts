@@ -114,10 +114,10 @@ async function p_postLoad() {
 
     ///// Documentation link /////
 
-    const docsBtn = document.querySelector("#opendocs");
+    const docsBtn = document.querySelector("#readTheDocs");
     if (docsBtn) {
         docsBtn.addEventListener("click", function () {
-            chrome.runtime.openOptionsPage();
+            window.open(chrome.runtime.getURL("/docs/index.html"));
         })
     }
 

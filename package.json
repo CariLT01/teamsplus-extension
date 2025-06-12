@@ -7,12 +7,13 @@
         "archiver": "^7.0.1",
         "canvas-confetti": "^1.9.3",
         "esbuild": "^0.25.2",
+        "html-minifier": "^4.0.0",
         "node-emoji": "^2.2.0",
         "twemoji": "^14.0.2",
         "unicode-emoji-json": "^0.8.0"
     },
     "name": "teams-plus",
-    "version": "0.7.2",
+    "version": "0.8.0",
     "main": "src/main.ts",
     "devDependencies": {
         "@babel/core": "^7.26.10",
