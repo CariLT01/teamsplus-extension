@@ -1,0 +1,50 @@
+site_name: My Docs
+
+theme:
+  name: material
+  palette:
+    - scheme: slate
+      primary: black
+      accent: black
+  features:
+    - navigation.instant   # instant page loading
+    - navigation.sections  # collapsible sections in sidebar
+    - navigation.expand    # expand active section by default
+    - search.highlight
+    - search.suggest
+    - search.share
+    - content.code.annotate    # ← turn on code annotations :contentReference[oaicite:0]{index=0}
+  dark: true
+
+nav:
+  - Home: index.md
+  - What's coming next?: next.md
+  - Custom Colors: colors.md
+  - Custom Fonts: fonts.md
+  - Customizing Design Details: details.md
+  - Support for Twemoji: twemoji.md
+  - Save, export, and load settings: settings.md
+  - Encryption: encryption.md
+  - Minigame: minigame.md
+  - Contributing: contribute.md
+  - Remove TeamsPlus from your PC: remove.md
+
+
+
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - pymdownx.tabbed
+  - pymdownx.tasklist
+  - attr_list
+  - md_in_html
+
+
+
+site_name: "TeamsPlus documentation"
+
+
+use_directory_urls: false
