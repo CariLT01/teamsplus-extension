@@ -19,13 +19,17 @@ theme:
 nav:
   - Home: index.md
   - What's coming next?: next.md
-  - Custom Colors: colors.md
-  - Custom Fonts: fonts.md
-  - Customizing Design Details: details.md
-  - Support for Twemoji: twemoji.md
-  - Save, export, and load settings: settings.md
-  - Encryption: encryption.md
-  - Minigame: minigame.md
+  - Customization:
+    - Custom Colors: customization/colors.md
+    - Custom Fonts: customization/fonts.md
+    - Custom Design Details: customization/details.md
+    - Support for Twemoji: customization/twemoji.md
+  - Games:
+    - Fun Minigame: games/minigame.md
+    - Snake: games/snake.md
+  - Other features:
+    - Save, export, and load settings: other/settings.md
+    - Encryption: other/encryption.md
   - Contributing: contribute.md
   - Remove TeamsPlus from your PC: remove.md
 
@@ -48,3 +52,4 @@ site_name: "TeamsPlus documentation"
 
 
 use_directory_urls: false
+site_dir: "./teams_plus/docs"
