@@ -1,8 +1,9 @@
 import { DEFAULT_THEMES } from "../contribution/defaultThemes";
-import { DEFAULT_FONTS, DEFAULT_COLORS, DEFAULT_PIXEL_VALUES, CLASS_COLORS } from "../shared";
+import { DEFAULT_FONTS, DEFAULT_COLORS, DEFAULT_PIXEL_VALUES, CLASS_COLORS, DEFAULT_BACKGROUNDS } from "../shared";
 import { DataManager } from "../dataManagement";
 import { confirmation } from "./ui";
 import { p_stringToElement } from "../utils";
+
 
 //const THEME_NECESSARY_MAIN_KEYS = {"data": {"classColors": null, "varColors": null, "fonts": {"fontFamily": null}, "otherSettings": null, "twemojiSupport": null}, "version": null, "name": null};
 const THEME_VERSION_CURRENT = 1;
@@ -61,6 +62,9 @@ export class ThemeManager {
                 otherSettings: {
                     [key: string]: string;
                 };
+                backgrounds: {
+                    [key: string]: string;
+                };
                 twemojiSupport: boolean;
             };
             name: string;
@@ -93,6 +97,10 @@ export class ThemeManager {
             console.error("Field not found. Override with default.");
             themeDataParsed["data"]["twemojiSupport"] = false;
         };
+        if (themeDataParsed["data"]["backgrounds"] == null) {
+            console.error("Backgrounds field not found. Overriding with default.");
+            themeDataParsed["data"]["backgrounds"] = DEFAULT_BACKGROUNDS;
+        }
 
         return themeDataParsed;
 
@@ -113,19 +121,22 @@ export class ThemeManager {
     }
 
     async p_generateThemeData(themeName: string) {
-
+        console.log("GENERATE DATA");
         const themeDict = {
             data: {
                 varColors: this.dataManager.u_onlyExportChanged(this.dataManager.currentColors, DEFAULT_COLORS),
                 classColors: this.dataManager.u_onlyExportChanged(this.dataManager.currentClassesColors, CLASS_COLORS),
                 fonts: this.dataManager.currentFonts,
                 otherSettings: this.dataManager.u_onlyExportChanged(this.dataManager.currentPixelValues, DEFAULT_PIXEL_VALUES),
+                backgrounds: this.dataManager.u_onlyExportChanged(this.dataManager.currentBackgrounds, DEFAULT_BACKGROUNDS),
                 twemojiSupport: await this.dataManager.isTwemojiEnabled()
             },
     
             name: themeName,
             data_version: THEME_VERSION_CURRENT // Change this everytime format is updated
         }
+
+        console.log("EXPORT: ", themeDict.data.backgrounds);
     
         return JSON.stringify(themeDict);
     
@@ -147,12 +158,14 @@ export class ThemeManager {
         const currentClassColorsTemp = {...this.dataManager.currentClassesColors}
         const currentPxValuesTemp = {...this.dataManager.currentPixelValues}
         const currentFontsValuesTemp = {...this.dataManager.currentFonts}
+        const currentBackgroundsValuesTemp = {...this.dataManager.currentBackgrounds};
     
         try {
             this.dataManager.currentColors = themeDataParsed["data"]["varColors"];
             this.dataManager.currentClassesColors = themeDataParsed["data"]["classColors"];
             this.dataManager.currentFonts = themeDataParsed["data"]["fonts"];
             this.dataManager.currentPixelValues = themeDataParsed["data"]["otherSettings"];
+            this.dataManager.currentBackgrounds = themeDataParsed["data"]["backgrounds"];
     
             // Update twemoji support
             chrome.storage.local.set({"twemoji": themeDataParsed["data"]["twemojiSupport"]});
@@ -175,6 +188,7 @@ export class ThemeManager {
             this.dataManager.currentFonts = currentFontsValuesTemp;
             this.dataManager.currentPixelValues = currentPxValuesTemp;
             this.dataManager.currentClassesColors = currentClassColorsTemp;
+            this.dataManager.currentBackgrounds = currentBackgroundsValuesTemp;
     
             console.log("Reverted to original state.");
         } finally  {

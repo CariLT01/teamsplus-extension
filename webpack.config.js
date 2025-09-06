@@ -29,14 +29,22 @@ module.exports = {
     },
     module: {
         rules: [{
-                test: /\.ts$/, // Apply this rule to .ts files
-                use: 'babel-loader', // Use ts-loader to compile TypeScript
-                exclude: /node_modules/,
-            },
-            {
-                test: /\.css$/, // Process CSS files
-                use: ['style-loader', 'css-loader'], // Apply style and css loaders
-            },
+            test: /\.ts$/, // Apply this rule to .ts files
+            use: 'babel-loader', // Use ts-loader to compile TypeScript
+            exclude: /node_modules/,
+        },
+        {
+            test: /\.css$/, // Process CSS files
+            use: ['style-loader', 'css-loader'], // Apply style and css loaders
+        },
+        {
+            test: /\.txt$/,
+            type: 'asset/source'
+        },
+        {
+            test: /\.(png|jpe?g|gif|svg|woff2?|eot|ttf|otf)$/i,
+            type: 'asset/inline',
+        },
         ],
 
     },

@@ -15,6 +15,7 @@ import { ThemeManager } from "./popup/themes";
 import { GamblingGame } from "./games/gamble";
 import { EncryptionProvider } from "./api/encryptionProvider";
 import { AuthProvider } from "./api/authorizationProvider";
+import { SnakeGame } from "./games/snake";
 
 // Important objects
 
@@ -25,6 +26,7 @@ const realtimeUpdatesRuntime = new RealtimeUpdatesManager(dataManager, stylesRun
 const themesShopHandler = new ThemesShopHandler(new ThemeManager(dataManager));
 const gamblingGame = new GamblingGame();
 const encryptionProvider =  new EncryptionProvider(new AuthProvider());
+const snakeGame = new SnakeGame();
 
 /////// Utility functions ////////
 
@@ -40,11 +42,13 @@ async function onWindowLoad() {
     await dataManager.loadClassColors();
     await dataManager.loadFonts();
     await dataManager.loadPixelValues();
+    await dataManager.loadBackgrounds();
     stylesRuntime.applyFonts(null);
     console.log("Apply colors on win load");
     realtimeUpdatesRuntime.detectChange();
     twemojiRuntime.applyTwemoji();
     stylesRuntime.applyColors();
+    stylesRuntime.applyBackgrounds();
 }
 
 

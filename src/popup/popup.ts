@@ -25,6 +25,7 @@ async function loadAdvanced() {
     await dataManager.loadColors();
     await dataManager.loadClassColors();
     await dataManager.loadPixelValues();
+    await dataManager.loadBackgrounds();
 
 
     ////// FONTS //////
@@ -76,9 +77,10 @@ async function loadAdvanced() {
     colorInputs.p_createClassColorInputs(document.querySelector("#css-classes-colors") as HTMLDivElement);
 
 
-    const pixelValuesDiv = document.createElement("div");
     colorInputs.p_createPixelValues(document.querySelector("#css-custom-values") as HTMLDivElement);
-    document.body.appendChild(pixelValuesDiv);
+
+    const backgroundsValuesDiv = document.querySelector("#backgrounds");
+    colorInputs.p_createBackgroundsInputs(backgroundsValuesDiv as HTMLDivElement);
 
     for (let i = 0; i < 5; i++) {
         await new Promise(requestAnimationFrame); // Wait for frame update

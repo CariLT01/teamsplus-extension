@@ -2,6 +2,7 @@ import { DataManager } from "../dataManagement";
 import twemoji from "twemoji";
 
 const onNewEmojiWrapper = (element: HTMLElement) => {
+    if (element.getAttribute("twemoji-processed") == "true") return; // Avoid twemoji.parse()
     console.log("New emoji IMG warpper detected, parsing twemoji");
     
     try {
@@ -25,8 +26,8 @@ const onNewEmojiWrapper = (element: HTMLElement) => {
             }
             const parsedImg = twemoji.parse(originalParent, {
                 base: "https://cdnjs.cloudflare.com/ajax/libs/twemoji/15.1.0/",
-                folder: "72x72",  // or "svg" for vector format
-                ext: ".png"       // or ".svg"
+                folder: "svg",  // or "svg" for vector format
+                ext: ".svg"       // or ".svg"
             });
             parsedImg.style.width = `${originalRect.width}px !important`;
             parsedImg.style.height = `${originalRect.height}px !important`;
@@ -35,6 +36,7 @@ const onNewEmojiWrapper = (element: HTMLElement) => {
         console.error("Failed to convert emoji img to chr", err);
     } finally {
         console.log("Convert img to char success");
+        element.setAttribute("twemoji-processed", "true");
     }
 }
 
@@ -77,8 +79,11 @@ export class TwemojiRuntime {
         const callback: MutationCallback = (mutationsList, observer) => {
             for (const mutation of mutationsList) {
                 if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+
+
                     // Check each added node for the target element
                     mutation.addedNodes.forEach((node) => {
+                        if (!(node instanceof HTMLElement || node instanceof DocumentFragment)) return;
                         // Handle direct matches (if the node itself is the wrapper)
                         if (node instanceof HTMLElement && node.dataset.testid === 'message-wrapper') {
                             onNewMessageWrapper(node);
@@ -130,9 +135,6 @@ export class TwemojiRuntime {
     
         const observer = new MutationObserver(callback);
         observer.observe(targetNode, config);
-    
-        const observer2 = new MutationObserver(callback);
-        observer2.observe(targetNode, config);
     
     
     }

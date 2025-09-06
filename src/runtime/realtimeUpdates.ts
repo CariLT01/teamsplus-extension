@@ -41,6 +41,11 @@ export class RealtimeUpdatesManager {
                             this.stylesRuntime.deleteStyle();
                             this.stylesRuntime.applyColors();
                         }
+                        if (key == "backgrounds") {
+                            console.log("Change detected backgrounds");
+                            await this.dataManager.loadBackgrounds();
+                            this.stylesRuntime.applyBackgrounds();
+                        }
                     }
                 }
             }

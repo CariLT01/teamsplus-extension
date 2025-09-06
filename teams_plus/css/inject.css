@@ -41,9 +41,11 @@
     display: flex;
     flex-direction: column;
     border-radius: 6px;
+    color: black;
 }
 
 .main-login-container {
+    color: black;
     z-index: 100;
 }
 
@@ -523,6 +525,7 @@
     top: 50%;
     left: 50%;
     background-color: rgb(250, 250, 250);
+    color: black;
     z-index: 99;
 }
 
@@ -535,8 +538,8 @@
     gap: 3px;
     padding: 0 4px;
     background-color: white;
-    border-bottom: 1px solid rgba(0,0,0,0.1);
-    border-top: 1px solid rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
     margin-top: 5px;
 }
 
@@ -566,7 +569,7 @@
     border-radius: 8px;
     padding: 0px 8px;
     padding-bottom: 12px;
-    border: 1px solid rgba(0,0,0,0.35);
+    border: 1px solid rgba(0, 0, 0, 0.35);
 }
 
 .center {
@@ -641,7 +644,7 @@
 #encrypt-btn {
     padding: 10px 20px;
     border-radius: 10000000px;
-    border: 1px solid rgba(0,0,0,0.35);
+    border: 1px solid rgba(0, 0, 0, 0.35);
     background-color: white;
     color: black;
     font-weight: 600;
@@ -703,6 +706,7 @@
 /* PWD PROMPT */
 .password-popup {
     background-color: rgb(250, 250, 250);
+    color: black;
     border-radius: 1rem;
     border: 1px solid rgba(0, 0, 0, 0.1);
     position: fixed;
@@ -715,14 +719,17 @@
     width: min(95vw, 600px);
     padding: 10px 8px;
 }
+
 .password-popup h3 {
     margin: 0;
 }
+
 .password-popup input {
     border: 1px solid rgba(0, 0, 0, 0.35);
     border-radius: 6px;
     -webkit-text-security: disc;
 }
+
 .password-popup button {
     background-color: white;
     color: black;
@@ -733,8 +740,63 @@
     cursor: pointer;
     transition: 0.3s;
 }
+
 .password-popup button:hover {
     background-color: black;
     color: white;
     border: 1px solid rgba(0, 0, 0, 0);
 }
+
+/* Snake game UI */
+
+.snake {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 80vw;
+    height: 90vh;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+
+
+/* Snake game UI (Actual) */
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: black;
+        }
+        canvas {
+            background-color: black;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .information {
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(14px) saturate(145%);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40vw;
+            color: black;
+            font-family: sans-serif;
+            padding: 10px;
+            border-radius: 16px;
+        }
+        .score {
+            position: fixed;
+            top: 5px;
+            left: 5px;
+            color: white;
+            font-size: 2rem;
+        }

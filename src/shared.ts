@@ -480,6 +480,10 @@ const aCLASS_PROPERTIES: {[key: string]: string} = {
     "ui-list__item:hover": "background"
 }
 
+const aDEFAULT_BACKGROUNDS: {[key: string]: string} = {
+    "channelAndChatBackground": "none",
+}
+
 ////////// EXPORTS //////////
 export const DEFAULT_COLORS = DefaultColors;
 export const DEFAULT_PIXEL_VALUES = aDEFAULT_PIXEL_VALUES;
@@ -487,3 +491,4 @@ export const DEFAULT_FONTS = aDEFAULT_FONTS;
 export const CLASS_COLORS = aCLASS_COLORS;
 export const GROUP_DESCRIPTIONS = aGROUP_DESCRIPTIONS;
 export const CLASS_PROPERTIES = aCLASS_PROPERTIES;
+export const DEFAULT_BACKGROUNDS = aDEFAULT_BACKGROUNDS;

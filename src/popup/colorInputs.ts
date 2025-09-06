@@ -216,6 +216,7 @@ export class ColorInputsManager {
 
 
     p_createPixelValues(el: HTMLDivElement) {
+        el.innerHTML = '';
         for (const property in this.dataManager.currentPixelValues) {
             const newDiv = document.createElement("div");
             const labelElement = document.createElement("label");
@@ -240,5 +241,33 @@ export class ColorInputsManager {
             el.appendChild(newDiv);
         }
 
+    }
+
+    p_createBackgroundsInputs(el: HTMLDivElement) {
+        el.innerHTML = '';
+        for (const property in this.dataManager.currentBackgrounds) {
+            const newDiv = document.createElement("div");
+            const labelElement = document.createElement("label");
+            labelElement.textContent = formatString(property);
+            labelElement.setAttribute("for", property);
+
+            newDiv.appendChild(labelElement);
+            newDiv.classList.add("value-input");
+
+            const inputElement = document.createElement("input");
+            inputElement.setAttribute("id", property);
+            inputElement.value = this.dataManager.currentBackgrounds[property];
+            inputElement.placeholder = "No background";
+
+            inputElement.addEventListener("input", () => {
+                console.log("CHange detected! Set: ", property, "to: ", inputElement.value);
+
+                this.dataManager.currentBackgrounds[property] = inputElement.value;
+                this.dataManager.saveBackgrounds();
+            })
+
+            newDiv.appendChild(inputElement);
+            el.appendChild(newDiv);
+        }
     }
 }
