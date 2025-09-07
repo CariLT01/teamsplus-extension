@@ -188,8 +188,8 @@ export class Snake {
     }
 
     private ensureTurningOnCell() {
-        const closestCellX = Math.round(this.position.x + this.direction.x * 0.5);
-        const closestCellY = Math.round(this.position.y + this.direction.y * 0.5);
+        const closestCellX = Math.round(this.position.x + this.direction.x * -0.5);
+        const closestCellY = Math.round(this.position.y + this.direction.y * -0.5);
 
         const difference = Math.max(Math.abs(closestCellX - this.position.x), Math.abs(closestCellY - this.position.y));
         if (difference > TURN_REJECT_THRESHOLD) {
@@ -237,6 +237,8 @@ export class Snake {
             // Failed to turn, not close enough to cell center or next cell center
             return;
         }
+
+
         switch (this.pendingTurn) {
             case 'up':
                 if (this.direction.y != 0) break;
