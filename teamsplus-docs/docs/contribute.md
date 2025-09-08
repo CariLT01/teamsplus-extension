@@ -1,11 +1,11 @@
-# Contribute
+# Contributing
 
-Contributing to the project, if you want to, somehow.
+If you would like to contribute to the project, here are some areas where your help would be appreciated.  
 
-## Contributing to Group Descriptions
+## Group Descriptions
 
-Documentation on this will come soon, as it is quite complicated.
+Guidelines for contributing to group descriptions will be provided soon, as this process is somewhat complex.  
 
-## Contributing to Default Themes
+## Default Themes
 
-Documentation on this will come soon, as it is quite complicated.
+Guidelines for contributing to default themes will also be provided soon, as this process is somewhat complex.  

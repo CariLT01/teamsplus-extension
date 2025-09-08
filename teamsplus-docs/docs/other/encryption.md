@@ -1,44 +1,59 @@
 # Encryption
 
-TeamsPlus encryption is a useless service, but it can still be used if you want I guess.
+TeamsPlus encryption is optional, but you can use it if you want to keep your messages more private.
 
-## Encrypting and decrypting
+## Getting Started
 
-You first need an account. Go create one at [https://apiteamsplus.pythonanywhere.com/register](https://apiteamsplus.pythonanywhere.com/register). Please remember your encryption key when signing up as there is no way to recover them if you forget them.
+Before encrypting or decrypting messages, you need an account. Sign up here: [https://apiteamsplus.pythonanywhere.com/register](https://apiteamsplus.pythonanywhere.com/register).  
 
-**How to encrypt**
+!!! note
+    Make sure to remember your encryption key when signing up. There is no way to recover it if you forget it.
 
-1. Click on the lock button in the sidebar.
-2. Search for an account and select the one you want to encrypt for.
-3. Type the content you want to encrypt
-4. Press encrypt. A *enter your password* popup should popup.
-5. Enter your encryption key associated with your account. If you forgot them, please see *I forgot my encryption key please help* section.
-6. A login popup will appear if needed. Simply enter your credentials. 
-7. The encrypted message will be shown on the bottom and copied to your clipboard (if available).
-8. Send the ciphertext to the destinated person. A *decrypt* button should appear below all encrypted messages.
+## How to Encrypt
 
-If you got *Internal server error* message, it may mean:
+1. Click the lock button in the sidebar.
+2. Search for the recipient's account and select it.
+3. Type the content you want to encrypt.
+4. Press **Encrypt**. A popup will ask you for your password.
+5. Enter the encryption key linked to your account.  
+   !!! tip
+       If you forgot it, see the *I forgot my encryption key* section below.
+6. Log in if prompted.
+7. The encrypted message will appear at the bottom and, if possible, will be copied to your clipboard.
+8. Send the ciphertext to the recipient. A **Decrypt** button will appear below all encrypted messages.
 
-- Invalid login credentials or encryption key.
-- Missing data or invalid request to the server
-- Any other server error
+### Common Issues
 
-**How to decrypt**
+!!! warning
+    If you see an **Internal server error**, it may be due to:
+    - Incorrect login credentials or encryption key.  
+    - Missing or invalid data in the request.  
+    - Temporary server issues.
 
-1. Click the *decrypt* button on a message.
-2. Enter the encryption key associated with YOUR ACCOUNT. If you forgot them, please see *I forgot my encryption key please help* section.
-3. A login screen will appear if needed. Simply enter your credentials to continue.
-4. A popup with the decrypted content should appear.
+## How to Decrypt
 
-If you got *Internal server error* message, it may mean:
+1. Click the **Decrypt** button on a message.
+2. Enter your encryption key.  
+   !!! tip
+       If you forgot it, see the *I forgot my encryption key* section below.
+3. Log in if prompted.
+4. A popup will display the decrypted content.
 
-- Invalid login credentials or encryption key.
-- Invalid message format or missing data/field.
-- Message authenticity cannot be verified.
-- Message cannot be decrypted with your keys or not meant to be read by you.
-- Any other server error
+### Common Issues
 
+!!! warning
+    If you see an **Internal server error**, it may be due to:
+    - Incorrect login credentials or encryption key.  
+    - Invalid message format or missing data.  
+    - The message cannot be decrypted with your keys or was not intended for you.  
+    - Temporary server issues.
 
-## I forgot my encryption key please help
+## I Forgot My Encryption Key
 
-**There is no way to recover your encryption key.** The encryption key is needed to decrypt the real encryption key associated with your account. Without this key, we (TeamsPlus) are unable to decrypt any message you sent and destined to you.
+!!! danger
+    If you forget your encryption key, it cannot be recovered.
+
+The encryption key is required to access the real encryption key for your account. Without it, TeamsPlus cannot decrypt messages you sent or that were sent to you.  
+
+!!! tip
+    Store your encryption key safely, for example in a password manager.

@@ -10,11 +10,16 @@ async function processFiles() {
   for (const file of htmlFiles) {
     const content = fs.readFileSync(file, "utf8");
     const result = await minifyHtml(content, {
-      collapseWhitespace: true,
-      removeComments: true,
-      removeRedundantAttributes: true,
-      minifyCSS: true,
-      minifyJS: true,
+        collapseWhitespace: true,
+        removeComments: true,
+        removeRedundantAttributes: true,
+        removeEmptyAttributes: true,
+        removeOptionalTags: true,
+        collapseBooleanAttributes: true,
+        minifyCSS: true,
+        minifyJS: true,
+        sortAttributes: true,
+        sortClassName: true,
     });
     fs.writeFileSync(file, result, "utf8");
     console.log(`Minified HTML: ${file}`);
@@ -34,7 +39,16 @@ async function processFiles() {
   const jsFiles = await glob("teams_plus/docs/assets/**/*.js");
   for (const file of jsFiles) {
     const content = fs.readFileSync(file, "utf8");
-    const result = await minifyJs(content);
+    const result = await minifyJs(content, {
+        compress: {
+            drop_console: true, // Remove console.log
+            drop_debugger: true,
+            passes: 3,           // Multiple optimization passes
+            pure_funcs: ["assert"], // Remove functions you don’t need
+        },
+        mangle: true,           // Shorten variable/function names
+        module: true,
+    });
     fs.writeFileSync(file, result.code, "utf8");
     console.log(`Minified JS: ${file}`);
   }

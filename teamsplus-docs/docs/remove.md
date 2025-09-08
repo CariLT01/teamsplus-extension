@@ -1,7 +1,7 @@
 # How to remove the extension
-1. Go to the extensions menu in the browser.
-2. Find TeamsPlus extension
+1. Go to the extensions menu in the browser
+2. Find the TeamsPlus extension in the list
 3. Click remove
 
-!!! note
-    This will also remove all of your settings. There will be no way to recover them without a backup.
+!!! warning
+    This will also remove all your settings. Without a backup, there is no way to recover them.

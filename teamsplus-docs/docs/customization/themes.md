@@ -1,23 +1,22 @@
 # Themes
 
-Themes do what you think they do. They group colors, fonts, details, twemoji, ... into a single group. They also allow you to publish your settings on to the store.
+Themes do what you would expect: they group colors, fonts, details, Twemoji, and other settings into a single package. Themes also allow you to publish your settings to the store.
 
 !!! bug
-    Themes are currently partially broken. Potential issues include
+    Themes are currently partially broken. Potential issues include:
     
-    - When adding another theme (either through exporting or installing themes from the store), it may override an existing theme. For this reason, **please keep a backup of your themes** either on the TeamsPlus website or on your own PC.
-    - Themes may not always apply correctly
-
+    - Adding another theme (via import or installing from the store) may override an existing theme. **Always keep a backup** of your themes, either on the TeamsPlus website or on your PC.  
+    - Themes may not always apply correctly.
 
 !!! note
-    When you edit settings by clicking the "Edit current settings" button, you are not actually editing the theme that is currently in use. Instead, you are editing your current settings, which is most likely a copy of the theme you loaded.
+    When you edit settings by clicking the **Edit Current Settings** button, you are not editing the theme currently in use. Instead, you are editing your current settings, which is likely a copy of the theme you loaded.
 
-## The store
+## The Store
 
-You can explore themes created by other users on the platform (probably only one lol).
+You can explore themes created by other users on the platform (currently, there may only be a few).  
 
 !!! bug
-    Installing a theme might override an existing theme in your browser because of the bug mentionned at the beginning.
+    Installing a theme may override an existing theme in your browser due to the bug mentioned above.
 
-You must login to star themes.
-
+!!! note
+    You must be logged in to star themes.

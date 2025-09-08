@@ -14,7 +14,7 @@ Follow the 8 steps below. Don't feel discouraged, there are *only* 8 steps.
 6. Copy the line that starts with `@import url('...')`. It is in the box labeled *'Embed code in the \<head\> of your html'*. Here is an example of what it may look like: 
 ``` html
 <style>
-@import url('https://fonts.googleapis.com/...'); // <-- Look for this line
+@import url('https://fonts.googleapis.com/...'); /* <-- Look for this line */
 </style>
 ``` 
 Make sure you copy the whole line. Here is what you need to copy:
@@ -23,10 +23,10 @@ Make sure you copy the whole line. Here is what you need to copy:
 ```
 Make sure to include the `@import` at the beginning of the line, the URL, and the semicolon at the end.
 
-> **Note**
-> The URL has been truncated for this example. In reality, it should be much longer. Triple dots (...) in this example are used here to indicate that more data will be present.
+!!! note
+    The URL has been truncated for this example. In reality, it should be much longer. Triple dots (...) in this example are used here to indicate that more data will be present.
 
-7. Find the font name in the example text (look for `font-family: "FontName";` – copy the name inside quotes). It is in the second box. Here is an example of what it may look like (the font here is Inter):
+7. Find the font name in the example text (look for `font-family: "FontName";` – copy the name inside quotes). It is in the second code block labeled *(Font name): CSS class for a variable style*. Here is an example of what it may look like (the font here is Inter):
 
 ```css 
 .inter {
@@ -46,7 +46,7 @@ In this example, the font name is `"Inter"`. The font name is most likely the fi
 
 8. In the extension settings:  
    - Paste the `@import` line into *Additional custom imports*  
-   - Type the font name in quotes (e.g., `"DynaPuff"`) into the fonts box.
+   - Type the font name in quotes (e.g., `"DynaPuff"`) into the fonts box labeled *Current fonts*.
 
 ---
 
@@ -78,6 +78,7 @@ After:
 ```
 
 In summary, you add `, cursive` after your font name, including the comma (,).
+Keep the first font in quotes, but generic fonts like cursive or sans-serif should not have quotes.
 
 If you see that the second font got applied, but the first one didn't, it means that the first font failed to load and you should choose another font. Otherwise, it probably means you have done something wrong and you should revise the steps before. If you still can't get it working after revising, too bad.
 

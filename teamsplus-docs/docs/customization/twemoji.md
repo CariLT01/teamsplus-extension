@@ -1,7 +1,11 @@
-# Twemoji (twitter emoji) set support
-By enabling Twemoji support, the extension will attempt to replace all the Teams emojis with Twemoji equivalents. Please note that there may be a slight performance overhead when this is enabled.
+# Twemoji (Twitter Emoji) Set Support
 
-Internet connection is required for emojis to load.
+By enabling Twemoji support, the extension will attempt to replace all Teams emojis with Twemoji equivalents.  
 
-> **Note:**
-> This feature is currently experimental. Occasional glitches may occur.
+Please note:
+
+- A slight performance overhead may occur when this feature is enabled.  
+- An active internet connection is required for emojis to load.
+
+!!! note
+    This feature is currently experimental. Occasional glitches or visual inconsistencies may occur.
