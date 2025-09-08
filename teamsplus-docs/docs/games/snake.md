@@ -8,7 +8,5 @@ Article about the snake game featured in TeamsPlus
 ## How to play?
 
 Press the snake button on the sidebar. Choose game size. Check impossible mode if you like to suffer. Choose number of apples. Click begin.
+You can play snake with someone else by using impossible mode.
 
-## Game froze my PC
-
-Caused by a bug with the food system. Close the tab and open a new one, or use task manager if necessary.

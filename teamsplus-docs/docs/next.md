@@ -6,12 +6,12 @@
 - [ ] Block specific users  
 
 ### **Customization**  
-- [ ] Set your own background image  
+- [x] Set your own background image  
 - [x] Browse pre-made themes in a theme store (no setup required!)  
 
 ### **Productivity Tools**  
 - [ ] Automatically leave inactive groups  
-- [ ] Organize chats into custom categories  
+- [x] Organize chats into custom categories  
 
 ### **Fun Extras**  
 - [ ] Earn points through mini-games  
