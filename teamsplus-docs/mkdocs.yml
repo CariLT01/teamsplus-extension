@@ -24,6 +24,9 @@ nav:
     - Custom Fonts: customization/fonts.md
     - Custom Design Details: customization/details.md
     - Support for Twemoji: customization/twemoji.md
+    - Background: customization/background.md
+    - Themes: customization/themes.md
+
   - Games:
     - Fun Minigame: games/minigame.md
     - Snake: games/snake.md

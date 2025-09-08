@@ -227,7 +227,7 @@ export class ThemeManager {
             themeNameH3.textContent = `${themeName}`;
     
 
-            applyButton.textContent = "Apply";
+            applyButton.textContent = "Load";
 
             deleteButton.textContent = "Delete";
 

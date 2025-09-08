@@ -10,3 +10,10 @@ Article about the snake game featured in TeamsPlus
 Press the snake button on the sidebar. Choose game size. Check impossible mode if you like to suffer. Choose number of apples. Click begin.
 You can play snake with someone else by using impossible mode.
 
+!!! bug
+    Multiple issues:
+    - Animations may look weird when turning.
+    - Stuck in an infinite loop of losing
+    - Losing when you first open it
+
+
