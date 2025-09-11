@@ -482,6 +482,9 @@ const aCLASS_PROPERTIES: {[key: string]: string} = {
 
 const aDEFAULT_BACKGROUNDS: {[key: string]: string} = {
     "channelAndChatBackground": "none",
+    "fullBackgroundExperience": "false",
+    "backdropFilter": "",
+    "interfaceOpacity": "0.1"
 }
 
 ////////// EXPORTS //////////

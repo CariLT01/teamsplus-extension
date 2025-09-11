@@ -23,10 +23,13 @@ const dataManager = new DataManager();
 const twemojiRuntime = new TwemojiRuntime(dataManager);
 const stylesRuntime = new RuntimeStyles(dataManager);
 const realtimeUpdatesRuntime = new RealtimeUpdatesManager(dataManager, stylesRuntime);
-const themesShopHandler = new ThemesShopHandler(new ThemeManager(dataManager));
-const gamblingGame = new GamblingGame();
-const encryptionProvider =  new EncryptionProvider(new AuthProvider());
-const snakeGame = new SnakeGame();
+if (window.self === window.top) { // Don't initialize in iframes!
+    const themesShopHandler = new ThemesShopHandler(new ThemeManager(dataManager));
+    const gamblingGame = new GamblingGame();
+    const encryptionProvider =  new EncryptionProvider(new AuthProvider());
+    const snakeGame = new SnakeGame();
+}
+
 
 /////// Utility functions ////////
 
@@ -36,7 +39,17 @@ const snakeGame = new SnakeGame();
 //////// On window load functions //////////
 async function onWindowLoad() {
     console.log("window loaded, wait for main");
-    await waitForElement('[data-tid="app-layout-area--main"]');
+
+    if (window.self !== window.top) {
+        throw new Error("Reject loading in iframe, feature not stable");
+    }
+
+    if (window.self === window.top) {
+        await waitForElement('[data-tid="app-layout-area--main"]');
+    } else {
+        console.log("Skip wait in iframe");
+    }
+    
     console.log("window found main");
     await dataManager.loadColors();
     await dataManager.loadClassColors();

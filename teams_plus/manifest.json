@@ -13,8 +13,11 @@
         "css/game_inject.css"
       ],
       "matches": [
-        "https://teams.microsoft.com/*"
-      ]
+        "https://teams.microsoft.com/*",
+        "https://assignments.onenote.com/*",
+        "https://outlook.office.com/*"
+      ],
+      "all_frames": true
     }
   ],
   "permissions": [

@@ -99,6 +99,7 @@ export class DataManager {
     async isTwemojiEnabled() {
         return (await chrome.storage.local.get(["twemoji"])).twemoji == true;
     }
+
     async loadBackgrounds() {
         const data = await p_basicDataLoad("backgrounds");
         if (data != null) {

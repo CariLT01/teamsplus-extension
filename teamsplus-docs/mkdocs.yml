@@ -2,23 +2,16 @@ site_name: My Docs
 
 theme:
   name: material
-  palette:
-    - scheme: slate
-      primary: black
-      accent: black
   features:
-    - navigation.instant   # instant page loading
     - navigation.sections  # collapsible sections in sidebar
     - navigation.expand    # expand active section by default
-    - search.highlight
-    - search.suggest
-    - search.share
     - content.code.annotate    # ← turn on code annotations :contentReference[oaicite:0]{index=0}
-  dark: true
+  dark: false
 
 nav:
   - Home: index.md
   - What's coming next?: next.md
+  - Known Issues: issues.md
   - Customization:
     - Custom Colors: customization/colors.md
     - Custom Fonts: customization/fonts.md
@@ -26,6 +19,8 @@ nav:
     - Support for Twemoji: customization/twemoji.md
     - Background: customization/background.md
     - Themes: customization/themes.md
+    - Experimental:
+      - Full Background Experience: customization/fullBackgroundExperience.md
 
   - Games:
     - Fun Minigame: games/minigame.md

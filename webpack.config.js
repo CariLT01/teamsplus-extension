@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 
 module.exports = {
     // Multiple entry points
@@ -56,6 +57,7 @@ module.exports = {
         new webpack.ProvidePlugin({
             process: 'process/browser',
         }),
+        new ProgressBarPlugin()
     ],
     mode: "production",
 };
