@@ -263,7 +263,18 @@ export class ThemesShopHandler {
             try {
                 const parsed = this.themeProvider.p_isThemeValid(data);
                 if (parsed) {
-                    this.themeProvider.addTheme(parsed.name, data);
+
+                    let counter = 1;
+                    const baseName = parsed.name;
+                    let newName = baseName;
+
+                    while (this.themeProvider.currentThemes[newName]) {
+                        newName = `${baseName} (${counter})`;
+                        counter++;
+                    }
+
+
+                    this.themeProvider.addTheme(newName, data);
                     alert("Added theme");
                 } else {
                     alert('Failed to parse theme');
