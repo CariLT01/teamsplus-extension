@@ -109,7 +109,9 @@ export class ThemeManager {
 
     addTheme(themeName: string, themeData_JSON: string) {
         console.log(themeName, themeData_JSON);
+        this.p_syncInstanceWithDataManager();
         this.p_dataManagerExists();
+        console.log("Adding theme ", themeName, " to current themes");
         this.currentThemes[themeName] = themeData_JSON;
         this.p_syncDataManager();
         this.dataManager.saveThemes();

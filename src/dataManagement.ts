@@ -49,6 +49,7 @@ export class DataManager {
         await this.loadClassColors();
         await this.loadFonts();
         await this.loadPixelValues();
+        await this.loadBackgrounds();
     }
 
     async loadColors(): Promise<{[key: string]: string} | undefined> {
@@ -112,13 +113,21 @@ export class DataManager {
     
     u_onlyExportChanged(currentData: {[key: string]: string}, defaultData: {[key: string]: string}) {
         let outputData: {[key: string]: string} = {};
+
+        let numberChanged = 0;
+
+        console.log("Data: ", defaultData);
+        console.log("Current data: ", currentData);
         for (const property in defaultData) {
             const dataCurrent = currentData[property];
             const dataDefault = defaultData[property];
             if (dataCurrent != dataDefault) {
                 outputData[property] = dataCurrent;
+                numberChanged++;
             }
         }
+
+        console.log("Exporting ", numberChanged, " attributes")
     
         return outputData;
     }

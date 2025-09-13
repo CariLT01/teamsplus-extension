@@ -22,10 +22,7 @@ const colorInputs = new ColorInputsManager(dataManager);
 //// Onload functions ////
 
 async function loadAdvanced() {
-    await dataManager.loadColors();
-    await dataManager.loadClassColors();
-    await dataManager.loadPixelValues();
-    await dataManager.loadBackgrounds();
+    await dataManager.loadAll();
 
 
     ////// FONTS //////
@@ -96,6 +93,7 @@ async function p_postLoad() {
     buttonHandlers.importHandlers();
 
     await dataManager.loadThemes();
+    await dataManager.loadAll();
 
     ///// DELETE DATA HANDLER /////
 
