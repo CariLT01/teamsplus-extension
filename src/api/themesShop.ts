@@ -259,8 +259,10 @@ export class ThemesShopHandler {
 
         })
 
-        themeInstallBtn.addEventListener("click", () => {
+        themeInstallBtn.addEventListener("click", async () => {
             try {
+                await this.themeProvider.dataManager.loadThemes();
+                this.themeProvider.p_syncInstanceWithDataManager();
                 const parsed = this.themeProvider.p_isThemeValid(data);
                 if (parsed) {
 

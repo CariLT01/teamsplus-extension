@@ -37,7 +37,7 @@ export class ThemeManager {
         this.p_dataManagerExists();
         this.dataManager.currentThemes = this.currentThemes;
     }
-    private p_syncInstanceWithDataManager() {
+    p_syncInstanceWithDataManager() {
         this.p_dataManagerExists();
         this.currentThemes = this.dataManager.currentThemes;
     }
