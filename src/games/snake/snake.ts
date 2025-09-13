@@ -50,7 +50,7 @@ export class Snake {
 
     private generateSnake(length: number) {
 
-        const beginParts = 20
+        const beginParts = 40
         this.frameCounter = FramesPerCell * beginParts;
         for (let i = 0; i < beginParts; i++) {
             this.snakePoints.push(this.position.sub(new Vector2(0, i)));
@@ -188,8 +188,8 @@ export class Snake {
     }
 
     private ensureTurningOnCell() {
-        const closestCellX = Math.round(this.position.x + this.direction.x * -0);
-        const closestCellY = Math.round(this.position.y + this.direction.y * -0);
+        const closestCellX = Math.round(this.position.x + this.direction.x * 0);
+        const closestCellY = Math.round(this.position.y + this.direction.y * 0);
 
         const difference = Math.max(Math.abs(closestCellX - this.position.x), Math.abs(closestCellY - this.position.y));
         if (difference > TURN_REJECT_THRESHOLD) {

@@ -307,26 +307,26 @@ export class Game {
         const large = document.querySelector("#large") as HTMLButtonElement;
         const largest = document.querySelector("#largest") as HTMLButtonElement;
         small.addEventListener("click", () => {
-            this.canvas.style.width = "300px";
-            this.canvas.style.height = "300px";
+            this.canvas.style.width = "240px";
+            this.canvas.style.height = "240px";
             this.updateCanvas();
             this.resetGame();
         })
         medium.addEventListener("click", () => {
-            this.canvas.style.width = "400px";
-            this.canvas.style.height = "400px";
+            this.canvas.style.width = "480px";
+            this.canvas.style.height = "480px";
             this.updateCanvas();
             this.resetGame();
         })
         large.addEventListener("click", () => {
-            this.canvas.style.width = "600px";
-            this.canvas.style.height = "100%";
+            this.canvas.style.width = "800px";
+            this.canvas.style.height = "800px";
             this.updateCanvas();
             this.resetGame();
         })
         largest.addEventListener("click", () => {
-            this.canvas.style.width = "100%";
-            this.canvas.style.height = "100%";
+            this.canvas.style.width = "1600px";
+            this.canvas.style.height = "800px";
             this.updateCanvas();
             this.resetGame();
         })
