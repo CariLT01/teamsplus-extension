@@ -16,6 +16,7 @@ import { GamblingGame } from "./games/gamble";
 import { EncryptionProvider } from "./api/encryptionProvider";
 import { AuthProvider } from "./api/authorizationProvider";
 import { SnakeGame } from "./games/snake";
+import { LoadingScreen } from "./runtime/loadingScreen";
 
 // Important objects
 
@@ -23,6 +24,7 @@ const dataManager = new DataManager();
 const twemojiRuntime = new TwemojiRuntime(dataManager);
 const stylesRuntime = new RuntimeStyles(dataManager);
 const realtimeUpdatesRuntime = new RealtimeUpdatesManager(dataManager, stylesRuntime);
+const loadingScreenRuntime = new LoadingScreen();
 if (window.self === window.top) { // Don't initialize in iframes!
     const themesShopHandler = new ThemesShopHandler(new ThemeManager(dataManager));
     const gamblingGame = new GamblingGame();
@@ -39,6 +41,8 @@ if (window.self === window.top) { // Don't initialize in iframes!
 //////// On window load functions //////////
 async function onWindowLoad() {
     console.log("window loaded, wait for main");
+
+    loadingScreenRuntime.startMutationObserver();
 
     if (window.self !== window.top) {
         throw new Error("Reject loading in iframe, feature not stable");
