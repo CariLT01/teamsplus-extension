@@ -3,7 +3,7 @@
 An extension that adds extra features to Microsoft Teams on the web.
 
 > [!WARNING] 
-> Teams plus is still in beta and you may encounter many bugs or glitches. If you think you have found a big, please create an issue in the issues tab.
+> Teams plus is still in beta and you may encounter many bugs or glitches. If you think you have found a bug, please create an issue in the issues tab.
 
 ### What is TeamsPlus?
 ***
