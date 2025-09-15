@@ -10,6 +10,8 @@ const BACK_BUTTON_HTML = `
             <span>Back</span>
 `;
 
+const spinner: HTMLDivElement = document.querySelector("#spinner") as HTMLDivElement;
+
 function animate_opacity(visibility: boolean, element: HTMLDivElement) {
     if (visibility) {
         element.animate(
@@ -58,21 +60,27 @@ export function popupUI_init(advancedLoadCallback: () => Promise<void>) {
             //mainDiv.style.display = "none";
 
             animate_opacity(false, mainDiv);
+            animate_opacity(true, spinner);
             setTimeout(async () => {
+                
+                await advancedLoadCallback();
                 mainDiv.style.display = "none";
                 advancedDiv.style.display = 'block';
-                await advancedLoadCallback();
+                
                 animate_opacity(true, advancedDiv);
-            }, 300);
+                animate_opacity(false, spinner);
+            }, 0);
 
             modeSwitchBtn.innerHTML = BACK_BUTTON_HTML;
         } else {
             animate_opacity(false, advancedDiv);
+            animate_opacity(true, spinner)
             setTimeout(() => {
                 advancedDiv.style.display = "none";
-                mainDiv.style.display = 'block';
+                mainDiv.style.display = 'flex';
                 animate_opacity(true, mainDiv);
-            }, 300);
+                animate_opacity(false, spinner)
+            }, 0);
 
             modeSwitchBtn.innerHTML = ADVANCED_BUTTON_HTML;
         }

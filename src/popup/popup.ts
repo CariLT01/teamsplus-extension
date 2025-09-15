@@ -80,7 +80,7 @@ async function loadAdvanced() {
     const backgroundsValuesDiv = document.querySelector("#backgrounds");
     colorInputs.p_createBackgroundsInputs(backgroundsValuesDiv as HTMLDivElement);
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 15; i++) {
         await new Promise(requestAnimationFrame); // Wait for frame update
     }
     
