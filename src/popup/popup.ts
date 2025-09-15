@@ -13,6 +13,7 @@ import { ThemeManager } from './themes';
 import { ButtonHandlers } from './buttons';
 import { ColorInputsManager } from './colorInputs';
 import { popupUI_init } from './popupUi';
+import { updateVersionNumberAndStatus } from './updateChecker';
 
 
 const dataManager = new DataManager();
@@ -128,6 +129,7 @@ async function p_postLoad() {
 }
 
 function p_onload() {
+    updateVersionNumberAndStatus();
     setTimeout(p_postLoad, 250);
 }
 

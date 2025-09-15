@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TABS TESYT</title>
+
+    <style>
+        details {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 8px 0;
+            padding: 6px 12px;
+            background: #fafafa;
+        }
+
+        summary {
+            cursor: pointer;
+            font-weight: 600;
+            list-style: none;
+            /* removes default arrow in some browsers */
+        }
+
+        summary::-webkit-details-marker {
+            display: none;
+            /* removes default arrow in WebKit browsers */
+        }
+
+        /* optional: add your own arrow indicator */
+        summary::after {
+            content: "▸";
+            float: right;
+            transition: transform 0.2s;
+        }
+
+        details[open] summary::after {
+            transform: rotate(90deg);
+        }
+    </style>
+</head>
+
+<body>
+    <details>
+        <summary>Section 1</summary>
+        <p>This is the content for section 1.</p>
+    </details>
+</body>
+
+</html>
