@@ -90,7 +90,7 @@ export class AppsMenuManager {
             throw new Error("Failed to inject app menu tab");
         }
 
-        this.appMenuButton.appendChild(this.appMenuElement);
+        document.body.appendChild(this.appMenuElement);
 
     }
 
@@ -127,13 +127,9 @@ export class AppsMenuManager {
     private toggleVisibility() {
         //this.appMenuElement.classList.toggle("active");
         if (this.appMenuElement.classList.contains("active")) {
-            this.animateVisibility(false);
-            setTimeout(() => {
-                this.appMenuElement.classList.toggle("active");
-            }, ANIMATION_DURATION);
+            this.setVisiblity(false);
         } else {
-            this.appMenuElement.classList.toggle("active");
-            this.animateVisibility(true);
+            this.setVisiblity(true);
         }
     }
 
@@ -147,6 +143,15 @@ export class AppsMenuManager {
         } else {
             if (this.appMenuElement.classList.contains("active") == false && visibility == true) {
                 this.appMenuElement.classList.add("active");
+
+                // Set position
+
+                const left = this.appMenuButton.clientLeft + this.appMenuButton.clientWidth;
+                const top = this.appMenuButton.clientTop + this.appMenuButton.clientHeight;
+
+                this.appMenuElement.style.left = `${left}px`;
+                this.appMenuElement.style.top = `${top}px`;
+
                 this.animateVisibility(true);
             }
         }
@@ -180,7 +185,7 @@ export class AppsMenuManager {
 
 
 
-    async addAppAndGetButton(appName: string, imageSource: string): Promise<HTMLSpanElement[]> {
+    async addAppAndGetButton(appName: string, imageSource: string, svgSource?: string): Promise<HTMLSpanElement[]> {
 
         await new Promise(resolve => { const check = () => (this.appMenuCreated ? resolve(undefined) : setTimeout(check, 50)); check(); });
 
@@ -231,7 +236,7 @@ export class AppsMenuManager {
         // If pinned, the tab button
 
         if (await this.isApplicationPinned(appName)) {
-            const tabButton = await injectTab(appName, `<img src="${imageSource}" alt="Icon">`);
+            const tabButton = await injectTab(appName, svgSource || `<img src="${imageSource}" alt="Icon">`);
             buttons.push(tabButton as HTMLSpanElement);
         }
 

@@ -501,6 +501,9 @@
     height: 56px;
     width: 68px;
 }
+.injected-parent-button:hover {
+    background-color: var(--colorNeutralBackground4Selected);
+}
 
 .injected-parent-div {
     box-sizing: border-box;
@@ -869,9 +872,8 @@ canvas {
 /* The floating menu */
 .apps-menu {
     display: none;
-    position: absolute;
     top: 0;
-    left: 120%;
+    left: 0;
     /* Position to the side of the button */
     background: white;
     border-radius: 8px;
@@ -884,6 +886,7 @@ canvas {
 
     flex-direction: column;
      color: black !important;
+    position: fixed;
 }
 
 .apps-menu.active {

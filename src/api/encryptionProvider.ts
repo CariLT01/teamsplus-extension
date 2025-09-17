@@ -155,7 +155,12 @@ export class EncryptionProvider {
     }
 
     private async injectTab() {
-        const btns = await window.teamsPlusAppsManager.addAppAndGetButton("Encryption", "https://www.svgrepo.com/show/501247/lock.svg");
+        const btns = await window.teamsPlusAppsManager.addAppAndGetButton("Encryption", "https://www.svgrepo.com/show/501247/lock.svg",
+            `
+            <svg fill="var(--colorNeutralForeground3)" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg">
+    <path d="M1016.588 1242.353v338.823h-112.94v-338.823h112.94ZM960.118 112.94c217.976 0 395.294 177.318 395.294 395.294V903.53H564.824V508.235c0-217.976 177.317-395.294 395.294-395.294Zm508.235 790.588V508.235C1468.353 228.028 1240.325 0 960.118 0S451.882 228.028 451.882 508.235V903.53H226v790.589C226 1818.692 327.308 1920 451.882 1920h1016.47c124.575 0 225.883-101.308 225.883-225.882V903.529h-225.882Z" fill-rule="evenodd"/>
+</svg>`
+        );
         btns.forEach(btn => {
             btn.addEventListener("click", () => {
                 this.visible = !this.visible
@@ -297,7 +302,7 @@ export class EncryptionProvider {
                         if (data.note) {
                             alert(`Note: ${data.note}`);
                         }
-                        const finalStr = `[TeamsPlus Secure Encryption][apiteamsplus.pythonanywhere.com]\\\\\\\\${JSON.stringify(data.data)}\\\\\\\\[RSA-OAEP 2048 // AES-GCM 256 // RSA-PSS] - This message has been digitally signed by the sender.`
+                        const finalStr = `[Encrypted Message]\\\\\\\\${JSON.stringify(data.data)}\\\\\\\\[END]`
                         const encryptOutput: HTMLTextAreaElement | null = this.win.querySelector("#encrypt-output");
                         if (encryptOutput) {
                             encryptOutput.value = finalStr;
