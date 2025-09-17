@@ -17,6 +17,7 @@
         /* Container for button + menu */
         .apps-container {
             position: relative;
+            color: black;
         }
 
         /* Apps button */
@@ -68,9 +69,9 @@
         .apps-list {
             flex-grow: 1;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            grid-auto-rows: minmax(120px, 1fr);
-            gap: 12px;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            grid-auto-rows: minmax(100px, 1fr);
+            gap: 0px;
             padding: 10px;
             max-height: 400px;
             overflow-y: auto;
@@ -78,20 +79,28 @@
 
         .apps-list-app {
             width: 100px;
-            overflow: hidden;
+            
             height: 100px;
-            max-height: 200px;
+            border: 1px solid transparent;
+
+            position: relative;
+        }
+
+        .apps-list-app-card {
             display: flex;
             flex-direction: column;
             align-items: center;
-            border: 1px solid rgba(0, 0, 0, 0.25);
+            width: 100%;
+            height: 100%;
+            border: 0px solid rgba(0, 0, 0, 0.25);
             border-radius: 8px;
-            background-color: #fafafa;
+            background-color: #ffffff;
             transition: 0.25s;
             cursor: pointer;
+            
         }
 
-        .apps-list-app:hover {
+        .apps-list-app-card:hover {
             background-color: #ddd;
         }
 
@@ -112,6 +121,29 @@
             flex-grow: 1;
             overflow: hidden;
         }
+
+
+
+        .app-pin-button {
+            position: absolute;
+            right: 0;
+            top: 0;
+            padding: 5px;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            border-radius: 8px;
+            z-index: 10;
+        }
+        .app-pin-button img {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .app-pin-button:hover {
+            background-color: #ddd;
+        }
     </style>
 </head>
 
@@ -123,18 +155,15 @@
 
 
             <!-- Apps menu -->
-            <div class="apps-menu" id="appsMenu">
-                <div class="apps-menu-header">
+            <span class="apps-menu" id="appsMenu">
+                <span class="apps-menu-header">
                     <h3 class="apps-menu-title">TeamsPlus apps</h3>
-                </div>
-                <div class="apps-list" id="appList">
-                    <button class="apps-list-app">
-                        <img src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png" alt="App Icon" class="app-icon" id="appIcon">
-                        <div class="apps-list-filler"></div>
-                        <span class="app-name" id="appName">Bob app that is really really cool</span>
-                    </button>
-                </div>
-            </div>
+                </span>
+                <span class="apps-list" id="appList">
+
+
+                </span>
+            </span>
         </button>
 
 

@@ -2,22 +2,28 @@ import { p_stringToElement } from "../utils";
 import { injectTab } from "./tabInject";
 
 const APP_LIST_APP_ELEMENT_HTML = `
-<button class="apps-list-app">
-    <img src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png" alt="App Icon" class="app-icon" id="appIcon">
-    <div class="apps-list-filler"></div>
-    <span class="app-name" id="appName">Bob app that is really really cool</span>
-</button>
+<span class="apps-list-app">
+    <span class="apps-list-app-card" id="appListCard">
+        <img src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png" alt="App Icon" class="app-icon" id="appIcon">
+        <span class="apps-list-filler"></span>
+        <span class="app-name" id="appName">Bob app that is really really cool</span>
+    </span>
+    <span type="button" class="app-pin-button" id="pinApp">
+        <img src="https://www.svgrepo.com/show/501306/pin.svg" alt="" class="pin-icon">
+    </span>
+</span>
 `;
 
 const APP_MENU_ELEMENT_HTML = `
-<div class="apps-menu" id="appsMenu">
-    <div class="apps-menu-header">
+<span class="apps-menu" id="appsMenu">
+    <span class="apps-menu-header">
         <h3 class="apps-menu-title">TeamsPlus apps</h3>
-    </div>
-    <div class="apps-list" id="appList">
+    </span>
+    <span class="apps-list" id="appList">
 
-    </div>
-</div>
+
+    </span>
+</span>
 `;
 
 const APP_MENU_ICON_SVG = `
@@ -35,10 +41,12 @@ const APP_MENU_ICON_SVG = `
 </svg>
 `;
 
+const ANIMATION_DURATION: number = 250;
+
 declare global {
-  interface Window {
-    teamsPlusAppsManager: AppsMenuManager;
-  }
+    interface Window {
+        teamsPlusAppsManager: AppsMenuManager;
+    }
 }
 
 export class AppsMenuManager {
@@ -62,6 +70,18 @@ export class AppsMenuManager {
         this.appMenuCreated = true;
     }
 
+    private async isApplicationPinned(name: string) : Promise<boolean> {
+
+        const result = await chrome.storage.local.get(["pinnedApplications"]);
+        if (!result.pinnedApplications) {
+            return false;
+        }
+        if (!result.pinnedApplications[name]) {
+            return false;
+        }
+        return true;
+
+    }
     private async createAppMenu() {
         this.appMenuElement = p_stringToElement(APP_MENU_ELEMENT_HTML) as HTMLDivElement;
 
@@ -74,9 +94,67 @@ export class AppsMenuManager {
 
     }
 
+    private animateVisibility(visibility: boolean) {
+        if (visibility) {
+            this.appMenuElement.animate(
+                [
+                    { transform: "translateY(-5%)", opacity: 0 },
+                    { transform: "translateY(0%)", opacity: 1 }
+                ],
+                {
+                    duration: ANIMATION_DURATION,
+                    easing: "ease-out",
+                    iterations: 1,
+                    fill: "forwards"
+                }
+            );
+        } else {
+            this.appMenuElement.animate(
+                [
+                    { transform: "translateY(0%)", opacity: 1 },
+                    { transform: "translateY(-5%)", opacity: 0 }
+                ],
+                {
+                    duration: ANIMATION_DURATION,
+                    easing: "ease-in",
+                    iterations: 1,
+                    fill: "forwards"
+                }
+            );
+        }
+    }
+
+    private toggleVisibility() {
+        //this.appMenuElement.classList.toggle("active");
+        if (this.appMenuElement.classList.contains("active")) {
+            this.animateVisibility(false);
+            setTimeout(() => {
+                this.appMenuElement.classList.toggle("active");
+            }, ANIMATION_DURATION);
+        } else {
+            this.appMenuElement.classList.toggle("active");
+            this.animateVisibility(true);
+        }
+    }
+
+    private setVisiblity(visibility: boolean) {
+        if (visibility == false && this.appMenuElement.classList.contains("active") == true) {
+            this.animateVisibility(false);
+            setTimeout(() => {
+                this.appMenuElement.classList.remove("active");
+            }, ANIMATION_DURATION);
+            
+        } else {
+            if (this.appMenuElement.classList.contains("active") == false && visibility == true) {
+                this.appMenuElement.classList.add("active");
+                this.animateVisibility(true);
+            }
+        }
+    }
+
     private createButtonListeners() {
         this.appMenuButton.addEventListener("click", (event) => {
-            this.appMenuElement.classList.toggle("active");
+            this.toggleVisibility();
             if (event.target !== event.currentTarget && this.appMenuElement.contains(event.target as Node)) {
                 // click was inside the menu -> ignore
                 return;
@@ -95,20 +173,24 @@ export class AppsMenuManager {
         // check if the click is outside the menu and the button
         if (!this.appMenuElement.contains(event.target as Node) &&
             !this.appMenuButton.contains(event.target as Node)) {
-            this.appMenuElement.classList.remove("active");
+            this.setVisiblity(false);
         }
     }
 
 
 
 
-    async addAppAndGetButton(appName: string, imageSource: string): Promise<HTMLButtonElement> {
+    async addAppAndGetButton(appName: string, imageSource: string): Promise<HTMLSpanElement[]> {
 
         await new Promise(resolve => { const check = () => (this.appMenuCreated ? resolve(undefined) : setTimeout(check, 50)); check(); });
 
         if (this.appMenuCreated == false) {
             throw new Error("Attempt to create and add app before app menu initialization!");
         }
+
+        const buttons: HTMLSpanElement[] = [];
+
+        /// Create app thing
 
         const appElement = p_stringToElement(APP_LIST_APP_ELEMENT_HTML);
         const appIconElement: HTMLImageElement = appElement.querySelector("#appIcon") as HTMLImageElement;
@@ -122,11 +204,38 @@ export class AppsMenuManager {
 
         console.log("Successfully added app in app menu");
 
-        appElement.addEventListener("click", () => {
-            this.appMenuElement.classList.remove("active");
-        })
+        const cardButton = appElement.querySelector("#appListCard") as HTMLSpanElement;
 
-        return appElement as HTMLButtonElement;
+        cardButton.addEventListener("click", () => {
+            this.setVisiblity(false);
+        });
+        
+        const pinButton = appElement.querySelector("#pinApp") as HTMLSpanElement;
+        if (await this.isApplicationPinned(appName)) {
+            pinButton.style.backgroundColor = "#655bffff";
+        }
+        pinButton.addEventListener("click", async () => {
+            const r = await chrome.storage.local.get(["pinnedApplications"]);
+            let pinnedApplications = r.pinnedApplications || {};
+            pinnedApplications[appName] = !(pinnedApplications[appName] || false);
+            if (pinnedApplications[appName] == true) {
+                pinButton.style.backgroundColor = "#655bffff";
+            } else {
+                pinButton.style.backgroundColor = "transparent";
+            }
+            chrome.storage.local.set({pinnedApplications});
+        })
+        
+        buttons.push(cardButton as HTMLSpanElement);
+
+        // If pinned, the tab button
+
+        if (await this.isApplicationPinned(appName)) {
+            const tabButton = await injectTab(appName, `<img src="${imageSource}" alt="Icon">`);
+            buttons.push(tabButton as HTMLSpanElement);
+        }
+
+        return buttons;
     }
 
 }

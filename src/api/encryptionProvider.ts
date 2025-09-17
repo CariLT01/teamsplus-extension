@@ -155,8 +155,8 @@ export class EncryptionProvider {
     }
 
     private async injectTab() {
-        const btn = await window.teamsPlusAppsManager.addAppAndGetButton("Encryption", "https://www.svgrepo.com/show/501247/lock.svg");
-        if (btn) {
+        const btns = await window.teamsPlusAppsManager.addAppAndGetButton("Encryption", "https://www.svgrepo.com/show/501247/lock.svg");
+        btns.forEach(btn => {
             btn.addEventListener("click", () => {
                 this.visible = !this.visible
                 if (this.visible) {
@@ -165,7 +165,7 @@ export class EncryptionProvider {
                     this.hideWindow();
                 }
             })
-        }
+        });
     }
     private createWindow() {
         const win = p_stringToElement(ENCRYPTION_UI_WINDOW) as HTMLDivElement;

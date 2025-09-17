@@ -82,15 +82,15 @@ export class ThemesShopHandler {
 
         /*const buttonElement = await injectTab("Browse themes", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="var(--colorNeutralForeground3)" height="24px" width="24px" version="1.1" id="XMLID_269_" viewBox="0 0 24 24" xml:space="preserve">
 <g id="shop-cart">
-	<g>
-		<circle cx="9" cy="21" r="2"/>
-	</g>
-	<g>
-		<circle cx="19" cy="21" r="2"/>
-	</g>
-	<g>
-		<path d="M21,18H7.2l-4-16H0V0h4.8l0.8,3H24l-3.2,11H8.3l0.5,2H21V18z M7.8,12h11.5l2-7H6L7.8,12z"/>
-	</g>
+    <g>
+        <circle cx="9" cy="21" r="2"/>
+    </g>
+    <g>
+        <circle cx="19" cy="21" r="2"/>
+    </g>
+    <g>
+        <path d="M21,18H7.2l-4-16H0V0h4.8l0.8,3H24l-3.2,11H8.3l0.5,2H21V18z M7.8,12h11.5l2-7H6L7.8,12z"/>
+    </g>
 </g>
 </svg>`);
         if (buttonElement == null) return;
@@ -107,19 +107,22 @@ export class ThemesShopHandler {
         })
         console.log("Injected button");*/
 
-        const buttonElement = await appsMenuManager.addAppAndGetButton("Browse Themes", "https://www.svgrepo.com/show/148598/shop-cart.svg");
-        if (buttonElement == null) return;
-        buttonElement.addEventListener("click", () => {
-            if (this.shopUiVisible) {
-                this.shopUiVisible = false;
+        const buttonElements = await appsMenuManager.addAppAndGetButton("Browse Themes", "https://www.svgrepo.com/show/148598/shop-cart.svg");
+        //if (buttonElement == null) return;
+        buttonElements.forEach(buttonElement => {
+            buttonElement.addEventListener("click", () => {
+                if (this.shopUiVisible) {
+                    this.shopUiVisible = false;
 
-                this.p_hideThemeShopUI();
-            } else {
-                this.shopUiVisible = true;
+                    this.p_hideThemeShopUI();
+                } else {
+                    this.shopUiVisible = true;
 
-                this.p_showThemeShopUI();
-            }
+                    this.p_showThemeShopUI();
+                }
+            })
         })
+
         console.log("Injected button");
     }
 

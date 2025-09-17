@@ -1,7 +1,7 @@
 import { injectTab } from "../ui/tabInject";
 import { p_stringToElement } from "../utils";
 
-import {text} from './bundle.txt';
+import { text } from './bundle.txt';
 import { Game } from "./snake/game";
 
 const SNAKE_GAME_HTML = `
@@ -54,8 +54,8 @@ export class SnakeGame {
         document.body.appendChild(newScriptElement);
 
 
-            
-        
+
+
 
         this.asyncInit();
     }
@@ -68,23 +68,26 @@ export class SnakeGame {
         } catch (e) {
             console.error("Failed to create an instance of SnakeGame: ", e);
         }
-        
+
 
         //const buttonElement = await (injectTab("Snake", SNAKE_TAB_SVG)) as HTMLButtonElement;
-        const buttonElement  = await window.teamsPlusAppsManager.addAppAndGetButton("Snake", "https://www.svgrepo.com/show/296787/snake.svg");
-        buttonElement.addEventListener("click", () => {
-            this.isVisible = !this.isVisible;
-            if (this.isVisible) {
-                this.window.style.display = "block";
-                this.snakeGame.setVisibility(true);
+        const buttonElements = await window.teamsPlusAppsManager.addAppAndGetButton("Snake", "https://www.svgrepo.com/show/296787/snake.svg");
+        buttonElements.forEach(buttonElement => {
+            buttonElement.addEventListener("click", () => {
+                this.isVisible = !this.isVisible;
+                if (this.isVisible) {
+                    this.window.style.display = "block";
+                    this.snakeGame.setVisibility(true);
 
-                const iframe = this.window.querySelector("iframe") as HTMLIFrameElement;
-                iframe.src = chrome.runtime.getURL("pages/snake/index.html");
+                    const iframe = this.window.querySelector("iframe") as HTMLIFrameElement;
+                    iframe.src = chrome.runtime.getURL("pages/snake/index.html");
 
-            } else {
-                this.window.style.display = "none";
-                this.snakeGame.setVisibility(false);
-            }
-        });
+                } else {
+                    this.window.style.display = "none";
+                    this.snakeGame.setVisibility(false);
+                }
+            });
+        })
+
     }
 }
