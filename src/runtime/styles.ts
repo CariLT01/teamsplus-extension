@@ -28,6 +28,8 @@ export class RuntimeStyles {
     }
 
     private p_addBackgroundImageToMessageBackground(target: HTMLDivElement) {
+
+
         // Get the thing
         if (this.dataManager == null) {
             throw new Error("No data manager");
@@ -64,6 +66,9 @@ export class RuntimeStyles {
     }
 
     private blurProcessElement(el: HTMLElement) {
+
+        // Ignore apps menu
+        if (el.closest(".apps-menu") != null) return;
 
         if (el instanceof HTMLButtonElement) return;
         if (this.dataManager == null) return;

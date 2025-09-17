@@ -4,7 +4,8 @@ import { injectTab } from "./tabInject";
 const APP_LIST_APP_ELEMENT_HTML = `
 <button class="apps-list-app">
     <img src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png" alt="App Icon" class="app-icon" id="appIcon">
-    <p class="app-name" id="appName">Bob the app that is really really cool</p>
+    <div class="apps-list-filler"></div>
+    <span class="app-name" id="appName">Bob app that is really really cool</span>
 </button>
 `;
 

@@ -160,7 +160,7 @@ export class GamblingGame {
 	<path d="M29,2c-1.7,0-3,1.3-3,3c0,1.3,0.8,2.4,2,2.8V18h-2v-7V9c0-3.9-3.1-7-7-7H7C3.1,2,0,5.1,0,9v2v10v8c0,0.6,0.4,1,1,1h24   c0.6,0,1-0.4,1-1v-8v-1h3c0.6,0,1-0.4,1-1V7.8c1.2-0.4,2-1.5,2-2.8C32,3.3,30.7,2,29,2z M10,12h6v8h-6V12z M2,12h6v8H2V12z M17,26   H9c-0.6,0-1-0.4-1-1s0.4-1,1-1h8c0.6,0,1,0.4,1,1S17.6,26,17,26z M24,20h-6v-8h6V20z"/>
 </g>
 </svg>`);*/
-        const buttonElement = await window.teamsPlusAppsManager.addAppAndGetButton("Fun Minigame", "https://www.svgrepo.com/show/366709/casino.svg");
+        const buttonElement = await window.teamsPlusAppsManager.addAppAndGetButton("Fun Minigame", "https://www.svgrepo.com/show/402695/slot-machine.svg");
         if (buttonElement == null) return;
         buttonElement.addEventListener("click", () => {
             if (this.windowVisible == true) {
