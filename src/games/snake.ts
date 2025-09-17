@@ -70,7 +70,8 @@ export class SnakeGame {
         }
         
 
-        const buttonElement = await (injectTab("Snake", SNAKE_TAB_SVG)) as HTMLButtonElement;
+        //const buttonElement = await (injectTab("Snake", SNAKE_TAB_SVG)) as HTMLButtonElement;
+        const buttonElement  = await window.teamsPlusAppsManager.addAppAndGetButton("Snake", "https://www.svgrepo.com/show/296787/snake.svg");
         buttonElement.addEventListener("click", () => {
             this.isVisible = !this.isVisible;
             if (this.isVisible) {

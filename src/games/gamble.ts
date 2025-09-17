@@ -149,7 +149,7 @@ export class GamblingGame {
         // Get the thing element and inject a poor button in it
 
 
-        const buttonElement = await injectTab("Game", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Icons" viewBox="0 0 32 32" xml:space="preserve" width="24px" height="24px" fill="var(--colorNeutralForeground3)">
+        /*const buttonElement = await injectTab("Game", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Icons" viewBox="0 0 32 32" xml:space="preserve" width="24px" height="24px" fill="var(--colorNeutralForeground3)">
 <style type="text/css">
 	.st0{fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
 </style>
@@ -159,7 +159,8 @@ export class GamblingGame {
 	<path d="M20,19c0.6,0,1-0.4,1-1c0-1,0.4-2,1.1-2.7l0.6-0.6c0.3-0.3,0.4-0.7,0.2-1.1C22.8,13.2,22.4,13,22,13h-2c-0.6,0-1,0.4-1,1   c0,0.5,0.4,0.9,0.8,1c-0.5,0.9-0.8,1.9-0.8,3C19,18.6,19.4,19,20,19z"/>
 	<path d="M29,2c-1.7,0-3,1.3-3,3c0,1.3,0.8,2.4,2,2.8V18h-2v-7V9c0-3.9-3.1-7-7-7H7C3.1,2,0,5.1,0,9v2v10v8c0,0.6,0.4,1,1,1h24   c0.6,0,1-0.4,1-1v-8v-1h3c0.6,0,1-0.4,1-1V7.8c1.2-0.4,2-1.5,2-2.8C32,3.3,30.7,2,29,2z M10,12h6v8h-6V12z M2,12h6v8H2V12z M17,26   H9c-0.6,0-1-0.4-1-1s0.4-1,1-1h8c0.6,0,1,0.4,1,1S17.6,26,17,26z M24,20h-6v-8h6V20z"/>
 </g>
-</svg>`);
+</svg>`);*/
+        const buttonElement = await window.teamsPlusAppsManager.addAppAndGetButton("Fun Minigame", "https://www.svgrepo.com/show/366709/casino.svg");
         if (buttonElement == null) return;
         buttonElement.addEventListener("click", () => {
             if (this.windowVisible == true) {

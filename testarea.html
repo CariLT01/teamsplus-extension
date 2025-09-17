@@ -4,47 +4,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TABS TESYT</title>
-
+    <title>Apps Menu Example</title>
     <style>
-        details {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            margin: 8px 0;
-            padding: 6px 12px;
-            background: #fafafa;
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
 
-        summary {
+        /* Container for button + menu */
+        .apps-container {
+            position: relative;
+        }
+
+        /* Apps button */
+        .apps-btn {
+            width: 40px;
+            height: 40px;
             cursor: pointer;
-            font-weight: 600;
-            list-style: none;
-            /* removes default arrow in some browsers */
         }
 
-        summary::-webkit-details-marker {
+        /* The floating menu */
+        .apps-menu {
             display: none;
-            /* removes default arrow in WebKit browsers */
+            position: absolute;
+            top: 0;
+            left: 120%;
+            /* Position to the side of the button */
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            width: 600px;
+            min-height: 300px;
+            z-index: 100;
+            border: 1px solid rgba(0, 0, 0, 0.35);
+            overflow: hidden;
+
+            flex-direction: column;
         }
 
-        /* optional: add your own arrow indicator */
-        summary::after {
-            content: "▸";
-            float: right;
-            transition: transform 0.2s;
+        .apps-menu.active {
+            display: flex;
         }
 
-        details[open] summary::after {
-            transform: rotate(90deg);
+        .apps-menu-header {
+            width: 100%;
+            height: 35px;
+            background-color: transparent;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+            background-color: #fafafa;
+        }
+
+        .apps-menu-title {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            text-align: center;
+            line-height: 35px;
+        }
+
+        .apps-list {
+            flex-grow: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            grid-auto-rows: minmax(120px, 1fr);
+            gap: 12px;
+            padding: 10px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .apps-list-app {
+            max-width: 120px;
+            overflow: hidden;
+            height: 120px;
+            max-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid rgba(0, 0, 0, 0.25);
+            border-radius: 8px;
+            background-color: #fafafa;
+            transition: 0.25s;
+            cursor: pointer;
+        }
+
+        .apps-list-app:hover {
+            background-color: #ddd;
+        }
+
+        .app-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0;
+            margin-top: 5px;
+            padding: 0;
+        }
+
+        .app-name {
+            margin-bottom: 0;
+            flex-grow: 1;
+            overflow: hidden;
         }
     </style>
 </head>
 
 <body>
-    <details>
-        <summary>Section 1</summary>
-        <p>This is the content for section 1.</p>
-    </details>
+
+    <div class="apps-container">
+        <!-- Apps button -->
+        <button class="apps-btn" id="appsButton">
+            
+
+            <!-- Apps menu -->
+            <div class="apps-menu" id="appsMenu">
+                <div class="apps-menu-header">
+                    <h3 class="apps-menu-title">TeamsPlus apps</h3>
+                </div>
+                <div class="apps-list" id="appList">
+
+                </div>
+            </div>
+        </button>
+
+
+    </div>
+
+    <script>
+        const appsButton = document.getElementById("appsButton");
+        const appsMenu = document.getElementById("appsMenu");
+
+        appsButton.addEventListener("click", () => {
+            appsMenu.classList.toggle("active");
+        });
+
+        // Close menu if clicked outside
+        document.addEventListener("click", (event) => {
+            if (!appsButton.contains(event.target) && !appsMenu.contains(event.target)) {
+                appsMenu.classList.remove("active");
+            }
+        });
+    </script>
+
 </body>
 
 </html>

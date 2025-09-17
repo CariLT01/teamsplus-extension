@@ -4,6 +4,7 @@ import { API_ENDPOINT } from "../config";
 import { search } from "node-emoji";
 import { ThemeManager } from "../popup/themes";
 import { injectTab } from "../ui/tabInject";
+import { AppsMenuManager } from "../ui/appsMenuManager";
 
 const BUTTON_ELEMENT_HTML = `
 <button id="themeShopBtn">Shop</button>
@@ -31,6 +32,9 @@ const THEME_SHOP = `
         <input type="text" name="" id="container-search" class="container-search" placeholder="Search" autocomplete="off">
         <button class="container-search-submit" id="search-submit">Search</button>
         <p class="container-n-points">0 coins</p>
+        <button class="shop-close-button" id="shopCloseButton">
+            <img src="https://www.svgrepo.com/show/12848/x-symbol.svg" alt="X">
+        </button>
     </div>
     <div class="listings">
         <div class="listings-loader-parent" id="listings-loader">
@@ -49,21 +53,21 @@ export class ThemesShopHandler {
     currentSearchQuery: string;
     themeProvider: InstanceType<typeof ThemeManager>;
 
-    constructor(themeProvider: InstanceType<typeof ThemeManager>) {
+    constructor(themeProvider: InstanceType<typeof ThemeManager>, appsMenuManager: AppsMenuManager) {
 
         this.parser = new DOMParser();
         this.authProvider = new AuthProvider();
         this.currentSearchQuery = '';
         this.themeProvider = themeProvider;
 
-        this.p_init();
+        this.p_init(appsMenuManager);
 
 
     }
 
 
 
-    private async p_injectButton() {
+    private async p_injectButton(appsMenuManager: AppsMenuManager) {
         // Get the thing element and inject a poor button in it
 
         /*const element: HTMLDivElement = await waitForElement('[data-tid="titlebar-end-slot"]') as HTMLDivElement;
@@ -76,7 +80,7 @@ export class ThemesShopHandler {
 
         element.appendChild(buttonElement);*/
 
-        const buttonElement = await injectTab("Browse themes", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="var(--colorNeutralForeground3)" height="24px" width="24px" version="1.1" id="XMLID_269_" viewBox="0 0 24 24" xml:space="preserve">
+        /*const buttonElement = await injectTab("Browse themes", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="var(--colorNeutralForeground3)" height="24px" width="24px" version="1.1" id="XMLID_269_" viewBox="0 0 24 24" xml:space="preserve">
 <g id="shop-cart">
 	<g>
 		<circle cx="9" cy="21" r="2"/>
@@ -101,6 +105,21 @@ export class ThemesShopHandler {
                 this.p_showThemeShopUI();
             }
         })
+        console.log("Injected button");*/
+
+        const buttonElement = await appsMenuManager.addAppAndGetButton("Browse Themes", "https://www.svgrepo.com/show/148598/shop-cart.svg");
+        if (buttonElement == null) return;
+        buttonElement.addEventListener("click", () => {
+            if (this.shopUiVisible) {
+                this.shopUiVisible = false;
+
+                this.p_hideThemeShopUI();
+            } else {
+                this.shopUiVisible = true;
+
+                this.p_showThemeShopUI();
+            }
+        })
         console.log("Injected button");
     }
 
@@ -113,8 +132,8 @@ export class ThemesShopHandler {
             loader.style.display = "block";
             loader.animate(
                 [
-                    {transform: 'translateY(-15px)', opacity: "0"},
-                    {transform: 'translateY(0px)', opacity: "1"}
+                    { transform: 'translateY(-15px)', opacity: "0" },
+                    { transform: 'translateY(0px)', opacity: "1" }
                 ],
                 {
                     duration: 500,
@@ -126,8 +145,8 @@ export class ThemesShopHandler {
         } else {
             loader.animate(
                 [
-                    {transform: 'translateY(0px)', opacity: "1"},
-                    {transform: 'translateY(-15px)', opacity: "0"}
+                    { transform: 'translateY(0px)', opacity: "1" },
+                    { transform: 'translateY(-15px)', opacity: "0" }
                 ],
                 {
                     duration: 500,
@@ -143,7 +162,7 @@ export class ThemesShopHandler {
     }
 
     private p_didIstarThis(name: string) {
-        
+
         return new Promise((resolve, reject) => {
             if (this.authProvider.currentToken == null) {
                 reject("no token");
@@ -237,7 +256,7 @@ export class ThemesShopHandler {
         const themeInstallBtn: HTMLButtonElement | null = element.querySelector("#theme-install");
 
 
-        if (themeNameEl == null || themeDescEl == null || starsEl == null || starBtn == null ||themeInstallBtn == null) return;
+        if (themeNameEl == null || themeDescEl == null || starsEl == null || starBtn == null || themeInstallBtn == null) return;
         const starsSvg = starBtn.querySelector("svg");
         if (starsSvg == null) return;
         themeNameEl.textContent = name;
@@ -280,7 +299,7 @@ export class ThemesShopHandler {
                     alert("Added theme");
                 } else {
                     alert('Failed to parse theme');
-                }              
+                }
             } catch (e) {
                 console.error("Failed to add theme: ", e);
                 alert(`Failed to add theme: ${e}`);
@@ -304,7 +323,7 @@ export class ThemesShopHandler {
         this.loaderState(true);
         fetch(`${API_ENDPOINT}/api/v1/themes/get?search=${searchQuery}`)
             .then(response => response.json())
-            .then((data: { data: {[key: string]: { name: string, desc: string, author: string, data: string, stars: number } }}) => {
+            .then((data: { data: { [key: string]: { name: string, desc: string, author: string, data: string, stars: number } } }) => {
                 console.log('Data:', data["data"]);
 
                 for (const themeName in data["data"]) {
@@ -320,8 +339,8 @@ export class ThemesShopHandler {
                         // Do the anmimation
                         a.animate(
                             [
-                                {transform: 'translateY(-15px)', opacity: "0"},
-                                {transform: 'translateY(0px)', opacity: "1"}
+                                { transform: 'translateY(-15px)', opacity: "0" },
+                                { transform: 'translateY(0px)', opacity: "1" }
                             ],
                             {
                                 duration: 500,
@@ -348,21 +367,21 @@ export class ThemesShopHandler {
 
             this.themeShopUI.animate(
                 [
-                    {transform: 'translateY(-50%) translateX(-50%)', opacity: "1"},
-                    {transform: 'translateY(-60%) translateX(-50%)', opacity: "0"}
+                    { transform: 'translateY(-50%) translateX(-50%)', opacity: "1" },
+                    { transform: 'translateY(-60%) translateX(-50%)', opacity: "0" }
                 ],
                 {
                     duration: 500,
                     easing: "ease-in",
                     iterations: 1,
                     fill: "forwards"
-                  }
+                }
             )
             setTimeout(() => {
                 if (this.themeShopUI == null) return;
                 this.themeShopUI.style.display = "none";
             }, 500)
-            
+
         }
     }
     private async p_showThemeShopUI() {
@@ -374,15 +393,15 @@ export class ThemesShopHandler {
 
             this.themeShopUI.animate(
                 [
-                    {transform: 'translateY(-65%) translateX(-50%)', opacity: "0"},
-                    {transform: 'translateY(-50%) translateX(-50%)', opacity: "1"}
+                    { transform: 'translateY(-65%) translateX(-50%)', opacity: "0" },
+                    { transform: 'translateY(-50%) translateX(-50%)', opacity: "1" }
                 ],
                 {
                     duration: 500,
                     easing: "ease-out",
                     iterations: 1,
                     fill: "forwards"
-                  }
+                }
             )
 
             this.p_refreshListings(this.currentSearchQuery);
@@ -407,20 +426,30 @@ export class ThemesShopHandler {
         if (searchBar == null || submitBtn == null) return;
 
         submitBtn.addEventListener("click", () => {
-            this.currentSearchQuery =  searchBar.value;
+            this.currentSearchQuery = searchBar.value;
             this.p_refreshListings(this.currentSearchQuery);
         })
 
         searchBar.addEventListener("input", () => {
-            this.currentSearchQuery =  searchBar.value;
+            this.currentSearchQuery = searchBar.value;
             this.p_refreshListings(this.currentSearchQuery);
         })
     }
 
-    private async p_init() {
-        this.p_injectButton();
+    private p_closeButton() {
+        if (this.themeShopUI == null) return;
+        const closeButton = this.themeShopUI.querySelector("#shopCloseButton") as HTMLButtonElement;
+        closeButton.addEventListener("click", () => {
+            this.shopUiVisible = false;
+            this.p_hideThemeShopUI();
+        })
+    }
+
+    private async p_init(appsMenuManager: AppsMenuManager) {
+        this.p_injectButton(appsMenuManager);
         this.p_injectUi();
         this.p_searchBar();
+        this.p_closeButton();
 
     }
 }

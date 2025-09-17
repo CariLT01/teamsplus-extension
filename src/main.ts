@@ -17,16 +17,18 @@ import { EncryptionProvider } from "./api/encryptionProvider";
 import { AuthProvider } from "./api/authorizationProvider";
 import { SnakeGame } from "./games/snake";
 import { LoadingScreen } from "./runtime/loadingScreen";
+import { AppsMenuManager } from "./ui/appsMenuManager";
 
 // Important objects
 
+const appsMenuManager = new AppsMenuManager();
 const dataManager = new DataManager();
 const twemojiRuntime = new TwemojiRuntime(dataManager);
 const stylesRuntime = new RuntimeStyles(dataManager);
 const realtimeUpdatesRuntime = new RealtimeUpdatesManager(dataManager, stylesRuntime);
 const loadingScreenRuntime = new LoadingScreen();
 if (window.self === window.top) { // Don't initialize in iframes!
-    const themesShopHandler = new ThemesShopHandler(new ThemeManager(dataManager));
+    const themesShopHandler = new ThemesShopHandler(new ThemeManager(dataManager), appsMenuManager);
     const gamblingGame = new GamblingGame();
     const encryptionProvider =  new EncryptionProvider(new AuthProvider());
     const snakeGame = new SnakeGame();

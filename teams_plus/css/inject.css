@@ -55,12 +55,13 @@
     min-height: 40px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     display: flex;
+    align-items: center;
 }
 
 .container-search {
     flex-grow: 1;
-    margin: 5px 20px;
-    padding: 0px 10px;
+    margin: 0px 10px;
+    padding: 5px 10px;
     border-radius: 10000000px;
     border: 1px solid rgba(0, 0, 0, 0.35);
 }
@@ -75,8 +76,8 @@
     border: none;
     color: black;
     border-radius: 1000000px;
-    padding: 0px 20px;
-    margin: 5px 10px;
+    padding: 5px 20px;
+    margin: 0px 5px;
     margin-left: 2px;
     font-weight: bold;
     cursor: pointer;
@@ -93,6 +94,22 @@
 .container-n-points {
     margin: auto 10px;
 }
+
+.shop-close-button {
+    width: 16px;
+    height: 16px;
+    background-color: transparent;
+    border: none;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.shop-close-button img {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 
 .listings {
     display: grid;
@@ -556,8 +573,36 @@
 }
 
 .title-sub-container {
+    position: relative;
+    /* or absolute if needed */
+    left: 50%;
+    /* Move to 50% of parent width */
+    transform: translateX(-50%);
+    /* Shift back by 50% of element's own width */
     display: flex;
     align-items: center;
+}
+
+
+
+.encryption-close-button {
+    width: 16px;
+    height: 16px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: auto;
+    border-radius: 0;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.encryption-close-button img {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 .person {
@@ -763,40 +808,156 @@
 
 /* Snake game UI (Actual) */
 
-        * {
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            background-color: black;
-        }
-        canvas {
-            background-color: black;
-            width: 100%;
-            height: 100%;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        .information {
-            background-color: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(14px) saturate(145%);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 40vw;
-            color: black;
-            font-family: sans-serif;
-            padding: 10px;
-            border-radius: 16px;
-        }
-        .score {
-            position: fixed;
-            top: 5px;
-            left: 5px;
-            color: white;
-            font-size: 2rem;
-        }
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: black;
+}
+
+canvas {
+    background-color: black;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.information {
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(14px) saturate(145%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40vw;
+    color: black;
+    font-family: sans-serif;
+    padding: 10px;
+    border-radius: 16px;
+}
+
+.score {
+    position: fixed;
+    top: 5px;
+    left: 5px;
+    color: white;
+    font-size: 2rem;
+}
+
+/* APP MENU */
+
+.apps-container {
+    position: relative;
+}
+
+/* Apps button */
+.apps-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: repeat(3, 8px);
+    grid-template-rows: repeat(3, 8px);
+    gap: 4px;
+    justify-content: center;
+    align-content: center;
+}
+
+.apps-btn div {
+    width: 8px;
+    height: 8px;
+    background: #333;
+    border-radius: 50%;
+}
+
+/* The floating menu */
+.apps-menu {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 120%;
+    /* Position to the side of the button */
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    width: 600px;
+    min-height: 300px;
+    z-index: 100;
+    border: 1px solid rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+
+    flex-direction: column;
+    backdrop-filter: blur(8px);
+}
+
+.apps-menu.active {
+    display: flex;
+}
+
+.apps-menu-header {
+    width: 100%;
+    height: 35px;
+    background-color: transparent;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    background-color: #fafafa;
+}
+
+.apps-menu-title {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    text-align: center;
+    line-height: 35px;
+}
+
+.apps-list {
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    grid-auto-rows: minmax(120px, 1fr);
+    gap: 12px;
+    padding: 10px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.apps-list-app {
+    max-width: 120px;
+    overflow: hidden;
+    height: 120px;
+    max-height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    background-color: #fafafa;
+    transition: 0.25s;
+    cursor: pointer;
+}
+
+.apps-list-app:hover {
+    background-color: #ddd;
+}
+
+.app-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0;
+    margin-top: 5px;
+    padding: 0;
+}
+
+.app-name {
+    margin-bottom: 0;
+    flex-grow: 1;
+    overflow: hidden;
+}

@@ -11,7 +11,11 @@ const ENCRYPTION_UI_WINDOW = `
         <div class="title-sub-container">
             <img src="https://www.svgrepo.com/show/513833/lock.svg" alt="" class="lock-icon-title">
             <h2 class="encryption-title">Encryption</h2>
+
         </div>
+        <button id="encryptionCloseButton" class="encryption-close-button">
+            <img src="https://www.svgrepo.com/show/12848/x-symbol.svg" alt="X">
+        </button>   
         
     </div>
     
@@ -82,6 +86,8 @@ export class EncryptionProvider {
         this.encryptEvent();
         this.messageObserver();
 
+        this.closeButtonEvent();
+
     }
 
     private termsOfServiceAgree(): boolean {
@@ -149,27 +155,7 @@ export class EncryptionProvider {
     }
 
     private async injectTab() {
-        const btn = await injectTab("Encryption", `<svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
-
-<title/>
-
-<g id="Complete">
-
-<g id="lock">
-
-<g>
-
-<rect fill="none" height="10" rx="2" ry="2" stroke="var(--colorNeutralForeground3)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="16" x="4" y="11"/>
-
-<path d="M16.5,11V8h0c0-2.8-.5-5-4.5-5S7.5,5.2,7.5,8h0v3" fill="none" stroke="var(--colorNeutralForeground3)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-
-</g>
-
-</g>
-
-</g>
-
-</svg>`);
+        const btn = await window.teamsPlusAppsManager.addAppAndGetButton("Encryption", "https://www.svgrepo.com/show/501247/lock.svg");
         if (btn) {
             btn.addEventListener("click", () => {
                 this.visible = !this.visible
@@ -442,6 +428,16 @@ export class EncryptionProvider {
         });
         console.log("Starting Mutation observer on Body!");
         observer.observe(document.body, { childList: true, subtree: true });
+    }
+
+    private closeButtonEvent() {
+        const closeButton: HTMLButtonElement = this.win.querySelector("#encryptionCloseButton") as HTMLButtonElement;
+        if (closeButton == null) return;
+
+        closeButton.addEventListener("click", () => {
+            this.hideWindow();
+            this.visible = false;
+        })
     }
 
 }
