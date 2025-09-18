@@ -78,7 +78,7 @@ export class EncryptionProvider {
 
     constructor(authProvider: InstanceType<typeof AuthProvider>) {
         this.win = this.createWindow();
-        this.hideWindow();
+        this.hideWindowInstant();
         this.authProvider = authProvider;
         this.injectTab();
         this.refreshAccounts();
@@ -120,6 +120,10 @@ export class EncryptionProvider {
         setTimeout(() => {
             if (this.win) this.win.style.display = "none";
         }, 500)
+    }
+
+    private hideWindowInstant() {
+        this.win.style.display = "none";
     }
 
 
