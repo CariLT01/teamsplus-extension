@@ -402,6 +402,12 @@ export class ThemesShopHandler {
 
         }
     }
+
+    private p_hideThemeShopUIInstant() {
+        if (this.themeShopUI == null) return;
+        this.themeShopUI.style.display = "none";
+    }
+
     private async p_showThemeShopUI() {
         if (this.themeShopUI) {
             this.themeShopUI.style.display = "flex";
@@ -433,7 +439,7 @@ export class ThemesShopHandler {
 
         // Hide it
 
-        this.p_hideThemeShopUI();
+        this.p_hideThemeShopUIInstant();
     }
 
     private async p_searchBar() {
