@@ -54,6 +54,8 @@ export class Game {
 
         this.initialize();
         this.gameStartedEvent();
+        this.resetGame();
+        this.showWindow();
 
         window.onresize = () => {
             this.canvas.width = this.canvas.clientWidth;
@@ -110,6 +112,9 @@ export class Game {
     }
     private gameStartedEvent() {
         document.addEventListener("keydown", () => {
+            const win = document.querySelector("#info") as HTMLDivElement;
+            if (!win) return;
+            if (win.style.display != "none") return;
             this.gameStarted = true;
             for (const snake of this.snakes) {
                 snake.setGameStarted(true);
@@ -344,6 +349,7 @@ export class Game {
         const begin = document.querySelector("#begin") as HTMLButtonElement;
         begin.addEventListener("click", () => {
             win.style.display = "none";
+            this.gameStartedEvent();
         })
 
     }
