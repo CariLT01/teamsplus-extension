@@ -69,7 +69,7 @@ export class Snake {
         if (this.gameStarted) {
             this.position = this.position.add(this.direction.multiplyScalar(MOVEMENT_SPEED));
         }
-        
+
         //console.log(this.position);
 
         // Previous points
@@ -196,9 +196,87 @@ export class Snake {
             return false;
         }
 
-        // Teleport to cell
+        // Teleport to cell, snap back for lower input latency
+        const newPosition = new Vector2(closestCellX, closestCellY)
+        const differenceP = this.position.sub(newPosition);
 
-        this.position = new Vector2(closestCellX, closestCellY);
+        // COMPLEX BACKTRACKING SYSTEM
+        // Prevent weird artifacts by deleting instances of frame positions where a closest one is found (backtracking) in order to prevent bump and flickering from snaping back.
+        
+
+        const MAX_SEARCH = FramesPerCell * SUBDIVISIONS;
+
+        let closestDistance = Infinity;
+        let closestPoint = this.previousPoints[this.previousPoints.length - 1];
+
+
+        for (let i = this.previousPoints.length - 1; i >= this.previousPoints.length - MAX_SEARCH; i--) {
+
+            const point = this.previousPoints[i];
+            if (!point) break;
+            if (!closestPoint) {
+                throw Error("No closest point");
+            }
+            const dx = point.p.x - newPosition.x;
+            const dy = point.p.y - newPosition.y;
+            const d = Math.sqrt(dx * dx + dy * dy);
+
+            if (d < closestDistance) {
+                closestPoint = point;
+                closestDistance = d;
+                //console.log("Set closest distance to: ", d, closestDistance);
+            } else {
+                //console.log("No distance change: ", d, closestDistance);
+            }
+
+        }
+
+
+        // Do not delete if frameCounter is less advanced than closestPoint somehow (or just equal)
+        // DeepSeek fix test
+
+
+
+        if (this.frameCounter > closestPoint.c) {
+
+            let nDeleted = 0;
+
+            // FIXED: Delete newer points (c > closestPoint.c) using reverse iteration
+            for (let i = this.previousPoints.length - 1; i >= 0; i--) {
+                if (this.previousPoints[i].c > closestPoint.c) {
+                    this.previousPoints.splice(i, 1);
+                    nDeleted++;
+                }
+            }
+
+            console.log("Backtracked by ", nDeleted, " segments");
+
+            // FIXED: Also adjust snakePoints to match the backtracked state
+            const interval = FramesPerCell / SUBDIVISIONS;
+            for (let i = 0; i < this.snakePoints.length; i++) {
+                const idx = Math.round((this.previousPoints.length - 1) - i * interval);
+                const clamped = Math.max(0, Math.min(idx, this.previousPoints.length - 1));
+                if (this.previousPoints[clamped]) {
+                    this.snakePoints[i].x = this.previousPoints[clamped].p.x;
+                    this.snakePoints[i].y = this.previousPoints[clamped].p.y;
+                }
+            }
+
+            const diff = this.frameCounter - closestPoint.c;
+            this.frameCounter -= diff;
+        }
+
+
+
+
+
+
+
+
+
+        this.position = newPosition;
+
+        console.log("Allowing turning");
 
         return true;
 
