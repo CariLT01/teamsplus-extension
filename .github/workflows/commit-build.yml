@@ -1,0 +1,41 @@
+name: Unstable Commit Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build dev-latest
+
+      - name: Upload unstable build
+        uses: ncipollo/release-action@v1
+        with:
+          tag: unstable
+          name: Unstable Commit Build
+          body: |
+            ⚠️ **Unstable build**  
+            Built from commit: ${{ github.sha }}
+            
+            - Branch: ${{ github.ref_name }}
+            - Triggered by: ${{ github.actor }}
+          artifacts: teamsplus_versions/teams_plus@dev-latest.zip
+          draft: false
+          prerelease: true
+          overwrite: true
