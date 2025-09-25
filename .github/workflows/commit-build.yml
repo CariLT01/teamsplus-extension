@@ -33,9 +33,13 @@ jobs:
           tag: unstable
           name: Unstable Commit Build
           body: |
-            ⚠️ **Unstable build**  
+            **Latest Unstable build**  
             Built from commit: ${{ github.sha }}
             
+            Contains the latest features that are not yet ready for production.
+            May contain bugs or issues. Not stable for production use.
+
+
             - Branch: ${{ github.ref_name }}
             - Triggered by: ${{ github.actor }}
           artifacts: teamsPlus versions/teams_plus@dev-latest.zip
