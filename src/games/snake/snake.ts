@@ -11,6 +11,33 @@ const headLeftImage = new Image(); headLeftImage.src = headLeftURL;
 const headUpImage = new Image(); headUpImage.src = headUpURL;
 const headDownImage = new Image(); headDownImage.src = headDownURL;
 
+function lerpHex(hexA: string, hexB: string, t: number) {
+    const parse = (h: string) => {
+        h = h.replace(/^#/, '');
+        if (h.length === 3) h = h.split('').map(c => c + c).join('');
+        return [
+            parseInt(h.substring(0, 2), 16),
+            parseInt(h.substring(2, 4), 16),
+            parseInt(h.substring(4, 6), 16)
+        ];
+    };
+    const [r1, g1, b1] = parse(hexA);
+    const [r2, g2, b2] = parse(hexB);
+    const r = Math.round(r1 + (r2 - r1) * t);
+    const g = Math.round(g1 + (g2 - g1) * t);
+    const b = Math.round(b1 + (b2 - b1) * t);
+    const toHex = (v: number) => {
+        let s = v.toString(16);
+        return s.length === 1 ? '0' + s : s;
+    };
+    return '#' + toHex(r) + toHex(g) + toHex(b);
+}
+
+function lerp(a: number, b: number, t: number) {
+    return a + (b - a) * t;
+}
+
+
 export class Snake {
 
     position: Vector2;
@@ -18,7 +45,7 @@ export class Snake {
     private numX: number;
     private numY: number;
     private frameCounter: number = 0;
-    private pendingTurn: "none" | "up" | "down" | "left" | "right" = "none";
+    private pendingTurns: ("up" | "down" | "left" | "right")[] = [];
 
     private snakePoints: Vector2[] = [];
     private previousPoints: { p: Vector2, c: number }[] = [];
@@ -64,19 +91,8 @@ export class Snake {
         //console.log(this.snakePoints);
 
     }
-    private snakeUpdate() {
-        this.frameCounter += 1;
-        if (this.gameStarted) {
-            this.position = this.position.add(this.direction.multiplyScalar(MOVEMENT_SPEED));
-        }
 
-        //console.log(this.position);
-
-        // Previous points
-
-
-
-
+    private updateSegments() {
         const interval = FramesPerCell / SUBDIVISIONS;
         const bufLen = this.previousPoints.length;
         const newest = bufLen - 1;
@@ -91,6 +107,22 @@ export class Snake {
             part.x = point.p.x;
             part.y = point.p.y;
         });
+    }
+
+    private snakeUpdate() {
+        this.frameCounter += 1;
+        if (this.gameStarted) {
+            this.position = this.position.add(this.direction.multiplyScalar(MOVEMENT_SPEED));
+        }
+
+        //console.log(this.position);
+
+        // Previous points
+
+
+
+
+        this.updateSegments();
 
         // Distance to previous
 
@@ -134,20 +166,67 @@ export class Snake {
 
         //ctx.fillStyle = "blue";
         //ctx.fillRect(this.position.x * CELL_WIDTH + snakeWidth / 2, this.position.y * CELL_HEIGHT + snakeHeight / 2, snakeWidth, snakeHeight);
+
+        //ctx.shadowColor = "rgba(0, 0, 0, 0.35)";
+        //ctx.shadowBlur = 0;
+        //ctx.shadowOffsetX = CELL_WIDTH * 0.1;
+        //ctx.shadowOffsetY = CELL_HEIGHT * 0.1;
+
+
+        const headColor = [91, 123, 249];
+        const tailColor = [57, 99, 255];
+
+
+
         ctx.beginPath();
+
+        const shadowOffsetX = CELL_WIDTH * 0.1;
+        const shadowOffsetY = CELL_HEIGHT * 0.1;
         let i = 0;
         for (const part of this.snakePoints) {
 
             const x = part.x * CELL_WIDTH + CELL_WIDTH / 2;
             const r = (snakeWidth * 0.75) * (1 - (i / this.snakePoints.length) * 0.15);
             const y = part.y * CELL_HEIGHT + CELL_HEIGHT / 2;
+            ctx.moveTo(x + r + shadowOffsetX, y + shadowOffsetY);
+            ctx.arc(x + shadowOffsetX, y + shadowOffsetY, r, 0, Math.PI * 2);
+
+
+            const t = i / (this.snakePoints.length - 1);
+            //const t = ;
+            //ctx.fillStyle = `rgb(${lerp(headColor[0], tailColor[0], t)}, ${lerp(headColor[1], tailColor[1], t)}, ${lerp(headColor[2], tailColor[2], t)})`;
+            //ctx.fillStyle = `rgb(${t * 255}, ${t * 255}, ${t * 255})`
+            //ctx.fill();
+            i++;
+        }
+
+        ctx.fillStyle = "rgba(0, 0, 0, 0.35)";
+        ctx.fill();
+
+        // Real pass, draw segments on top of shadow
+
+        i = 0;
+        for (const part of this.snakePoints) {
+            ctx.beginPath();
+            const x = part.x * CELL_WIDTH + CELL_WIDTH / 2;
+            const r = (snakeWidth * 0.75) * (1 - (i / this.snakePoints.length) * 0.15);
+            const y = part.y * CELL_HEIGHT + CELL_HEIGHT / 2;
             ctx.moveTo(x + r, y);
             ctx.arc(x, y, r, 0, Math.PI * 2);
-            i++;
 
+
+            const t = i / (this.snakePoints.length - 1);
+            //const t = ;
+            ctx.fillStyle = `rgb(${lerp(headColor[0], tailColor[0], t)}, ${lerp(headColor[1], tailColor[1], t)}, ${lerp(headColor[2], tailColor[2], t)})`;
+            //ctx.fillStyle = `rgb(${t * 255}, ${t * 255}, ${t * 255})`
+            ctx.fill();
+            i++;
         }
-        ctx.fillStyle = "#5b7bf9";
-        ctx.fill();
+
+
+
+
+        ctx.shadowColor = "transparent";
 
         // Draw the head
 
@@ -202,12 +281,13 @@ export class Snake {
 
         // COMPLEX BACKTRACKING SYSTEM
         // Prevent weird artifacts by deleting instances of frame positions where a closest one is found (backtracking) in order to prevent bump and flickering from snaping back.
-        
 
-        const MAX_SEARCH = FramesPerCell * SUBDIVISIONS;
+
+        const MAX_SEARCH = SUBDIVISIONS;
 
         let closestDistance = Infinity;
         let closestPoint = this.previousPoints[this.previousPoints.length - 1];
+        let closestPointIndex = -1;
 
 
         for (let i = this.previousPoints.length - 1; i >= this.previousPoints.length - MAX_SEARCH; i--) {
@@ -224,6 +304,7 @@ export class Snake {
             if (d < closestDistance) {
                 closestPoint = point;
                 closestDistance = d;
+                closestPointIndex = i;
                 //console.log("Set closest distance to: ", d, closestDistance);
             } else {
                 //console.log("No distance change: ", d, closestDistance);
@@ -239,30 +320,17 @@ export class Snake {
 
         if (this.frameCounter > closestPoint.c) {
 
-            let nDeleted = 0;
 
             // FIXED: Delete newer points (c > closestPoint.c) using reverse iteration
-            for (let i = this.previousPoints.length - 1; i >= 0; i--) {
-                if (this.previousPoints[i].c > closestPoint.c) {
-                    this.previousPoints.splice(i, 1);
-                    nDeleted++;
-                }
-            }
+            this.previousPoints.splice(closestPointIndex + 1);
 
-            console.log("Backtracked by ", nDeleted, " segments");
+
 
             // FIXED: Also adjust snakePoints to match the backtracked state
-            const interval = FramesPerCell / SUBDIVISIONS;
-            for (let i = 0; i < this.snakePoints.length; i++) {
-                const idx = Math.round((this.previousPoints.length - 1) - i * interval);
-                const clamped = Math.max(0, Math.min(idx, this.previousPoints.length - 1));
-                if (this.previousPoints[clamped]) {
-                    this.snakePoints[i].x = this.previousPoints[clamped].p.x;
-                    this.snakePoints[i].y = this.previousPoints[clamped].p.y;
-                }
-            }
+            this.updateSegments();
 
             const diff = this.frameCounter - closestPoint.c;
+            console.log("Backtracked by ", diff, " segments");
             this.frameCounter -= diff;
         }
 
@@ -281,34 +349,59 @@ export class Snake {
         return true;
 
     }
+
+
+
+    private verifyTurn(newTurn: "up" | "down" | "left" | "right") {
+        const dirMap: { [key in "up" | "down" | "left" | "right"]: { x: number; y: number } } = {
+            up: { x: 0, y: -1 },
+            down: { x: 0, y: 1 },
+            left: { x: -1, y: 0 },
+            right: { x: 1, y: 0 }
+        };
+
+        const nd = dirMap[newTurn as "up" | "left" | "right" | "down"];
+        const ndt = this.direction;
+
+        if (!(nd.x === -ndt.x && nd.y === -ndt.y)) {
+            return true;
+        }
+        return false;
+    }
+
+
     private keyEvents() {
+
+
+
         document.addEventListener("keydown", (e) => {
+            let newTurn = null;
+
             if (this.useWSADControls) {
-                if (e.key === "w" || e.key === "W") {
-                    this.pendingTurn = "up";
-                } else if (e.key === "s" || e.key === "S") {
-                    this.pendingTurn = "down";
-                } else if (e.key === "a" || e.key === "A") {
-                    this.pendingTurn = "left";
-                } else if (e.key === "d" || e.key === "D") {
-                    this.pendingTurn = "right";
-                }
+                if (e.key === "w" || e.key === "W") newTurn = "up";
+                else if (e.key === "s" || e.key === "S") newTurn = "down";
+                else if (e.key === "a" || e.key === "A") newTurn = "left";
+                else if (e.key === "d" || e.key === "D") newTurn = "right";
             } else {
-                if (e.key === "ArrowUp") {
-                    this.pendingTurn = "up";
-                } else if (e.key === "ArrowDown") {
-                    this.pendingTurn = "down";
-                } else if (e.key === "ArrowLeft") {
-                    this.pendingTurn = "left";
-                } else if (e.key === "ArrowRight") {
-                    this.pendingTurn = "right";
+                if (e.key === "ArrowUp") newTurn = "up";
+                else if (e.key === "ArrowDown") newTurn = "down";
+                else if (e.key === "ArrowLeft") newTurn = "left";
+                else if (e.key === "ArrowRight") newTurn = "right";
+            }
+
+            if (newTurn) {
+                if (this.verifyTurn(newTurn as "up" | "left" | "right" | "down" )) {
+                    this.pendingTurns.push(newTurn as "up" | "left" | "right" | "down");
                 }
             }
         });
     }
 
     private updatePendingTurn() {
-        if (this.pendingTurn === "none") return;
+
+        const pendingTurn = this.pendingTurns[0];
+
+        if (!pendingTurn) return;
 
 
         if (this.ensureTurningOnCell() == false) {
@@ -317,7 +410,7 @@ export class Snake {
         }
 
 
-        switch (this.pendingTurn) {
+        switch (pendingTurn) {
             case 'up':
                 if (this.direction.y != 0) break;
                 this.direction = new Vector2(0, -1);
@@ -338,13 +431,13 @@ export class Snake {
                 this.direction = new Vector2(1, 0);
                 break;
             default:
-                console.warn("Unknown value: ", this.pendingTurn);
+                console.warn("Unknown value: ", pendingTurn);
         }
-        this.pendingTurn = "none";
+        this.pendingTurns.splice(0, 1);
     }
 
     reset() {
-        this.pendingTurn = "none";
+        this.pendingTurns = [];
         this.snakePoints.length = 0;
         this.previousPoints.length = 0;
         this.position = new Vector2(
@@ -358,13 +451,17 @@ export class Snake {
     }
 
     private hasCollidedWithSelf() {
+        let index = 0;
         for (const position of this.snakePoints) {
+            //if (index < SUBDIVISIONS) continue; // Don't collide with head;
+            //Does not work
             const actualPosition = this.position.add(this.direction.multiplyScalar(0.5));
             const dSquared = (actualPosition.x - position.x) ** 2 + (actualPosition.y - position.y) ** 2;
             if (dSquared < (1 / SUBDIVISIONS) ** 2) {
                 console.log("Collided with: ", position, " distance squared of: ", dSquared);
                 return true;
             }
+            index++;
         }
         return false;
     }
