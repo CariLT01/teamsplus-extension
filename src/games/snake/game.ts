@@ -18,6 +18,8 @@ export class Game {
     private numberOfFoods: number = 1;
     private gameStarted: boolean = false;
     private isVisible: boolean = false;
+    private lastTime: number = Date.now();
+    private deltaTime: number = 1 / 60;
 
     private canvas: HTMLCanvasElement = document.querySelector("#game") as HTMLCanvasElement;
 
@@ -268,17 +270,22 @@ export class Game {
 
 
 
-    private update() {
+    private update(deltaTime: number) {
         this.render();
         for (const snake of this.snakes) {
-            snake.update();
+            snake.update(deltaTime);
         }
     }
 
     private renderLoop = () => {
+        
+        this.deltaTime = (Date.now() - this.lastTime) / 1000;
+
         if (this.isVisible) {
-            this.update();
+            this.update(this.deltaTime);
         }
+
+        this.lastTime = Date.now();
 
 
         requestAnimationFrame(this.renderLoop);

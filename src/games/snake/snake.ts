@@ -112,10 +112,10 @@ export class Snake {
         });
     }
 
-    private snakeUpdate() {
+    private snakeUpdate(deltaTime: number) {
         this.frameCounter += 1;
         if (this.gameStarted) {
-            this.position = this.position.add(this.direction.multiplyScalar(MOVEMENT_SPEED));
+            this.position = this.position.add(this.direction.multiplyScalar(MOVEMENT_SPEED).multiplyScalar(deltaTime));
         }
 
         //console.log(this.position);
@@ -185,6 +185,8 @@ export class Snake {
 
         const shadowOffsetX = CELL_WIDTH * 0.1;
         const shadowOffsetY = CELL_HEIGHT * 0.1;
+        const len = this.snakePoints.length;
+        const radiusBase = snakeWidth * 0.75;
         let i = 0;
         for (const part of this.snakePoints) {
 
@@ -209,8 +211,27 @@ export class Snake {
         // Real pass, draw segments on top of shadow
 
         i = 0;
+
+
+        let nBatches = 0;
+        let previousColor: string = "hahahaihiah";
+
         for (const part of this.snakePoints) {
-            ctx.beginPath();
+            
+            
+            const t = i / (this.snakePoints.length - 1);
+            const colorR = Math.round(lerp(headColor[0], tailColor[0], t));
+            const colorG = Math.round(lerp(headColor[1], tailColor[1], t));
+            const colorB = Math.round(lerp(headColor[2], tailColor[2], t));
+
+            const currentColor = `rgb(${colorR}, ${colorG}, ${colorB})`;
+            if (currentColor != previousColor) {
+                ctx.fill();
+                ctx.beginPath();
+                ctx.fillStyle = currentColor;
+                nBatches++;
+            }
+
             const x = part.x * CELL_WIDTH + CELL_WIDTH / 2;
             const r = (snakeWidth * 0.75) * (1 - (i / this.snakePoints.length) * 0.15);
             const y = part.y * CELL_HEIGHT + CELL_HEIGHT / 2;
@@ -218,14 +239,21 @@ export class Snake {
             ctx.arc(x, y, r, 0, Math.PI * 2);
 
 
-            const t = i / (this.snakePoints.length - 1);
+            
             //const t = ;
-            ctx.fillStyle = `rgb(${lerp(headColor[0], tailColor[0], t)}, ${lerp(headColor[1], tailColor[1], t)}, ${lerp(headColor[2], tailColor[2], t)})`;
+            ctx.fillStyle = 
             ctx.filter = `hue-rotate(${this.index * 45 + this.index * 90}deg)`;
             //ctx.fillStyle = `rgb(${t * 255}, ${t * 255}, ${t * 255})`
-            ctx.fill();
+            //ctx.fill();
+
+            previousColor = currentColor;
+
             i++;
         }
+
+        //console.log("# Segments: ", this.snakePoints.length, " seperated into ", nBatches, " batches for rendering");
+
+        ctx.fill();
 
 
 
@@ -370,8 +398,18 @@ export class Snake {
         };
 
         const nd = dirMap[newTurn as "up" | "left" | "right" | "down"];
-        const ndt = this.direction;
 
+        let ndt = {x: 0, y: 0};
+        if (this.pendingTurns.length > 0) {
+            ndt = dirMap[this.pendingTurns[Math.max(0, this.pendingTurns.length - 1)]];
+        } else {
+            ndt = this.direction;
+        }
+
+        
+        if (nd.x == ndt.x && nd.y == ndt.y) {
+            return false;
+        }
         if (!(nd.x === -ndt.x && nd.y === -ndt.y)) {
             return true;
         }
@@ -489,9 +527,9 @@ export class Snake {
         return false;
     }
 
-    update() {
+    update(deltaTime: number) {
         this.updatePendingTurn();
-        this.snakeUpdate();
+        this.snakeUpdate(deltaTime);
         this.getFood();
 
         if (this.isWithinBorders() == false) {
