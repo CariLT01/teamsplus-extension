@@ -38,7 +38,7 @@ jobs:
             
             - Branch: ${{ github.ref_name }}
             - Triggered by: ${{ github.actor }}
-          artifacts: teamsPlus_versions/teams_plus@dev-latest.zip
+          artifacts: teamsPlus versions/teams_plus@dev-latest.zip
           draft: false
           prerelease: true
           allowUpdates: true
