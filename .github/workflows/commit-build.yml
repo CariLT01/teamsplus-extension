@@ -41,4 +41,5 @@ jobs:
           artifacts: teamsPlus_versions/teams_plus@dev-latest.zip
           draft: false
           prerelease: true
+          allowUpdates: true
           replacesArtifacts: true
