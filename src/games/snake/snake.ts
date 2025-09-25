@@ -55,8 +55,10 @@ export class Snake {
     private otherPoints: Vector2[] = [];
     private useWSADControls: boolean = false;
     private gameStarted: boolean = false;
+    private lastTurningCell: Vector2 = new Vector2(1100, 100);
+    private index: number = 0;
 
-    constructor(initialPosition: Vector2, initialDirection: Vector2, initialLength: number, numX: number, numY: number, eatenFoodCallback: ((position: Vector2) => void), lostCallback: (length: number) => void) {
+    constructor(initialPosition: Vector2, initialDirection: Vector2, initialLength: number, numX: number, numY: number, eatenFoodCallback: ((position: Vector2) => void), lostCallback: (length: number) => void, index: number = 0) {
         this.position = initialPosition;
         this.direction = initialDirection;
         this.foodCallback = eatenFoodCallback;
@@ -64,6 +66,7 @@ export class Snake {
 
         this.numX = numX;
         this.numY = numY;
+        this.index = index;
 
         this.keyEvents();
         this.generateSnake(initialLength);
@@ -218,6 +221,7 @@ export class Snake {
             const t = i / (this.snakePoints.length - 1);
             //const t = ;
             ctx.fillStyle = `rgb(${lerp(headColor[0], tailColor[0], t)}, ${lerp(headColor[1], tailColor[1], t)}, ${lerp(headColor[2], tailColor[2], t)})`;
+            ctx.filter = `hue-rotate(${this.index * 45 + this.index * 90}deg)`;
             //ctx.fillStyle = `rgb(${t * 255}, ${t * 255}, ${t * 255})`
             ctx.fill();
             i++;
@@ -254,6 +258,8 @@ export class Snake {
             ctx.drawImage(headDownImage, x, y);
         }
 
+        ctx.filter = "none";
+
     }
 
     private isWithinBorders() {
@@ -274,9 +280,12 @@ export class Snake {
         if (difference > TURN_REJECT_THRESHOLD) {
             return false;
         }
+        
 
         // Teleport to cell, snap back for lower input latency
-        const newPosition = new Vector2(closestCellX, closestCellY)
+        const newPosition = new Vector2(closestCellX, closestCellY);
+
+        if (this.lastTurningCell.equals(newPosition)) return false;
         const differenceP = this.position.sub(newPosition);
 
         // COMPLEX BACKTRACKING SYSTEM
@@ -390,7 +399,7 @@ export class Snake {
             }
 
             if (newTurn) {
-                if (this.verifyTurn(newTurn as "up" | "left" | "right" | "down" )) {
+                if (this.verifyTurn(newTurn as "up" | "left" | "right" | "down" ) && this.pendingTurns.length < 2) {
                     this.pendingTurns.push(newTurn as "up" | "left" | "right" | "down");
                 }
             }
@@ -433,6 +442,9 @@ export class Snake {
             default:
                 console.warn("Unknown value: ", pendingTurn);
         }
+
+        console.log("Processed pending turn: ", pendingTurn);
+        this.lastTurningCell = this.position;
         this.pendingTurns.splice(0, 1);
     }
 
@@ -478,8 +490,8 @@ export class Snake {
     }
 
     update() {
-        this.snakeUpdate();
         this.updatePendingTurn();
+        this.snakeUpdate();
         this.getFood();
 
         if (this.isWithinBorders() == false) {

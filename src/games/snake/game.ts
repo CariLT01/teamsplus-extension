@@ -174,7 +174,7 @@ export class Game {
                 new Snake(new Vector2(
                     Math.round(this.areaX / 3),
                     Math.round(this.areaY / 3)
-                ), new Vector2(0, -1), 4, this.areaX, this.areaY, this.foodCallback, this.lostCallback)
+                ), new Vector2(0, -1), 4, this.areaX, this.areaY, this.foodCallback, this.lostCallback, 1)
 
             ]
 
