@@ -12,6 +12,8 @@ export class RuntimeStyles {
     observer: MutationObserver | null = null;
     blurBackgroundObserver: MutationObserver | null = null;
 
+    private blurElementQueue: HTMLElement[] = [];
+
     constructor(dataManager: InstanceType<typeof DataManager>) {
         this.dataManager = dataManager;
     }
@@ -107,12 +109,25 @@ export class RuntimeStyles {
         
     }
 
+    private p_blurQueueProcess() {
+        /*requestIdleCallback(() => {
+            console.log("Batch process blur");
+            const batch = this.blurElementQueue.splice(0, 50);
+            batch.forEach((element) => this.blurProcessElement(element));
+            if (this.blurElementQueue.length > 0) this.p_blurQueueProcess();
+        }, {timeout: 50})*/
+
+        this.blurElementQueue.forEach(element => this.blurProcessElement(element))
+        this.blurElementQueue.length = 0;
+        
+    }
+
     private p_createBlurMutationObserver() {
 
         const app = document.querySelector("#app") as HTMLDivElement;
 
         app.querySelectorAll("*").forEach((element) => {
-            this.blurProcessElement(element as HTMLElement);
+            this.blurElementQueue.push(element as HTMLElement);
         })
 
         this.blurBackgroundObserver = new MutationObserver((mutations) => {
@@ -124,10 +139,11 @@ export class RuntimeStyles {
 
                             const element: HTMLElement = node as HTMLElement;
                                 
-                            this.blurProcessElement(element);
+                            this.blurElementQueue.push(element);
 
                             element.querySelectorAll("*").forEach((childElement) => {
-                                this.blurProcessElement(childElement as HTMLElement)
+                                this.blurElementQueue.push(childElement as HTMLElement);
+                                //this.blurProcessElement(childElement as HTMLElement)
                             });
 
 
@@ -136,6 +152,7 @@ export class RuntimeStyles {
 
                 }
             }
+            this.p_blurQueueProcess();
         });
         this.blurBackgroundObserver.observe(document.querySelector("#app") as HTMLDivElement, {
             childList: true,

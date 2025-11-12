@@ -19,7 +19,7 @@ export function waitForElement(selector: string): Promise<Element> {
         setTimeout(() => {
             observer.disconnect();
             reject(new Error('Element not found within time limit'));
-        }, 10000); // 10 seconds timeout
+        }, 20000); // 20 seconds timeout
     });
 }
 

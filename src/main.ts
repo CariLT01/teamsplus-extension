@@ -18,6 +18,7 @@ import { AuthProvider } from "./api/authorizationProvider";
 import { SnakeGame } from "./games/snake";
 import { LoadingScreen } from "./runtime/loadingScreen";
 import { AppsMenuManager } from "./ui/appsMenuManager";
+import { ImageLoadingOptimizer } from "./runtime/imageLoadingOptimizer";
 
 // Important objects
 
@@ -27,6 +28,7 @@ const twemojiRuntime = new TwemojiRuntime(dataManager);
 const stylesRuntime = new RuntimeStyles(dataManager);
 const realtimeUpdatesRuntime = new RealtimeUpdatesManager(dataManager, stylesRuntime);
 const loadingScreenRuntime = new LoadingScreen();
+const imageLoadingOptimizer = new ImageLoadingOptimizer();
 if (window.self === window.top) { // Don't initialize in iframes!
     const themesShopHandler = new ThemesShopHandler(new ThemeManager(dataManager), appsMenuManager);
     const gamblingGame = new GamblingGame();
@@ -43,6 +45,8 @@ if (window.self === window.top) { // Don't initialize in iframes!
 //////// On window load functions //////////
 async function onWindowLoad() {
     console.log("window loaded, wait for main");
+
+    imageLoadingOptimizer.onLoad();
 
     loadingScreenRuntime.startMutationObserver();
 

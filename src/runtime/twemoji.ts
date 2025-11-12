@@ -3,8 +3,8 @@ import twemoji from "twemoji";
 
 const onNewEmojiWrapper = (element: HTMLElement) => {
     if (element.getAttribute("twemoji-processed") == "true") return; // Avoid twemoji.parse()
-    console.log("New emoji IMG warpper detected, parsing twemoji");
-    
+    //console.log("New emoji IMG warpper detected, parsing twemoji");
+
     try {
         const parent = element.parentElement;
         if (parent == null) return;
@@ -35,14 +35,17 @@ const onNewEmojiWrapper = (element: HTMLElement) => {
     } catch (err) {
         console.error("Failed to convert emoji img to chr", err);
     } finally {
-        console.log("Convert img to char success");
+        //console.log("Convert img to char success");
         element.setAttribute("twemoji-processed", "true");
     }
 }
 
 export class TwemojiRuntime {
-    
+
     dataManager: InstanceType<typeof DataManager>;
+
+    private nodeProcessQueueEmoji: HTMLElement[] = [];
+    private nodeProcessQueueMessages: HTMLElement[] = [];
 
 
     constructor(dataManager: InstanceType<typeof DataManager>) {
@@ -65,16 +68,40 @@ export class TwemojiRuntime {
         this.detectNewMessages();
     }
 
+    private processQueueEmojis() {
+        requestIdleCallback(() => {
+            const batch = this.nodeProcessQueueEmoji.splice(0, 50);
+            batch.forEach((element) => onNewEmojiWrapper(element));
+            if (this.nodeProcessQueueEmoji.length > 0) this.processQueueEmojis();
+        }, {timeout: 500});
+
+    }
+
+    private processQueueMessages() {
+        requestIdleCallback(() => {
+            const batch = this.nodeProcessQueueMessages.splice(0, 50);
+            batch.forEach((element) => onNewEmojiWrapper(element));
+            if (this.nodeProcessQueueMessages.length > 0) this.processQueueMessages();
+        }, {timeout: 500})
+    }
+
+    private emojiPrebatchProcess(element: HTMLElement) {
+        if (element instanceof HTMLImageElement) {
+            element.removeAttribute("src"); // stops the browser from fetching the image
+            element.style.display = "none";
+        }
+    }
+
     detectNewMessages() {
         // Target the parent container where messages are added (e.g., a chat container)
         const targetNode = document.body; // Replace with a specific parent if possible
-    
+
         // Observer configuration
         const config: MutationObserverInit = {
             childList: true,      // Watch for direct child additions/removals
             subtree: true,        // Watch all descendants (not just direct children)
         };
-    
+
         // Callback when mutations are detected
         const callback: MutationCallback = (mutationsList, observer) => {
             for (const mutation of mutationsList) {
@@ -86,43 +113,54 @@ export class TwemojiRuntime {
                         if (!(node instanceof HTMLElement || node instanceof DocumentFragment)) return;
                         // Handle direct matches (if the node itself is the wrapper)
                         if (node instanceof HTMLElement && node.dataset.testid === 'message-wrapper') {
-                            onNewMessageWrapper(node);
+                            this.emojiPrebatchProcess(node);
+                            this.nodeProcessQueueEmoji.push(node);
                         }
                         if (node instanceof HTMLElement && node.dataset.tid === 'chat-pane-compose-message-footer') {
-                            onNewMessageWrapper(node);
+                            this.emojiPrebatchProcess(node);
+                            this.nodeProcessQueueEmoji.push(node);
                         }
                         if (node instanceof HTMLElement && node.getAttribute("itemtype") == "http://schema.skype.com/Emoji") {
-                            onNewEmojiWrapper(node);
+                            this.emojiPrebatchProcess(node);
+                            this.nodeProcessQueueEmoji.push(node);
                         }
                         if (node instanceof HTMLElement && node.dataset.inp === 'message-hover-reactions') {
-                            onNewMessageWrapper(node);
+                            this.emojiPrebatchProcess(node);
+                            this.nodeProcessQueueEmoji.push(node);
                         }
                         if (node instanceof HTMLElement && node.dataset.tid === 'emoji-tab-category-grid') {
-                            onNewMessageWrapper(node);
+                            this.emojiPrebatchProcess(node);
+                            this.nodeProcessQueueEmoji.push(node);
                         }
-    
+
                         // Handle nested matches (if the wrapper is inside the added node)
                         if (node instanceof HTMLElement || node instanceof DocumentFragment) {
                             const wrappers = (node as HTMLElement).querySelectorAll('[data-testid="message-wrapper"]');
-    
-                            wrappers.forEach((wrapper, index) => onNewMessageWrapper(wrapper as HTMLElement));
-    
+
+                            wrappers.forEach((wrapper, index) => this.nodeProcessQueueMessages.push(wrapper as HTMLElement));
+
                             const emojiImgs = (node as HTMLElement).querySelectorAll('[itemtype="http://schema.skype.com/Emoji"]');
-                            emojiImgs.forEach((img, index) => onNewEmojiWrapper(img as HTMLElement));
-    
+                            emojiImgs.forEach((img, index) => {
+                                this.emojiPrebatchProcess(img as HTMLElement);
+                                this.nodeProcessQueueEmoji.push(img as HTMLElement)
+                            });
+
                             const messageHoverReactions = (node as HTMLElement).querySelectorAll('[data-inp="message-hover-reactions"]');
-                            messageHoverReactions.forEach((img, index) => onNewMessageWrapper(img as HTMLElement));
-    
+                            messageHoverReactions.forEach((img, index) => this.nodeProcessQueueMessages.push(img as HTMLElement));
+
                             const emojiTab = (node as HTMLElement).querySelectorAll('[data-tid="emoji-tab-category-grid"]');
-                            emojiTab.forEach((img, index) => onNewMessageWrapper(img as HTMLElement));
+                            emojiTab.forEach((img, index) => this.nodeProcessQueueMessages.push(img as HTMLElement));
                         }
                     });
                 }
             }
+
+            if (this.nodeProcessQueueMessages.length > 0) this.processQueueMessages();
+            if (this.nodeProcessQueueEmoji.length > 0) this.processQueueEmojis();
         };
-    
-        
-    
+
+
+
         // Return a cleanup function to disconnect later
         const onNewMessageWrapper = (element: HTMLElement) => {
             console.log('New message wrapper detected:', element, ", parsing twemoji");
@@ -132,11 +170,11 @@ export class TwemojiRuntime {
                 ext: ".png"       // or ".svg"
             });
         };
-    
+
         const observer = new MutationObserver(callback);
         observer.observe(targetNode, config);
-    
-    
+
+
     }
 
 }
