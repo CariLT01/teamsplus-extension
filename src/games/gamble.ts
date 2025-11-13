@@ -642,10 +642,9 @@ export class GamblingGame {
         this.init();
         const btn: HTMLButtonElement | null = this.windowElement.querySelector("#roll");
         if (btn) {
-            btn.addEventListener("click", () => {
+            btn.addEventListener("click", async () => {
                 try {
-                    this.shuffle();
-                    this.rolling = false;
+                    await this.shuffle();
                 } catch (e) {
                     console.error(e);
                     alert(`An error occured while trying to connect to the server: ${e}`)
