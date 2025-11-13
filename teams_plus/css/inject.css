@@ -501,6 +501,7 @@
     height: 56px;
     width: 68px;
 }
+
 .injected-parent-button:hover {
     background-color: var(--colorNeutralBackground4Selected);
 }
@@ -859,7 +860,7 @@ body {
 /* Container for button + menu */
 .apps-container {
     position: relative;
-   
+
 }
 
 /* Apps button */
@@ -885,7 +886,7 @@ body {
     overflow: hidden;
 
     flex-direction: column;
-     color: black !important;
+    color: black !important;
     position: fixed;
 }
 
@@ -988,4 +989,46 @@ body {
 
 .app-pin-button:hover {
     background-color: #ddd;
+}
+
+.gamblingReward {
+    text-align: center;
+    background-color: white;
+    color: black;
+    border-radius: 6px;
+    padding: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 99999;
+    background: linear-gradient(270deg, #ff0000, #ffea00, #00ffea, #ff00ff);
+    background-size: 800% 800%;
+    animation: gradientAnimation 5s ease infinite;
+    font-family: sans-serif;
+
+}
+
+.gamblingClaimReward {
+    background-color: white;
+    padding: 10px;
+    cursor: pointer;
+    border: black;
+    border-radius: 6px;
+}
+
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }

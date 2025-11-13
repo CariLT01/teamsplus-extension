@@ -31,7 +31,7 @@ const THEME_SHOP = `
     <div class="top-navbar">
         <input type="text" name="" id="container-search" class="container-search" placeholder="Search" autocomplete="off">
         <button class="container-search-submit" id="search-submit">Search</button>
-        <p class="container-n-points">0 coins</p>
+        <p class="container-n-points" id="coins">0 coins</p>
         <button class="shop-close-button" id="shopCloseButton">
             <img src="https://www.svgrepo.com/show/12848/x-symbol.svg" alt="X">
         </button>
@@ -53,10 +53,10 @@ export class ThemesShopHandler {
     currentSearchQuery: string;
     themeProvider: InstanceType<typeof ThemeManager>;
 
-    constructor(themeProvider: InstanceType<typeof ThemeManager>, appsMenuManager: AppsMenuManager) {
+    constructor(themeProvider: InstanceType<typeof ThemeManager>, appsMenuManager: AppsMenuManager, authProvider: AuthProvider) {
 
         this.parser = new DOMParser();
-        this.authProvider = new AuthProvider();
+        this.authProvider = authProvider;
         this.currentSearchQuery = '';
         this.themeProvider = themeProvider;
 
@@ -408,6 +408,37 @@ export class ThemesShopHandler {
         this.themeShopUI.style.display = "none";
     }
 
+    private async p_updateCoinCount() {
+        if (this.themeShopUI == null) return;
+        const element = this.themeShopUI.querySelector("#coins");
+        if (element == null) return;
+        if (this.authProvider.currentToken == null) {
+            element.textContent = "Logged out";
+            return;
+        };
+        const tok = this.authProvider.currentToken;
+        fetch(`${API_ENDPOINT}/api/v1/user/get_coins`, {
+            headers: {
+                "Authorization": `Bearer ${tok}`
+            }
+        })
+        .then(res => {
+            if (res.status != 200) throw new Error("Failed to get coin count");
+            return res.json();
+        })
+        .then(data => {
+            const coniCount = data.data;
+            element.textContent = `${coniCount} coins`;
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Failed to fetch number of coins: " + err);
+        })
+
+
+
+    }
+
     private async p_showThemeShopUI() {
         if (this.themeShopUI) {
             this.themeShopUI.style.display = "flex";
@@ -429,6 +460,7 @@ export class ThemesShopHandler {
             )
 
             this.p_refreshListings(this.currentSearchQuery);
+            this.p_updateCoinCount();
         }
     }
 

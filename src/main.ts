@@ -29,10 +29,11 @@ const stylesRuntime = new RuntimeStyles(dataManager);
 const realtimeUpdatesRuntime = new RealtimeUpdatesManager(dataManager, stylesRuntime);
 const loadingScreenRuntime = new LoadingScreen();
 const imageLoadingOptimizer = new ImageLoadingOptimizer();
+const authProvider = new AuthProvider();
 if (window.self === window.top) { // Don't initialize in iframes!
-    const themesShopHandler = new ThemesShopHandler(new ThemeManager(dataManager), appsMenuManager);
-    const gamblingGame = new GamblingGame();
-    const encryptionProvider =  new EncryptionProvider(new AuthProvider());
+    const themesShopHandler = new ThemesShopHandler(new ThemeManager(dataManager), appsMenuManager, authProvider);
+    const gamblingGame = new GamblingGame(authProvider);
+    const encryptionProvider =  new EncryptionProvider(authProvider);
     const snakeGame = new SnakeGame();
 }
 

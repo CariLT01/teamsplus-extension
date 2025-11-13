@@ -3,6 +3,8 @@ import { p_stringToElement } from "../utils";
 import { Audio } from "./soundEngine";
 import { waitForElement } from '../utils';
 import { injectTab } from '../ui/tabInject';
+import { AuthProvider } from '../api/authorizationProvider';
+import { API_ENDPOINT } from '../config';
 
 const BUTTON_ELEMENT_HTML = `
 <button id="gambleGameButton">Game</button>
@@ -60,6 +62,13 @@ const GAMBLING_GAME_HTML = `
 
     </div>
 `;
+const GAMBLING_CLAIM_REWARD_HTML = `
+    <div class="gamblingReward">
+        <h3>You got money</h3>
+        <p>Click below to get your $$$</p>
+        <button type="button" class="gamblingClaimReward">Claim reward</button>
+    </div>
+`;
 
 const DIGITS = [
     "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"
@@ -91,11 +100,14 @@ export class GamblingGame {
     winAudio = new Audio(new AudioContext());
     rolling = false;
     windowVisible = false;
+    private authProvider: AuthProvider;
+    private noRewardPopupShown: boolean = false;
 
-    constructor() {
+    constructor(authProvider: AuthProvider) {
 
         // Initialize the variables
         this.currentDigits = {};
+        this.authProvider = authProvider;
 
         // Create the fucking window
         this.windowElement = p_stringToElement(GAMBLING_GAME_HTML) as HTMLImageElement;
@@ -485,63 +497,128 @@ export class GamblingGame {
         }
     }
 
+    private async countTo(digits: number[][], isTricked: boolean) {
+
+        const tasks: Promise<void>[] = [];
+
+        
+        const a = 70;
+        const trickedK = isTricked ? 10 : 1;
+
+        for (let i = 0; i < digits.length; i++) {
+            let digitDelay = digits[i][1] * 2 * trickedK;
+            if (digits[i][1] == 2) {
+                digitDelay = digits[i][1] * 4 * trickedK;
+            }
+            const offset = (digits[i][0] - (this.currentDigits[i] + (digitDelay + a))) % 10;
+
+            const shuffleAmount = (digitDelay + a) + offset;
+
+            const task = this.countBy(shuffleAmount, i, this.windowElement.querySelector(`[data-counter-id="${i}"]`) as HTMLDivElement);
+            tasks.push(task);
+            await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+
+        await Promise.all(tasks);
+    }
+
     private async shuffle() {
+
+        
+
         if (this.rolling == true) return;
+
+
+        
+        // Get the API request
+        
+        let token = this.authProvider.currentToken;
+        if (token == null && this.noRewardPopupShown == false) {
+            alert("Note: You will not receive any reward from winning when you are not logged in. This message will not show again in this session.");
+            this.noRewardPopupShown = true;
+        }
+
 
         const img: HTMLImageElement = this.windowElement.querySelector(".window-background") as HTMLImageElement;
         img.src = chrome.runtime.getURL("assets/gamble_bg_normal.png");
 
-        const numDigits = 3;
-        const delay = 1000;
-        const a = 70;
-
-        const tasks: Promise<void>[] = [];
-        const randomized: { values: number[], order: number[] } = this.randomizeFunction();
-        this.rolling = true;
-
-        for (let i = 0; i < numDigits; i++) {
-            let digitDelay;
-            let orderDigit = randomized.order[i];
-            if (orderDigit == numDigits - 1) {
-                digitDelay = orderDigit * 4 * DIGITS.length
-            } else {
-                digitDelay = orderDigit * 2 * DIGITS.length
-            }
-            const shuffleAmount = randomized.values[i] + digitDelay + a;
-            const element: HTMLDivElement | null = document.querySelector(`[data-counter-id="${i}"]`);
-
-            console.log(element);
-            if (element == null) {
-                console.error(`Element with data-counter-id="${i}" not found.`);
-                continue;
-            }
-
-            const task = this.countBy(shuffleAmount, i, element); // don't await, just collect the promise
-            tasks.push(task);
-            await new Promise(resolve => setTimeout(resolve, delay));
+        const headers: Record<string, string> = {};
+        if (token) {
+            headers['Authorization'] = `Bearer ${token}`;
         }
 
-        await Promise.all(tasks); // Wait for all countBy() calls to finish
+        const response = await fetch(`${API_ENDPOINT}/api/v1/fun_minigame/slot_machine_next`, {
+            method: 'GET',
+            headers: headers,
+        }).then(res => {
+            if (res.status != 200) throw new Error("Response not successfull");
+            return res.json();
+        })
+
+        const responseData = response.data;
+        if (!responseData) throw new Error("Bad response");
+
+        const digits: number[][] = responseData.digits;
+        const winToken = responseData.winToken;
+        const isTricked = responseData.isTricked
+
+        if (!digits || isTricked == null || winToken == null) throw new Error("Bad response");
+
+        await this.countTo(digits, isTricked);
+
+
         console.log("All digits finished counting.");
 
-        let firstN = this.currentDigits[0];
-        for (let i = 0; i < numDigits; i++) {
-            if (firstN != this.currentDigits[i]) {
-                this.loseAudio.playSound(.2);
-                console.log("LOSE");
-                //confetti();
-                //confettiSides();
-                //confettiFireworks();
-                break;
-            } else if (i == numDigits - 1) {
-                console.log("WIN!");
-                const img: HTMLImageElement = this.windowElement.querySelector(".window-background") as HTMLImageElement;
-                img.src = chrome.runtime.getURL("assets/gamble_bg_win.png");
-                this.winAudio.playSound(1);
-                confetti();
-                this.confettiSides();
-                this.confettiFireworks();
+
+
+        if (!(digits[0][0] == digits[1][0] && digits[1][0] == digits[2][0])) {
+            this.loseAudio.playSound(.2);
+            console.log("LOSE");
+            //confetti();
+            //confettiSides();
+            //confettiFireworks();
+        } else {
+            console.log("WIN!");
+            const img: HTMLImageElement = this.windowElement.querySelector(".window-background") as HTMLImageElement;
+            img.src = chrome.runtime.getURL("assets/gamble_bg_win.png");
+            this.winAudio.playSound(1);
+            confetti();
+            this.confettiSides();
+            this.confettiFireworks();
+
+            // Create claim reward window
+
+            if (winToken != "") {
+                const element = p_stringToElement(GAMBLING_CLAIM_REWARD_HTML);
+                document.body.appendChild(element);
+
+                const claimRewardButton = element.querySelector("button")
+                if (claimRewardButton) {
+                    claimRewardButton.addEventListener("click", async () => {
+                        fetch(`${API_ENDPOINT}/api/v1/fun_minigame/redeem_token`, {
+                            method: 'POST',
+                            body: JSON.stringify({
+                                rewardToken: winToken
+                            }),
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Authorization": `Bearer ${token}`
+                            }
+                        })
+                        .then(res => {
+                            if (res.status != 200) throw new Error("Failed to redeem token");
+                            alert(`Successfully redeemed token!`);
+                            
+                        }).catch(err => {
+                            alert(`Failed to redeem token: ${err}`);
+                        }).finally(() => {
+                            element.remove();
+                        })
+                    });
+                }
             }
+
+
         }
 
         this.rolling = false;
@@ -565,7 +642,13 @@ export class GamblingGame {
         const btn: HTMLButtonElement | null = this.windowElement.querySelector("#roll");
         if (btn) {
             btn.addEventListener("click", () => {
-                this.shuffle();
+                try {
+                    this.shuffle();
+                } catch (e) {
+                    console.error(e);
+                    alert(`An error occured while trying to connect to the server: ${e}`)
+                }
+                
             });
         } else {
             throw new Error("Roll button is null");
