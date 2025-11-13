@@ -527,6 +527,7 @@ export class GamblingGame {
         
 
         if (this.rolling == true) return;
+        this.rolling = true;
 
 
         
@@ -644,6 +645,7 @@ export class GamblingGame {
             btn.addEventListener("click", () => {
                 try {
                     this.shuffle();
+                    this.rolling = false;
                 } catch (e) {
                     console.error(e);
                     alert(`An error occured while trying to connect to the server: ${e}`)
