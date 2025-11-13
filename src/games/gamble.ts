@@ -547,7 +547,7 @@ export class GamblingGame {
             headers['Authorization'] = `Bearer ${token}`;
         }
 
-        const response = await fetch(`${API_ENDPOINT}/api/v1/fun_minigame/slot_machine_next`, {
+        const response = await fetch(`${API_ENDPOINT}/api/v1/fun_minigame/game_next`, {
             method: 'GET',
             headers: headers,
         }).then(res => {
