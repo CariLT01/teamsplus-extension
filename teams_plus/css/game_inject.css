@@ -73,6 +73,12 @@ img.digit {
     cursor: pointer;
     opacity: 0;
 }
+#gambling_login {
+    position: fixed;
+    bottom: 20%;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
 
 .window {
     position: fixed;

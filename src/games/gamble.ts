@@ -58,6 +58,7 @@ const GAMBLING_GAME_HTML = `
             </div>
         </div>
         <button id="roll">Roll</button>
+        <button id="gambling_login">Login</button>
         <img src="assets/gamble_handle.png" alt="" class="handle-img">
 
     </div>
@@ -119,6 +120,7 @@ export class GamblingGame {
         this.p_fixImages();
         this.onLoad();
         this.p_injectButton();
+        this.loginButtonRegister();
 
 
     }
@@ -190,10 +192,42 @@ export class GamblingGame {
         console.log("Injected button");
     }
 
+    
+    private loginButtonRegister() {
+        const button = this.windowElement.querySelector("#gambling_login") as HTMLButtonElement;
+        if (button) {
+            if (this.authProvider.currentToken != null) {
+                button.remove();
+                return;
+            };
+            button.addEventListener("click", async () => {
+                if (this.authProvider.currentToken != null) {
+                    button.remove();
+                    return;
+                }
+                await this.authProvider.getToken();
+                button.remove();
+            })
+        }
+
+    }
+
+    private loginButtonUpdate() {
+        const button = this.windowElement.querySelector("#gambling_login") as HTMLButtonElement;
+        if (button) {
+            if (this.authProvider.currentToken != null) {
+                button.remove();
+                return;
+            }
+        }
+    }
+
     private windowVisiblity(state: boolean): undefined {
         if (state == true) {
             this.windowElement.style.display = "block";
             this.windowElement.style.opacity = "0";
+
+            this.loginButtonUpdate();
 
             this.windowElement.animate(
                 [
