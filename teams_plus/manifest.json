@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "TeamsPlus",
   "description": "Extra features for Teams",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "content_scripts": [
     {
       "js": [
