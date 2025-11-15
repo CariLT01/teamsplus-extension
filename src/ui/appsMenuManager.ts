@@ -166,14 +166,14 @@ export class AppsMenuManager {
             }
             event.stopPropagation();
         });
-        document.addEventListener("click", (event: PointerEvent) => this.handleDocumentClick(event));
+        document.addEventListener("click", (event: MouseEvent) => this.handleDocumentClick(event));
         this.appMenuElement.addEventListener("click", (event) => {
             event.stopPropagation();
         })
 
     }
 
-    private handleDocumentClick(event: PointerEvent) {
+    private handleDocumentClick(event: MouseEvent) {
         if (this.appMenuButton.classList.contains("active") == false) return;
         // check if the click is outside the menu and the button
         if (!this.appMenuElement.contains(event.target as Node) &&

@@ -1,7 +1,5 @@
 import { injectTab } from "../ui/tabInject";
 import { p_stringToElement } from "../utils";
-
-import { text } from './bundle.txt';
 import { Game } from "./snake/game";
 
 const SNAKE_GAME_HTML = `
@@ -48,10 +46,6 @@ export class SnakeGame {
 
 
         // Inject the bundle
-
-        const newScriptElement = document.createElement("script");
-        newScriptElement.src = text;
-        document.body.appendChild(newScriptElement);
 
 
 

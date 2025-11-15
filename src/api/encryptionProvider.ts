@@ -413,7 +413,7 @@ export class EncryptionProvider {
     private messageObserver() {
         const observer = new MutationObserver((mutations) => {
             for (const mutation of mutations) {
-                for (const node of mutation.addedNodes) {
+                for (const node of mutation.addedNodes as NodeList) {
                     if (
                         node instanceof HTMLElement &&
                         node.dataset.tid === 'chat-pane-message'

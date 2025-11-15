@@ -132,5 +132,5 @@ function p_onload() {
 }
 
 /// Trigger when window finishes loading ///
-document.addEventListener("DOMContentLoaded", p_onload);
+//document.addEventListener("DOMContentLoaded", p_onload);
 

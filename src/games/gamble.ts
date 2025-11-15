@@ -128,7 +128,7 @@ export class GamblingGame {
     private async p_fixImages() {
         for (let i = 0; i < 10; i++) {
             const selector = `[data-number="${i}"]`;
-            const elements: NodeListOf<HTMLImageElement> = this.windowElement.querySelectorAll(selector);
+            const elements: NodeListOf<HTMLImageElement> = this.windowElement.querySelectorAll(selector) as NodeListOf<HTMLImageElement>;
 
             for (const element of elements) {
                 if (element instanceof HTMLImageElement) {
@@ -142,7 +142,7 @@ export class GamblingGame {
         }
         //Backgrounds
 
-        const backgrounds: NodeListOf<HTMLDivElement> = this.windowElement.querySelectorAll(".counter");
+        const backgrounds: NodeListOf<HTMLDivElement> = this.windowElement.querySelectorAll(".counter") as NodeListOf<HTMLDivElement>;
         for (const element of backgrounds) {
             const url = chrome.runtime.getURL(BgPicture);
 
