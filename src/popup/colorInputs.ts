@@ -32,8 +32,8 @@ export class ColorInputsManager {
     p_createColorInputs(el: HTMLDivElement) {
         const variableDescriptionBox: HTMLDivElement = document.querySelector("#variable-description") as HTMLDivElement;
         el.innerHTML = ""; // clear html
-        console.error(this.dataManager.currentColors);
-        for (const property in this.dataManager.currentColors) {
+        console.error(this.dataManager.currentData["colors"]);
+        for (const property in this.dataManager.currentData["colors"]) {
             const newDiv = document.createElement("div");
 
             const label = document.createElement("label");
@@ -61,7 +61,7 @@ export class ColorInputsManager {
 
             const colorBtn = document.createElement("button");
             colorBtn.classList.add("choose-color-btn");
-            colorBtn.style.background = this.dataManager.currentColors[property];
+            colorBtn.style.background = this.dataManager.currentData["colors"][property];
 
             colorBtnParent.appendChild(colorBtn);
 
@@ -76,7 +76,7 @@ export class ColorInputsManager {
             newDiv.classList.add("color-input");
 
             newDiv.appendChild(colorInput);
-            colorInput.style.backgroundColor = this.dataManager.currentColors[property];
+            colorInput.style.backgroundColor = this.dataManager.currentData["colors"][property];
             let innerColorInput = document.createElement("div");
             colorInput.appendChild(innerColorInput);
             innerColorInput.setAttribute("id", property);
@@ -89,7 +89,7 @@ export class ColorInputsManager {
                     useAsButton: true,
                     theme: 'classic',     // Choose theme (classic, monolith, or nano)
                     swatches: ['#000', '#fff', '#ff0000', '#00ff00', '#0000ff'], // Color swatches
-                    default: this.dataManager.currentColors[property],   // Default color
+                    default: this.dataManager.currentData["colors"][property],   // Default color
                     components: {
                         preview: true,       // Show color preview
                         opacity: true,       // Enable opacity slider
@@ -107,8 +107,8 @@ export class ColorInputsManager {
                 pickr.on('change', (color: any) => {
                     console.log("Changed!");
                     colorBtn.style.background = color.toHEXA().toString();
-                    this.dataManager.currentColors[property] = color.toHEXA().toString();
-                    this.dataManager.saveColors();
+                    this.dataManager.currentData["colors"][property] = color.toHEXA().toString();
+                    this.dataManager.saveAll();
 
                 })
             }, 0); // or a small delay like 50ms if necessary
@@ -129,8 +129,8 @@ export class ColorInputsManager {
     p_createClassColorInputs(el: HTMLDivElement) {
         const variableDescriptionBox: HTMLDivElement = document.querySelector("#variable-description") as HTMLDivElement;
         el.innerHTML = ""; // clear html
-        console.error(this.dataManager.currentClassesColors);
-        for (const property in this.dataManager.currentClassesColors) {
+        console.error(this.dataManager.currentData["classColors"]);
+        for (const property in this.dataManager.currentData["classColors"]) {
             const newDiv = document.createElement("div");
             const label = document.createElement("label");
 
@@ -157,7 +157,7 @@ export class ColorInputsManager {
 
             const colorBtn = document.createElement("button");
             colorBtn.classList.add("choose-color-btn");
-            colorBtn.style.background = this.dataManager.currentClassesColors[property];
+            colorBtn.style.background = this.dataManager.currentData["classColors"][property];
             colorBtnParent.appendChild(colorBtn);
 
             //console.error("Property: " + "#" + property);
@@ -169,7 +169,7 @@ export class ColorInputsManager {
 
             newDiv.appendChild(colorInput);
             newDiv.classList.add("color-input");
-            colorInput.style.backgroundColor = this.dataManager.currentClassesColors[property];
+            colorInput.style.backgroundColor = this.dataManager.currentData["classColors"][property];
             let innerColorInput = document.createElement("div");
             colorInput.appendChild(innerColorInput);
             innerColorInput.setAttribute("id", property);
@@ -181,7 +181,7 @@ export class ColorInputsManager {
                     useAsButton: true,
                     theme: 'classic',     // Choose theme (classic, monolith, or nano)
                     swatches: ['#000', '#fff', '#ff0000', '#00ff00', '#0000ff'], // Color swatches
-                    default: this.dataManager.currentClassesColors[property],   // Default color
+                    default: this.dataManager.currentData["classColors"][property],   // Default color
                     components: {
                         preview: true,
                         opacity: true,
@@ -199,8 +199,8 @@ export class ColorInputsManager {
                 pickr.on('change', (color: any) => {
                     console.log("Changed! to: ", color.toHEXA().toString());
                     colorBtn.style.background = color.toHEXA().toString();
-                    this.dataManager.currentClassesColors[property] = color.toHEXA().toString();
-                    this.dataManager.saveClassColors();
+                    this.dataManager.currentData["classColors"][property] = color.toHEXA().toString();
+                    this.dataManager.saveAll();
 
                 })
             }, 0);
@@ -217,7 +217,7 @@ export class ColorInputsManager {
 
     p_createPixelValues(el: HTMLDivElement) {
         el.innerHTML = '';
-        for (const property in this.dataManager.currentPixelValues) {
+        for (const property in this.dataManager.currentData["pixelValues"]) {
             const newDiv = document.createElement("div");
             const labelElement = document.createElement("label");
             labelElement.textContent = formatString(property);
@@ -228,13 +228,13 @@ export class ColorInputsManager {
 
             const inputElement = document.createElement("input");
             inputElement.setAttribute("id", property);
-            inputElement.value = this.dataManager.currentPixelValues[property];
+            inputElement.value = this.dataManager.currentData["pixelValues"][property];
 
             inputElement.addEventListener("input", () => {
                 console.log("CHange detected!");
 
-                this.dataManager.currentPixelValues[property] = inputElement.value;
-                this.dataManager.savePixelValues();
+                this.dataManager.currentData["pixelValues"][property] = inputElement.value;
+                this.dataManager.saveAll();
             })
 
             newDiv.appendChild(inputElement);
@@ -245,7 +245,7 @@ export class ColorInputsManager {
 
     p_createBackgroundsInputs(el: HTMLDivElement) {
         el.innerHTML = '';
-        for (const property in this.dataManager.currentBackgrounds) {
+        for (const property in this.dataManager.currentData["backgrounds"]) {
             const newDiv = document.createElement("div");
             const labelElement = document.createElement("label");
             labelElement.textContent = formatString(property);
@@ -256,14 +256,14 @@ export class ColorInputsManager {
 
             const inputElement = document.createElement("input");
             inputElement.setAttribute("id", property);
-            inputElement.value = this.dataManager.currentBackgrounds[property];
+            inputElement.value = this.dataManager.currentData["backgrounds"][property];
             inputElement.placeholder = "No background";
 
             inputElement.addEventListener("input", () => {
                 console.log("CHange detected! Set: ", property, "to: ", inputElement.value);
 
-                this.dataManager.currentBackgrounds[property] = inputElement.value;
-                this.dataManager.saveBackgrounds();
+                this.dataManager.currentData["backgrounds"][property] = inputElement.value;
+                this.dataManager.saveAll();
             })
 
             newDiv.appendChild(inputElement);

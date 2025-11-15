@@ -13,7 +13,7 @@
         "unicode-emoji-json": "^0.8.0"
     },
     "name": "teams-plus",
-    "version": "0.12.0",
+    "version": "0.12.1",
     "main": "src/main.ts",
     "devDependencies": {
         "@babel/core": "^7.26.10",

@@ -50,7 +50,7 @@ export class ButtonHandlers {
             return;
         }
     
-        importvarcolorsBtn.addEventListener("click", async () => {
+        /*importvarcolorsBtn.addEventListener("click", async () => {
             try {
                 const a = await p_importWaitForPaste();
                 if (a == null) {
@@ -154,7 +154,7 @@ export class ButtonHandlers {
             } catch {
                 alert("Failed to process data");
             }
-        })
+        })*/
     }
 
     p_exportHandlers() {
@@ -171,23 +171,23 @@ export class ButtonHandlers {
         }
     
         copyvarcolorsBtn.addEventListener("click", async () => {
-            await navigator.clipboard.writeText(await p_compressToBase64(JSON.stringify(this.dataManager.u_onlyExportChanged(this.dataManager.currentColors, DEFAULT_COLORS))));
-            alert("Copied to clipboard");
+            //await navigator.clipboard.writeText(await p_compressToBase64(JSON.stringify(this.dataManager.u_onlyExportChanged(this.dataManager.currentColors, DEFAULT_COLORS))));
+            //alert("Copied to clipboard");
         });
     
         copyclasscolorsBtn.addEventListener("click", async () => {
-            await navigator.clipboard.writeText(await p_compressToBase64(JSON.stringify(this.dataManager.u_onlyExportChanged(this.dataManager.currentClassesColors, CLASS_COLORS))));
-            alert("Copied to clipboard");
+            //await navigator.clipboard.writeText(await p_compressToBase64(JSON.stringify(this.dataManager.u_onlyExportChanged(this.dataManager.currentClassesColors, CLASS_COLORS))));
+            //alert("Copied to clipboard");
         });
     
         copyfontsBtn.addEventListener("click", async () => {
-            await navigator.clipboard.writeText(await p_compressToBase64(JSON.stringify(this.dataManager.currentFonts)));
-            alert("Copied to clipboard");
+            //await navigator.clipboard.writeText(await p_compressToBase64(JSON.stringify(this.dataManager.currentFonts)));
+            //alert("Copied to clipboard");
         });
     
         copypixelvaluesBtn.addEventListener("click", async () => {
-            await navigator.clipboard.writeText(await p_compressToBase64(JSON.stringify(this.dataManager.u_onlyExportChanged(this.dataManager.currentPixelValues, DEFAULT_PIXEL_VALUES))));
-            alert("Copied to clipboard");
+            //await navigator.clipboard.writeText(await p_compressToBase64(JSON.stringify(this.dataManager.u_onlyExportChanged(this.dataManager.currentPixelValues, DEFAULT_PIXEL_VALUES))));
+            //alert("Copied to clipboard");
         })
         exportTheme?.addEventListener("click", async () => {
             const themeName = prompt("Enter theme name:");
