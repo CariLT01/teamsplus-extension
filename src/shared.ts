@@ -487,6 +487,10 @@ const aDEFAULT_BACKGROUNDS: {[key: string]: string} = {
     "interfaceOpacity": "0.1"
 }
 
+const aDEFAULT_EMOJIS: {[key: string]: string} = {
+    "set": "default"
+}
+
 ////////// EXPORTS //////////
 export const DEFAULT_COLORS = DefaultColors;
 export const DEFAULT_PIXEL_VALUES = aDEFAULT_PIXEL_VALUES;
@@ -495,3 +499,4 @@ export const CLASS_COLORS = aCLASS_COLORS;
 export const GROUP_DESCRIPTIONS = aGROUP_DESCRIPTIONS;
 export const CLASS_PROPERTIES = aCLASS_PROPERTIES;
 export const DEFAULT_BACKGROUNDS = aDEFAULT_BACKGROUNDS;
+export const DEFAULT_EMOJIS = aDEFAULT_EMOJIS;

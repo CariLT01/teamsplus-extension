@@ -37,35 +37,36 @@ async function loadAdvanced() {
 
     // Fonts input
     const fontsInput = document.createElement("input");
-    await dataManager.loadFonts();
-    fontsInput.value = dataManager.currentFonts["fontFamily"];
+
+    fontsInput.value = dataManager.currentData["fonts"]["fontFamily"];
     fontsInput.addEventListener("input", () => {
         console.log("Font changed");
-        dataManager.currentFonts["fontFamily"] = fontsInput.value;
-        dataManager.saveFonts();
+        dataManager.currentData["fonts"]["fontFamily"] = fontsInput.value;
+        dataManager.saveAll();
     })
     fontsContainer1.appendChild(fontsInput);
-    console.error(dataManager.currentFonts);
+    //console.error(dataManager.currentData["fonts"]);
 
 
     // Font imports //
     const importsInput = document.createElement("textarea");
     importsInput.setAttribute("rows", "5");
     importsInput.setAttribute("placeholder", "Additional custom imports");
-    importsInput.value = dataManager.currentFonts["imports"];
+    importsInput.value = dataManager.currentData["fonts"]["imports"];
     importsInput.addEventListener("input", () => {
         console.log("Imports changed!");
-        dataManager.currentFonts["imports"] = importsInput.value;
-        dataManager.saveFonts();
+        dataManager.currentData["fonts"]["imports"] = importsInput.value;
+        dataManager.saveAll();
     })
     fontsContainer2.appendChild(importsInput);
     // Twemoji support //
     const i = document.querySelector("#twemojiSupport") as HTMLInputElement;
     if (i) {
-        i.checked = await dataManager.isTwemojiEnabled();
+        i.checked = dataManager.currentData["emojis"]["set"] == "twemoji"
         i.addEventListener("input", function () {
             console.log("Save Twemoji state");
-            chrome.storage.local.set({ "twemoji": i.checked });
+            dataManager.currentData["emojis"]["set"] = i.checked ? "twemoji" : "default";
+            dataManager.saveAll();
         })
     }
 
@@ -101,10 +102,7 @@ async function p_postLoad() {
     document.querySelector("#deldata")?.addEventListener("click", function () {
         const a = prompt("enter y/n");
         if (a == 'y') {
-            chrome.storage.local.remove("colors");
-            chrome.storage.local.remove("fonts");
-            chrome.storage.local.remove("classColors");
-            chrome.storage.local.remove("pixelValues");
+            chrome.storage.local.remove("themeData");
             alert("deleted data");
         } else {
             alert("data not deleted");

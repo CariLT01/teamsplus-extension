@@ -60,7 +60,7 @@ export class TwemojiRuntime {
 
     async applyTwemoji() {
         this.p_dataManagerExists();
-        const twemojiEnabled = await this.dataManager.isTwemojiEnabled();
+        const twemojiEnabled = await this.dataManager.currentData.emojis["set"] == "twemoji";
         if (twemojiEnabled == false) {
             console.error("Twemoji is not enabled.Skipping Twemoji");
             return;

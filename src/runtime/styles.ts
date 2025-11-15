@@ -36,7 +36,7 @@ export class RuntimeStyles {
         if (this.dataManager == null) {
             throw new Error("No data manager");
         };
-        const backgroundStyle: string = this.dataManager.currentBackgrounds["channelAndChatBackground"];
+        const backgroundStyle: string = this.dataManager.currentData["backgrounds"]["channelAndChatBackground"];
         if (backgroundStyle == null) {
             throw new Error("Data style failed to find");
         };
@@ -78,21 +78,21 @@ export class RuntimeStyles {
         const elementColor: {r: number, g: number, b: number, a: number} | null = this.p_getBackgroundRGBA(el);
         if (elementColor == null) return;
 
-        const elementTransparency = Math.min(elementColor.a, parseFloat(this.dataManager.currentBackgrounds["interfaceOpacity"]));
+        const elementTransparency = Math.min(elementColor.a, parseFloat(this.dataManager.currentData["backgrounds"]["interfaceOpacity"]));
         if (el.style.backgroundColor != "") {
             el.style.backgroundColor = "";
             console.log("Removing bg");
         }
         el.style.backgroundColor = `rgba(${elementColor.r}, ${elementColor.g}, ${elementColor.b}, ${elementTransparency})`;
         if (elementTransparency > 0) {
-            el.style.backdropFilter = this.dataManager.currentBackgrounds["backdropFilter"];
+            el.style.backdropFilter = this.dataManager.currentData["backgrounds"]["backdropFilter"];
         }
         
     }
 
     private p_applyFullBackground() {
         if (this.dataManager == null) return;
-        const backgroundStyle: string = this.dataManager.currentBackgrounds["channelAndChatBackground"];
+        const backgroundStyle: string = this.dataManager.currentData["backgrounds"]["channelAndChatBackground"];
         if (backgroundStyle == null) {
             throw new Error("Data style failed to find");
         };
@@ -212,20 +212,20 @@ export class RuntimeStyles {
         this.styleElement.type = "text/css";
 
         let cssContent = "";
-        for (const property in this.dataManager.currentColors) {
+        for (const property in this.dataManager.currentData["colors"]) {
             console.log("co: applying ", property);
-            cssContent += `${property}: ${this.dataManager.currentColors[property]} !important;\n`;
+            cssContent += `${property}: ${this.dataManager.currentData["colors"][property]} !important;\n`;
         }
 
-        for (const property in this.dataManager.currentPixelValues) {
+        for (const property in this.dataManager.currentData["pixelValues"]) {
             console.log("px: applying ", property);
-            cssContent += `${property}: ${this.dataManager.currentPixelValues[property]} !important; \n`;
+            cssContent += `${property}: ${this.dataManager.currentData["pixelValues"][property]} !important; \n`;
         }
 
         let classCSSContent = "";
-        for (const property in this.dataManager.currentClassesColors) {
+        for (const property in this.dataManager.currentData["classColors"]) {
             const propertyName = CLASS_PROPERTIES[property];
-            classCSSContent += `.${property}{${propertyName}: ${this.dataManager.currentClassesColors[property]} !important;}\n`;
+            classCSSContent += `.${property}{${propertyName}: ${this.dataManager.currentData["classColors"][property]} !important;}\n`;
         }
 
         // Inject the CSS content into the <style> element
@@ -242,7 +242,7 @@ export class RuntimeStyles {
         if (this.dataManager == null) return;
         this.p_applyFullBackground();
 
-        const isFullBackgroundExperienceEnabled = this.dataManager.currentBackgrounds["fullBackgroundExperience"] === "true";
+        const isFullBackgroundExperienceEnabled = this.dataManager.currentData["backgrounds"]["fullBackgroundExperience"] === "true";
 
 
         if (this.observer == null && isFullBackgroundExperienceEnabled == false) {
@@ -270,14 +270,14 @@ export class RuntimeStyles {
         this.emojithis.type = "text/css";
 
         this.p_emojiThisExists();
-        if (this.dataManager.currentFonts == null) {
+        if (this.dataManager.currentData["fonts"] == null) {
             return;
         }
         this.emojithis = document.createElement("style");
         this.emojithis.type = "text/css";
 
-        let cssContent = `--fontFamilyBase: ${this.dataManager.currentFonts["fontFamily"]} !important;}`
-        let additionalImports = this.dataManager.currentFonts["imports"];
+        let cssContent = `--fontFamilyBase: ${this.dataManager.currentData["fonts"]["fontFamily"]} !important;}`
+        let additionalImports = this.dataManager.currentData["fonts"]["imports"];
 
 
 

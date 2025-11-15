@@ -1,118 +1,156 @@
-import { DEFAULT_PIXEL_VALUES, DEFAULT_COLORS, CLASS_COLORS, DEFAULT_FONTS, DEFAULT_BACKGROUNDS } from "./shared";
+import { DEFAULT_PIXEL_VALUES, DEFAULT_COLORS, CLASS_COLORS, DEFAULT_FONTS, DEFAULT_BACKGROUNDS, DEFAULT_EMOJIS } from "./shared";
 import { DEFAULT_THEMES } from "./contribution/defaultThemes";
 
-async function p_basicDataLoad(key: string): Promise<{[key: string]: string} | undefined> {
+async function p_basicDataLoad(key: string): Promise<ThemeData | undefined> {
     const result = (await chrome.storage.local.get([key]))[key];
     if (result == null) {
-        console.log("Nothing with basi ckey loaded")
+        console.log("Nothing with basic key loaded: ", key);
         return;
     }
     console.log("loaded key");
     return result;
 }
 
-function p_basicDataRepair(data: {[key: string]: string}, defaults: {[key: string]: string}): {[key: string]: string} {
+async function p_basicDataLoad2(key: string): Promise<{ [key: string]: string } | undefined> {
+    const result = (await chrome.storage.local.get([key]))[key];
+    if (result == null) {
+        console.log("Nothing with basic key loaded: ", key);
+        return;
+    }
+    console.log("loaded key");
+    return result;
+}
+
+function p_basicDataRepair(data: { [key: string]: string } | undefined, defaults: { [key: string]: string }): { [key: string]: string } {
     //console.log(data);
     //console.log(defaults);
-    for (const property in defaults) {
-        if (property in data == false) {
-            console.log(`Missing property ${property}. Setting to default.`);
-            data[property] = defaults[property];
-        }
+
+    if (data == undefined) {
+        console.warn("Data is undefined. Returning defaults");
+        return defaults;
     }
-    for (const property in data) {
-        if (property in defaults == false) {
-            console.log(`Additional property ${property}. Removing`);
-            delete data[property];
+    if (data == null) {
+        console.warn("Data is undefined. Returning defaults");
+        return defaults;
+    }
+
+    data = JSON.parse(JSON.stringify(data));
+
+
+    if (data == undefined) {
+        console.warn("Data is undefined. Returning defaults");
+        return defaults;
+    }
+    if (data == null) {
+        console.warn("Data is undefined. Returning defaults");
+        return defaults;
+    }
+    console.log("List: ", data);
+    console.log("Defaults: ", defaults);
+
+    const result = {...defaults};
+
+    for (const property in defaults) {
+        if (data[property] !== undefined) {
+            result[property] = data[property];
+        } else {
+            //console.log(`Property "${property}" missing/undefined, using default`, data[property], " where property is: ", property, " and data is: ", data);
+            console.log("Property ", property, " is missing");
         }
     }
 
-    return data;
+    return result;
 }
 
 ///////// Functions for storing / loading fonts ////////
 
+export type ThemeKeys = "colors" | "classColors" | "fonts" | "pixelValues" | "backgrounds" | "emojis";
+export const ThemeKeysList = ["colors", "classColors", "fonts", "pixelValues", "backgrounds", "emojis"];
+
+export type ThemeData = { [K in ThemeKeys]: { [key: string]: string } };
+
+export type ThemeDataDefaults = { [K in ThemeKeys]: { [key: string]: string } }
+
+const DEFAULT_DATA: ThemeDataDefaults = {
+    colors: DEFAULT_COLORS,
+    classColors: CLASS_COLORS,
+    fonts: DEFAULT_FONTS,
+    pixelValues: DEFAULT_PIXEL_VALUES,
+    backgrounds: DEFAULT_BACKGROUNDS,
+    emojis: DEFAULT_EMOJIS
+}
+
 export class DataManager {
-    currentColors = DEFAULT_COLORS;
-    currentClassesColors: { [key: string]: string } = CLASS_COLORS;
-    currentFonts: { fontFamily: string, imports: string } = DEFAULT_FONTS;
-    currentPixelValues: { [key: string]: string } = DEFAULT_PIXEL_VALUES;
-    currentThemes: {[key: string]: string} = DEFAULT_THEMES;
-    currentBackgrounds: {[key: string]: string} = DEFAULT_BACKGROUNDS;
-    
+    currentData: ThemeData = DEFAULT_DATA;
+    currentThemes: { [key: string]: string } = DEFAULT_THEMES;
+
+
     constructor() {
         console.log("Created new DataManager instance");
     }
 
     async loadAll(): Promise<void> {
-        await this.loadColors();
-        await this.loadClassColors();
-        await this.loadFonts();
-        await this.loadPixelValues();
-        await this.loadBackgrounds();
+        await this.loadData();
     }
 
-    async loadColors(): Promise<{[key: string]: string} | undefined> {
-        const data = await p_basicDataLoad("colors");
-        if (data) {
-            const repairedData = p_basicDataRepair(data, DEFAULT_COLORS);
-            this.currentColors = repairedData;
-            return repairedData;
+    async loadData(): Promise<ThemeData> {
+
+        const data = await p_basicDataLoad("themeData");
+        if (data == null) {
+            console.warn("No data found, returning default data");
+            return DEFAULT_DATA;
         }
 
+        console.log(data);
+
+        const repairedData: ThemeData = {
+            colors: p_basicDataRepair(data["colors"], DEFAULT_COLORS),
+            classColors: p_basicDataRepair(data["classColors"], CLASS_COLORS),
+            fonts: p_basicDataRepair(data["fonts"], DEFAULT_FONTS),
+            pixelValues: p_basicDataRepair(data["pixelValues"], DEFAULT_PIXEL_VALUES),
+            backgrounds: p_basicDataRepair(data["backgrounds"], DEFAULT_BACKGROUNDS),
+            emojis: p_basicDataRepair(data["emojis"], DEFAULT_EMOJIS)
+        }
+
+        this.currentData = repairedData;
+
+        return repairedData;
     }
 
-    async loadClassColors(): Promise<{[key: string]: string} | undefined> {
-        const data = await p_basicDataLoad("classColors");
-        if (data) {
-            const repairedData = p_basicDataRepair(data, CLASS_COLORS);
-            this.currentClassesColors = repairedData;
-            return repairedData;
-        }
-    }
-    async loadFonts(): Promise<{fontFamily: string, imports: string}  | undefined> {
-        const data = await p_basicDataLoad("fonts") ;
-        if (data) {
-            this.currentFonts = data as {fontFamily: string, imports: string};
-            return data as {fontFamily: string, imports: string};
-        }
-    }
-    async loadPixelValues(): Promise<{[key: string]: string} | undefined> {
-        const data = await p_basicDataLoad("pixelValues");
-        if (data) {
-            const repairedData = p_basicDataRepair(data, DEFAULT_PIXEL_VALUES);
-            this.currentPixelValues = repairedData;
-            return repairedData;
-        }
-    }
     async loadThemes() {
-        const data = await p_basicDataLoad("themes");
+        const data = await p_basicDataLoad2("themes");
         if (data != null) {
             console.log("themes loaded: ", data);
             this.currentThemes = data;
             this.saveThemes();
             return data;
         }
-    
+
         console.error("No themes loaded: ", data);
         return;
     }
-    async isTwemojiEnabled() {
-        return (await chrome.storage.local.get(["twemoji"])).twemoji == true;
+
+    exportThemeData() {
+
+        let newList: { [key: string]: { [key: string]: string } } = {};
+
+        for (const propertyName of Object.keys(this.currentData)) {
+            const propertyNameTyped: ThemeKeys = propertyName as ThemeKeys;
+            const dataCurrent = this.currentData[propertyNameTyped];
+            const dataDefault = DEFAULT_DATA[propertyNameTyped];
+
+            newList[propertyName] = this.u_onlyExportChanged(dataCurrent, dataDefault);
+
+
+
+        }
+
+        return newList as ThemeData;
     }
 
-    async loadBackgrounds() {
-        const data = await p_basicDataLoad("backgrounds");
-        if (data != null) {
-            const repairedData = p_basicDataRepair(data, DEFAULT_BACKGROUNDS);
-            
-            this.currentBackgrounds = repairedData;
-            return repairedData;
-        }
-    }
-    
-    u_onlyExportChanged(currentData: {[key: string]: string}, defaultData: {[key: string]: string}) {
-        let outputData: {[key: string]: string} = {};
+
+    u_onlyExportChanged(currentData: { [key: string]: string }, defaultData: { [key: string]: string }) {
+        let outputData: { [key: string]: string } = {};
 
         let numberChanged = 0;
 
@@ -128,42 +166,21 @@ export class DataManager {
         }
 
         console.log("Exporting ", numberChanged, " attributes")
-    
+
         return outputData;
     }
 
     saveThemes() {
         console.log("Save themes: ", this.currentThemes);
-        chrome.storage.local.set({"themes": this.currentThemes});
+        chrome.storage.local.set({ "themes": this.currentThemes });
     }
 
-    saveColors() {
-        chrome.storage.local.set({"colors": this.currentColors});
-    } 
-    
-    saveFonts() {
-        chrome.storage.local.set({"fonts": this.currentFonts});
-    } 
-
-    savePixelValues() {
-        chrome.storage.local.set({"pixelValues": this.currentPixelValues});
+    saveData() {
+        console.log("Save: ", this.currentData);
+        chrome.storage.local.set({ "themeData": this.currentData });
     }
-
-    saveClassColors() {
-        console.log("Save: ", this.currentClassesColors);
-        chrome.storage.local.set({"classColors": this.currentClassesColors});
-    } 
-    saveBackgrounds() {
-        console.log("Save: ", this.currentBackgrounds);
-        chrome.storage.local.set({"backgrounds": this.currentBackgrounds});
-    }
-
     saveAll() {
-        this.saveColors();
-        this.saveClassColors();
-        this.savePixelValues();
-        this.saveFonts();
-        this.saveBackgrounds();
+        this.saveData();
     }
 
 }

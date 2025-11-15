@@ -62,11 +62,7 @@ async function onWindowLoad() {
     }
     
     console.log("window found main");
-    await dataManager.loadColors();
-    await dataManager.loadClassColors();
-    await dataManager.loadFonts();
-    await dataManager.loadPixelValues();
-    await dataManager.loadBackgrounds();
+    await dataManager.loadAll();
     stylesRuntime.applyFonts(null);
     console.log("Apply colors on win load");
     realtimeUpdatesRuntime.detectChange();
