@@ -1,6 +1,7 @@
 import { dataManagementService } from "../../../services/DataManagementService";
 import { useCurrentDataStore } from "../../../store/CurrentDataStore";
 import { useNavigationStore } from "../../../store/NavigationStore"
+import { Seperator } from "../../Seperator";
 import { ColorEntry } from "./ColorEntry";
 
 export function ColorsEditorPage() {
@@ -21,9 +22,11 @@ export function ColorsEditorPage() {
     }
 
     return <div className="w-full flex flex-col">
+        <Seperator>Fluent UI Colors</Seperator>
         {Object.entries(data.colors).map(([colorName, value]) => {
             return <ColorEntry name={colorName} value={value} key={colorName} onBlur={onBlurColorsHandler}></ColorEntry>
         })}
+        <Seperator>Teams Specific</Seperator>
         {Object.entries(data.classColors).map(([colorName, value]) => {
             return <ColorEntry name={colorName} value={value} key={colorName} onBlur={onBlurClassColorsHandler}></ColorEntry>
         })}

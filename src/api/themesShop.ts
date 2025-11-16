@@ -307,7 +307,7 @@ export class ThemesShopHandler {
                     const baseName = parsed.name;
                     let newName = baseName;
 
-                    while (this.themeProvider.currentThemes[newName]) {
+                    while (this.themeProvider.dataManager.currentThemes[newName]) {
                         newName = `${baseName} (${counter})`;
                         counter++;
                     }

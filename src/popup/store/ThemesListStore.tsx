@@ -12,3 +12,7 @@ export const useThemesListStore = create<ThemesListStore>((set) => ({
         set({themes: themes})
     }
 }))
+
+dataManagementService.onChangeThemes(() => {
+    useThemesListStore.setState({themes: { ...dataManagementService.getThemes() }});
+})

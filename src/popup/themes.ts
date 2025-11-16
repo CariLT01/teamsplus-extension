@@ -28,7 +28,6 @@ const THEME_CARD_HTML = `
 
 
 export class ThemeManager {
-    currentThemes: { [key: string]: string } = DEFAULT_THEMES;
     dataManager: InstanceType<typeof DataManager>;
 
     constructor(dataManager: InstanceType<typeof DataManager>) {
@@ -46,12 +45,9 @@ export class ThemeManager {
     }
 
     private p_syncDataManager() {
-        this.p_dataManagerExists();
-        this.dataManager.currentThemes = this.currentThemes;
     }
     p_syncInstanceWithDataManager() {
-        this.p_dataManagerExists();
-        this.currentThemes = this.dataManager.currentThemes;
+
     }
     private p_dataManagerExists(): asserts this is { dataManager: DataManager } {
         if (this.dataManager == null) {
@@ -184,7 +180,7 @@ export class ThemeManager {
         this.p_syncInstanceWithDataManager();
         this.p_dataManagerExists();
         console.log("Adding theme ", themeName, " to current themes");
-        this.currentThemes[themeName] = themeData_JSON;
+        this.dataManager.currentThemes[themeName] = themeData_JSON;
         this.p_syncDataManager();
         this.dataManager.saveThemes();
         this.dataManager.loadThemes();
@@ -211,8 +207,8 @@ export class ThemeManager {
     async applyTheme(themeName: string) {
         this.p_dataManagerExists();
 
-        console.log(this.currentThemes);
-        const themeDataUnparsed: string = this.currentThemes[themeName];
+        console.log(this.dataManager.currentThemes);
+        const themeDataUnparsed: string = this.dataManager.currentThemes[themeName];
         console.log(themeDataUnparsed);
 
         let themeDataParsed = this.p_isThemeValid(themeDataUnparsed);
@@ -297,7 +293,7 @@ export class ThemeManager {
                     return;
                 }
                 await this.dataManager.loadThemes();
-                this.currentThemes = this.dataManager.currentThemes;
+                this.dataManager.currentThemes = this.dataManager.currentThemes;
                 await this.applyTheme(themeName);
                 alert("Successfully applied theme. Please close and reopen the popup to see changes in the advanced tab.");
             });

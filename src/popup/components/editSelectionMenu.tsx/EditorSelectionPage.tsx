@@ -1,7 +1,9 @@
 import { useNavigationStore } from "../../store/NavigationStore";
 import { TransparentButton } from "../TransparentButton";
+import { BackgroundsEditorPage } from "./backgroundsEditor/BackgroundsEditor";
 import { ColorsEditorPage } from "./colorsEditor/ColorsEditorPage";
 import { DesignEditorPage } from "./designEditor/DesignEditorPage";
+import { EmojisSetEditorPage } from "./emojisSetEditor/EmojisSetEditor";
 import { FontsEditorPage } from "./fontsEditor/FontsEditorPage";
 import { SettingsTypeMenu } from "./settingsTypeMenu/SettingsTypeMenu";
 
@@ -52,6 +54,8 @@ export function EditorSelectionPage() {
                 <ColorsEditorPage></ColorsEditorPage>
                 <DesignEditorPage></DesignEditorPage>
                 <FontsEditorPage></FontsEditorPage>
+                <BackgroundsEditorPage></BackgroundsEditorPage>
+                <EmojisSetEditorPage></EmojisSetEditorPage>
             </div>
         </div>
     );

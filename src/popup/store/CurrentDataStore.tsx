@@ -15,5 +15,5 @@ export const useCurrentDataStore = create<CurrentDataStore>((set) => ({
 }))
 
 dataManagementService.onChange(() => {
-    useCurrentDataStore.setState({currentData: dataManagementService.getData()})
+    useCurrentDataStore.setState({currentData: {...dataManagementService.getData()}})
 });

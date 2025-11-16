@@ -18,6 +18,9 @@ export function Header() {
           </svg>
         }
         isSecondary={true}
+        onClick={() => {
+            window.open(chrome.runtime.getURL("/docs/index.html"));
+        }}
       >
         Read the docs
       </Button>

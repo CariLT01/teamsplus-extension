@@ -1987,7 +1987,7 @@ class ThemesShopHandler {
                     let counter = 1;
                     const baseName = parsed.name;
                     let newName = baseName;
-                    while (this.themeProvider.currentThemes[newName]) {
+                    while (this.themeProvider.dataManager.currentThemes[newName]) {
                         newName = `${baseName} (${counter})`;
                         counter++;
                     }
@@ -4385,12 +4385,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   ThemeManager: () => (/* binding */ ThemeManager)
 /* harmony export */ });
-/* harmony import */ var _contribution_defaultThemes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../contribution/defaultThemes */ "./src/contribution/defaultThemes.ts");
-/* harmony import */ var _shared__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../shared */ "./src/shared.ts");
-/* harmony import */ var _dataManagement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../dataManagement */ "./src/dataManagement.ts");
-/* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ui */ "./src/popup/ui.ts");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils */ "./src/utils.ts");
-
+/* harmony import */ var _shared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../shared */ "./src/shared.ts");
+/* harmony import */ var _dataManagement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../dataManagement */ "./src/dataManagement.ts");
+/* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ui */ "./src/popup/ui.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./src/utils.ts");
 
 
 
@@ -4414,7 +4412,6 @@ const THEME_CARD_HTML = `
                 </div>
 `;
 class ThemeManager {
-    currentThemes = _contribution_defaultThemes__WEBPACK_IMPORTED_MODULE_0__.DEFAULT_THEMES;
     dataManager;
     constructor(dataManager) {
         this.dataManager = dataManager;
@@ -4426,12 +4423,8 @@ class ThemeManager {
             Object.values(obj).every(val => typeof val === "string"));
     }
     p_syncDataManager() {
-        this.p_dataManagerExists();
-        this.dataManager.currentThemes = this.currentThemes;
     }
     p_syncInstanceWithDataManager() {
-        this.p_dataManagerExists();
-        this.currentThemes = this.dataManager.currentThemes;
     }
     p_dataManagerExists() {
         if (this.dataManager == null) {
@@ -4456,28 +4449,28 @@ class ThemeManager {
         // Fix theme if needed
         if (themeDataParsed["data"]["classColors"] == null) {
             console.error("Field not found. Override with default.");
-            data.classColors = _shared__WEBPACK_IMPORTED_MODULE_1__.CLASS_COLORS;
+            data.classColors = _shared__WEBPACK_IMPORTED_MODULE_0__.CLASS_COLORS;
         }
         if (themeDataParsed["data"]["varColors"] == null) {
             console.error("Field not found. Override with default.");
-            data.colors = _shared__WEBPACK_IMPORTED_MODULE_1__.DEFAULT_COLORS;
+            data.colors = _shared__WEBPACK_IMPORTED_MODULE_0__.DEFAULT_COLORS;
         }
         if (themeDataParsed["data"]["fonts"] == null) {
             console.error("Field not found. Override with default.");
-            data.fonts = _shared__WEBPACK_IMPORTED_MODULE_1__.DEFAULT_FONTS;
+            data.fonts = _shared__WEBPACK_IMPORTED_MODULE_0__.DEFAULT_FONTS;
         }
         if (themeDataParsed["data"]["otherSettings"] == null) {
             console.error("Field not found. Override with default.");
-            data.pixelValues = _shared__WEBPACK_IMPORTED_MODULE_1__.DEFAULT_PIXEL_VALUES;
+            data.pixelValues = _shared__WEBPACK_IMPORTED_MODULE_0__.DEFAULT_PIXEL_VALUES;
         }
         if (themeDataParsed["data"]["twemojiSupport"] == null) {
             console.error("Field not found. Override with default.");
-            data.emojis = _shared__WEBPACK_IMPORTED_MODULE_1__.DEFAULT_EMOJIS;
+            data.emojis = _shared__WEBPACK_IMPORTED_MODULE_0__.DEFAULT_EMOJIS;
         }
         ;
         if (themeDataParsed["data"]["backgrounds"] == null) {
             console.error("Backgrounds field not found. Overriding with default.");
-            data.backgrounds = _shared__WEBPACK_IMPORTED_MODULE_1__.DEFAULT_BACKGROUNDS;
+            data.backgrounds = _shared__WEBPACK_IMPORTED_MODULE_0__.DEFAULT_BACKGROUNDS;
         }
         console.log(data);
         return {
@@ -4499,7 +4492,7 @@ class ThemeManager {
         }
         // Fix theme if needed
         for (const key of Object.keys(themeDataParsed["data"])) {
-            if (_dataManagement__WEBPACK_IMPORTED_MODULE_2__.ThemeKeysList.includes(key) == false) {
+            if (_dataManagement__WEBPACK_IMPORTED_MODULE_1__.ThemeKeysList.includes(key) == false) {
                 console.error("Error: invalid theme. Contains unrecognized theme.");
                 return;
             }
@@ -4508,7 +4501,7 @@ class ThemeManager {
                 return;
             }
         }
-        for (const key of _dataManagement__WEBPACK_IMPORTED_MODULE_2__.ThemeKeysList) {
+        for (const key of _dataManagement__WEBPACK_IMPORTED_MODULE_1__.ThemeKeysList) {
             if (themeDataParsed["data"][key] == null) {
                 console.warn("Fixing missing key: ", key);
                 themeDataParsed["data"][key] = {};
@@ -4522,7 +4515,7 @@ class ThemeManager {
         this.p_syncInstanceWithDataManager();
         this.p_dataManagerExists();
         console.log("Adding theme ", themeName, " to current themes");
-        this.currentThemes[themeName] = themeData_JSON;
+        this.dataManager.currentThemes[themeName] = themeData_JSON;
         this.p_syncDataManager();
         this.dataManager.saveThemes();
         this.dataManager.loadThemes();
@@ -4542,8 +4535,8 @@ class ThemeManager {
     }
     async applyTheme(themeName) {
         this.p_dataManagerExists();
-        console.log(this.currentThemes);
-        const themeDataUnparsed = this.currentThemes[themeName];
+        console.log(this.dataManager.currentThemes);
+        const themeDataUnparsed = this.dataManager.currentThemes[themeName];
         console.log(themeDataUnparsed);
         let themeDataParsed = this.p_isThemeValid(themeDataUnparsed);
         if (themeDataParsed == null) {
@@ -4585,7 +4578,7 @@ class ThemeManager {
         await this.dataManager.loadThemes();
         for (const themeName in this.dataManager.currentThemes) {
             // Create new element thing
-            const a = (0,_utils__WEBPACK_IMPORTED_MODULE_4__.p_stringToElement)(THEME_CARD_HTML);
+            const a = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.p_stringToElement)(THEME_CARD_HTML);
             const themeNameH3 = a.querySelector(".theme-title");
             const applyButton = a.querySelector("#apply-btn");
             const exportButton = a.querySelector("#export-theme");
@@ -4599,18 +4592,18 @@ class ThemeManager {
             // Button functions
             /*Applies the theme*/
             applyButton.addEventListener("click", async () => {
-                if ((0,_ui__WEBPACK_IMPORTED_MODULE_3__.confirmation)() == false) {
+                if ((0,_ui__WEBPACK_IMPORTED_MODULE_2__.confirmation)() == false) {
                     alert("User has not confirmed");
                     return;
                 }
                 await this.dataManager.loadThemes();
-                this.currentThemes = this.dataManager.currentThemes;
+                this.dataManager.currentThemes = this.dataManager.currentThemes;
                 await this.applyTheme(themeName);
                 alert("Successfully applied theme. Please close and reopen the popup to see changes in the advanced tab.");
             });
             /*Deletes the theme*/
             deleteButton.addEventListener("click", async () => {
-                if ((0,_ui__WEBPACK_IMPORTED_MODULE_3__.confirmation)() == false) {
+                if ((0,_ui__WEBPACK_IMPORTED_MODULE_2__.confirmation)() == false) {
                     alert("User has not confirmed");
                     return;
                 }

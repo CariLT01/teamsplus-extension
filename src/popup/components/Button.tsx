@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { ReactNode } from "react";
+import { forwardRef, ReactNode } from "react";
 
 interface Props {
     icon: ReactNode;
@@ -9,7 +9,7 @@ interface Props {
     onClick?: () => void;
 }
 
-export function Button(props: Props) {
+export const Button = forwardRef<HTMLButtonElement, Props>( function Button(props: Props, ref) {
 
     const buttonClasses = clsx(
         props.smaller ? 'py-1 px-2' : 'py-2 px-[1.8rem]',
@@ -26,7 +26,7 @@ export function Button(props: Props) {
         props.isSecondary ? 'text-black' : 'text-white'
     )
 
-    return <button onClick={props.onClick} className={buttonClasses}>
+    return <button onClick={props.onClick} className={buttonClasses} ref={ref}>
         {props.icon ? <div>
             {props.icon}
         </div> : null}
@@ -34,4 +34,4 @@ export function Button(props: Props) {
             {props.children}
         </div> : null}
     </button>
-}
+})
