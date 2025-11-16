@@ -91,6 +91,7 @@ export class DataManager {
 
     async loadAll(): Promise<void> {
         await this.loadData();
+        await this.loadThemes();
     }
 
     async loadData(): Promise<ThemeData> {
@@ -113,6 +114,8 @@ export class DataManager {
         }
 
         this.currentData = repairedData;
+
+        console.log("Loaded: ", repairedData);
 
         return repairedData;
     }

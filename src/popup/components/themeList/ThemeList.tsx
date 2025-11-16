@@ -1,20 +1,29 @@
+import { useNavigationStore } from "../../store/NavigationStore";
 import { useThemesListStore } from "../../store/ThemesListStore";
 import { Button } from "../Button";
 import { EmptyListNotice } from "./EmptyListNotice";
 import { ThemeCard } from "./themeCard/ThemeCard";
 
 export function ThemeList() {
+  const location = useNavigationStore((state) => state.location);
+  const setLocation = useNavigationStore((state) => state.setLocation);
   const themes = useThemesListStore((state) => state.themes);
+
+  if (location != "") return null;
 
   if (Object.keys(themes).length == 0) {
     return <EmptyListNotice></EmptyListNotice>;
+  }
+
+  const editSettingsOnClick = () => {
+    setLocation("Theme Settings");
   }
 
   return (
     <div className="w-full flex gap-4 px-4 py-2 flex-col items-center">
       {Object.entries(themes).map(([themeName, themeData]) => {
         return (
-          <ThemeCard themeName={themeName} themeData={themeData}></ThemeCard>
+          <ThemeCard key={themeName} themeName={themeName} themeData={themeData}></ThemeCard>
         );
       })}
 
@@ -47,6 +56,7 @@ export function ThemeList() {
           </svg>
         }
         isSecondary={false}
+        onClick={editSettingsOnClick}
       >
         Edit settings
       </Button>

@@ -1,19 +1,42 @@
-import { DataManager } from "../../dataManagement";
+import { DataManager, ThemeData } from "../../dataManagement";
 import { useThemesListStore } from "../store/ThemesListStore";
 
 class DataManagementService {
-    private dataManager: DataManager;
+    public dataManager: DataManager;
+    private subscribers: (() => void)[] = [];
 
     constructor() {
         this.dataManager = new DataManager();
 
-        this.dataManager.loadAll();
+        this.loadData();
+    }
 
+    async loadData() {
+        await this.dataManager.loadAll();
+        this.dataUpdated();
+    }
+
+    onChange(cb: () => void) {
+        this.subscribers.push(cb);
     }
 
 
     getThemes() {
         return this.dataManager.currentThemes;
+    }
+
+    getData() {
+        return this.dataManager.currentData;
+    }
+
+    dataUpdated() {
+        console.log("Data updated, notifying subscribers");
+        for (const cb of this.subscribers) {
+            cb();
+        }
+
+        // Save
+        this.dataManager.saveData();
     }
 
 }
