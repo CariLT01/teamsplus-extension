@@ -24,7 +24,7 @@ export function SettingsTypeMenu() {
     }
 
     return (
-        <div>
+        <div className="animate-fadeIn">
             <SettingsTypeButton
                 icon={
                     <svg

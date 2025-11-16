@@ -17,7 +17,7 @@ export function EmojisSetEditorPage() {
         dataManagementService.dataUpdated();
     }
 
-    return <div className="w-full flex items-center px-2 py-1">
+    return <div className="w-full flex items-center px-2 py-1 animate-fadeIn">
         <div className="w-full px-2 py-1 border-b border-black/10 flex justify-between">
             <span className="text-base">Emoji Set</span>
             <select className="w-[40vw] h-[85%] py-1 rounded-md border border-black/35 focus:border-black/50 focus:outline-none transition-colors duration-300" defaultValue={v2} onChange={onSelectionChanged}>

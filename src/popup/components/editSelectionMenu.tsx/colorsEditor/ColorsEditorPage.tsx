@@ -21,7 +21,7 @@ export function ColorsEditorPage() {
         dataManagementService.dataUpdated();
     }
 
-    return <div className="w-full flex flex-col">
+    return <div className="w-full flex flex-col animate-fadeIn">
         <Seperator>Fluent UI Colors</Seperator>
         {Object.entries(data.colors).map(([colorName, value]) => {
             return <ColorEntry name={colorName} value={value} key={colorName} onBlur={onBlurColorsHandler}></ColorEntry>

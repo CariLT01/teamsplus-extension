@@ -32,7 +32,7 @@ export function FontsEditorPage() {
     }
 
 
-    return <div className="flex gap-4 items-center px-4 py-2 flex-col">
+    return <div className="flex gap-4 items-center px-4 py-2 flex-col animate-fadeIn">
         <div className={sectionClass}>
             <span className={sectionlabelClass}>Custom imports</span>
             <div className="px-2 w-full">

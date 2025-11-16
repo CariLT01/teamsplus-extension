@@ -25,9 +25,9 @@ export function UpdateAvailableNotice() {
                 console.error("Failed to check for updates: ", error);
                 setText("Failed to check for updates");
             });
-    });
+    }, []);
 
-    return ((text !== "") ? <div className="w-full px-2 py-1 bg-black/1 border border-black/10 rounded-md flex gap-4">
+    return ((text !== "") ? <div className="w-full px-2 py-1 bg-black/1 border border-black/10 rounded-md flex gap-4 animate-fadeIn">
             <div>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"

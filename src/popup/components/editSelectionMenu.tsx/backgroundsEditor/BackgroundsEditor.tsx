@@ -42,7 +42,7 @@ export function BackgroundsEditorPage() {
         dataManagementService.dataUpdated();
     }
 
-    return <div className="w-full flex flex-col items-center px-2">
+    return <div className="w-full flex flex-col items-center px-2 animate-fadeIn">
         {/* FBE Switch */}
         <div className="w-full flex items-center px-2 py-1 justify-between">
             <span className="text-base">Full Background Experience</span>

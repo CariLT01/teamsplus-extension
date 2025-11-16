@@ -67,11 +67,11 @@ export function ThemeList() {
         openContextMenu(
             [
                 {
-                    text: "Export current settings", icon: <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M480-480ZM202-65l-56-57 118-118h-90v-80h226v226h-80v-89L202-65Zm278-15v-80h240v-440H520v-200H240v400h-80v-400q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H480Z" /></svg>,
+                    text: "From current settings", icon: <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M480-480ZM202-65l-56-57 118-118h-90v-80h226v226h-80v-89L202-65Zm278-15v-80h240v-440H520v-200H240v400h-80v-400q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H480Z" /></svg>,
                     callback: exportThemeClicked
                 },
                 {
-                    text: "Import theme", icon: <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M704-240 320-624v344h-80v-480h480v80H376l384 384-56 56Z"/></svg>,
+                    text: "From theme data", icon: <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M704-240 320-624v344h-80v-480h480v80H376l384 384-56 56Z"/></svg>,
                     callback: importThemeClicked
                 }
             ],
@@ -81,13 +81,15 @@ export function ThemeList() {
     }
 
     return (
-        <div className="w-full flex gap-4 px-4 py-2 flex-col items-center">
+        <div className="w-full flex gap-4 px-4 py-2 flex-col items-center animate-fadeIn">
             <UpdateAvailableNotice></UpdateAvailableNotice>
             {Object.keys(themes).length > 0 ? Object.entries(themes).map(([themeName, themeData]) => {
                 return (
                     <ThemeCard key={themeName} themeName={themeName} themeData={themeData}></ThemeCard>
                 );
             }) : <EmptyListNotice></EmptyListNotice>}
+
+            <span className="w-full px-4 text-base text-black/50 text-center">You can get more themes from the theme store!</span>
 
             <Button
                 icon={
@@ -105,7 +107,7 @@ export function ThemeList() {
                 ref={addThemeRef}
                 onClick={addThemeOnClick}
             >
-                Add theme
+                Create theme
             </Button>
             <Button
                 icon={

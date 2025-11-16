@@ -63,6 +63,5 @@ module.exports = {
             filename: '[name].bundle.css', // output file name (matches entry)
         }),
     ],
-    mode: "production",
-    devtool: "cheap-module-source-map", // or "source-map"
+    mode: "production"
 };

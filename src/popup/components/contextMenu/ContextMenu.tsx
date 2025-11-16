@@ -52,7 +52,7 @@ export function ContextMenu() {
 
   const contextmenuClasses = clsx(
     "fixed",
-    "bg-white rounded-md shadow-lg border border-black/35 flex flex-col"
+    "bg-white rounded-md shadow-lg border border-black/35 flex flex-col animate-fadeIn"
   );
 
   return (

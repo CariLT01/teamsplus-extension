@@ -85,7 +85,7 @@ export function ThemeCard(props: Props) {
         );
     };
 
-    const onApplyButtonClicked = () => {
+    const onApplyButtonClicked = async () => {
         try {
             const confirmation = confirm(
                 "Are you sure you want to apply this theme? This will replace all current settings."
@@ -101,7 +101,16 @@ export function ThemeCard(props: Props) {
             }
 
             dataManagementService.themeManager.applyTheme(props.themeName);
+
+            // Run data repair by saving and reloading
+            await dataManagementService.dataManager.saveData();
+            console.log("Fixing data...");
+            await dataManagementService.dataManager.loadData();
+
+            // Call dataUpdated to notify React components
+            console.log("Notify service");
             dataManagementService.dataUpdated();
+
             alert("Applied theme");
         } catch (err) {
             console.error(err);

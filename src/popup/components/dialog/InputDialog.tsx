@@ -21,8 +21,8 @@ export function InputDialog() {
 
     return (
         <div className="fixed top-0 left-0 w-full h-full bg-black/50">
-            <div className="fixed px-2 py-2 bg-white shadow-lg border border-black/35 flex flex-col gap-4 items-center rounded-md top-[50%] left-[50%] -translate-[50%]">
-                <h2 className="text-3xl">{title}</h2>
+            <div className="fixed px-2 py-2 bg-white shadow-lg border border-black/35 flex flex-col gap-4 items-center rounded-md top-[50%] left-[50%] -translate-[50%] animate-fadeIn">
+                <h2 className="text-3xl font-bold text-center">{title}</h2>
                 <input
                     type="text"
                     className="w-[85%] px-2 py-1 border border-black/35 focus:border-black/50 rounded-md"

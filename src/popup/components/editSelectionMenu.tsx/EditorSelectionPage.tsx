@@ -31,8 +31,8 @@ export function EditorSelectionPage() {
     }
 
     return (
-        <div className="w-full">
-            <div className="w-full flex gap-4 items-center px-4 py-2 border-b border-black/35 sticky top-0 bg-white shadow-md">
+        <div className="w-full animate-fadeIn">
+            <div className="w-full flex gap-4 items-center px-4 py-2 border-b border-black/35 sticky top-0 bg-white shadow-md z-9">
                 <TransparentButton
                     icon={
                         <svg

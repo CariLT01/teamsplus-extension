@@ -15,7 +15,7 @@ export function DesignEditorPage() {
 
     if (location !== "Theme Settings/Design") return null;
 
-    return <div className="w-full flex flex-col">
+    return <div className="w-full flex flex-col animate-fadeIn">
         {Object.entries(data.pixelValues).map(([colorName, value]) => {
             return <DesignEntry name={colorName} value={value} key={colorName} onBlur={onBlur}></DesignEntry>
         })}
