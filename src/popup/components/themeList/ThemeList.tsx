@@ -7,6 +7,7 @@ import { EmptyListNotice } from "./EmptyListNotice";
 import { ThemeCard } from "./themeCard/ThemeCard";
 import { dataManagementService } from "../../services/DataManagementService";
 import { createInputDialog } from "../../store/InputDialogStore";
+import { UpdateAvailableNotice } from "./UpdateAvailableNotice";
 
 export function ThemeList() {
     const location = useNavigationStore((state) => state.location);
@@ -81,6 +82,7 @@ export function ThemeList() {
 
     return (
         <div className="w-full flex gap-4 px-4 py-2 flex-col items-center">
+            <UpdateAvailableNotice></UpdateAvailableNotice>
             {Object.keys(themes).length > 0 ? Object.entries(themes).map(([themeName, themeData]) => {
                 return (
                     <ThemeCard key={themeName} themeName={themeName} themeData={themeData}></ThemeCard>
