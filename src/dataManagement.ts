@@ -21,6 +21,18 @@ async function p_basicDataLoad2(key: string): Promise<{ [key: string]: string } 
     return result;
 }
 
+async function p_basicDataLoadGeneric<T>(key: string): Promise<T | undefined> {
+    const result = (await chrome.storage.local.get([key]))[key] as T | undefined;
+
+    if (result == null) {
+        console.log("Nothing with basic key loaded:", key);
+        return undefined;
+    }
+
+    console.log("loaded key");
+    return result;
+}
+
 function p_basicDataRepair(data: { [key: string]: string } | undefined, defaults: { [key: string]: string }): { [key: string]: string } {
     //console.log(data);
     //console.log(defaults);
@@ -63,13 +75,14 @@ function p_basicDataRepair(data: { [key: string]: string } | undefined, defaults
 }
 
 ///////// Functions for storing / loading fonts ////////
-
 export type ThemeKeys = "colors" | "classColors" | "fonts" | "pixelValues" | "backgrounds" | "emojis";
 export const ThemeKeysList = ["colors", "classColors", "fonts", "pixelValues", "backgrounds", "emojis"];
-
 export type ThemeData = { [K in ThemeKeys]: { [key: string]: string } };
-
 export type ThemeDataDefaults = { [K in ThemeKeys]: { [key: string]: string } }
+
+export type SettingsData = {
+    teamsNameMappings: {[key: string]: string}
+}
 
 const DEFAULT_DATA: ThemeDataDefaults = {
     colors: DEFAULT_COLORS,
@@ -80,9 +93,14 @@ const DEFAULT_DATA: ThemeDataDefaults = {
     emojis: DEFAULT_EMOJIS
 }
 
+const DEFAULT_SETTINGS: SettingsData = {
+    teamsNameMappings: {}
+}
+
 export class DataManager {
     currentData: ThemeData = DEFAULT_DATA;
     currentThemes: { [key: string]: string } = DEFAULT_THEMES;
+    currentSettings: SettingsData = DEFAULT_SETTINGS;
 
 
     constructor() {
@@ -92,6 +110,7 @@ export class DataManager {
     async loadAll(): Promise<void> {
         await this.loadData();
         await this.loadThemes();
+        await this.loadSettings();
     }
 
     async loadData(): Promise<ThemeData> {
@@ -99,6 +118,9 @@ export class DataManager {
         const data = await p_basicDataLoad("themeData");
         if (data == null) {
             console.warn("No data found, returning default data");
+
+            this.currentData = DEFAULT_DATA;
+
             return DEFAULT_DATA;
         }
 
@@ -120,6 +142,25 @@ export class DataManager {
         return repairedData;
     }
 
+    async loadSettings(): Promise<SettingsData> {
+        const data = await p_basicDataLoadGeneric<SettingsData>("settings");
+
+        if (data == null) {
+
+            this.currentSettings = DEFAULT_SETTINGS;
+            console.warn("No data found; using default");
+
+            return DEFAULT_SETTINGS;
+
+        }
+
+        console.log("Loaded settings: ", data);
+
+        this.currentSettings = data;
+
+        return data;
+    }
+
     async loadThemes() {
         const data = await p_basicDataLoad2("themes");
         if (data != null) {
@@ -130,6 +171,9 @@ export class DataManager {
         }
 
         console.error("No themes loaded: ", data);
+
+        
+
         return;
     }
 
@@ -182,9 +226,19 @@ export class DataManager {
         console.log("Save: ", this.currentData);
         chrome.storage.local.set({ "themeData": this.currentData });
     }
+
+    saveSettings() {
+        console.log("Save: ", this.currentSettings);
+        chrome.storage.local.set({"settings": this.currentSettings});
+    }
+
     saveAll() {
         this.saveData();
+        this.saveThemes();
+        this.saveSettings();
     }
+
+
 
 }
 

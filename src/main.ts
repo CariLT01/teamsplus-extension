@@ -19,6 +19,7 @@ import { SnakeGame } from "./games/snake";
 import { LoadingScreen } from "./runtime/loadingScreen";
 import { AppsMenuManager } from "./ui/appsMenuManager";
 import { ImageLoadingOptimizer } from "./runtime/imageLoadingOptimizer";
+import { TeamNameMappings } from "./runtime/teamNameMappings";
 
 // Important objects
 
@@ -30,6 +31,7 @@ const realtimeUpdatesRuntime = new RealtimeUpdatesManager(dataManager, stylesRun
 const loadingScreenRuntime = new LoadingScreen();
 const imageLoadingOptimizer = new ImageLoadingOptimizer();
 const authProvider = new AuthProvider();
+const teamNameMappings = new TeamNameMappings(dataManager);
 if (window.self === window.top) { // Don't initialize in iframes!
     const themesShopHandler = new ThemesShopHandler(new ThemeManager(dataManager), appsMenuManager, authProvider);
     const gamblingGame = new GamblingGame(authProvider);
@@ -69,6 +71,7 @@ async function onWindowLoad() {
     twemojiRuntime.applyTwemoji();
     stylesRuntime.applyColors();
     stylesRuntime.applyBackgrounds();
+    teamNameMappings.start();
 }
 
 

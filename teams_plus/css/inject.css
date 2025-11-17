@@ -1032,3 +1032,12 @@ body {
         background-position: 0% 50%;
     }
 }
+
+.teamNameRename {
+    text-decoration: underline;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.5);
+}
+.teamNameRename:hover {
+    color: white;
+}

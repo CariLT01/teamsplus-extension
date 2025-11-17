@@ -20,6 +20,8 @@ function formatString(str: string) {
     return result.charAt(0).toUpperCase() + result.slice(1);
   }
 
+  
+
 
 
 export class ColorInputsManager {
