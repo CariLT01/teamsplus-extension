@@ -2,3 +2,8 @@
 node_modules/
 teams_plus/docs/*
 /teams_plus/docs/*
+/teams_plus/popup.bundle.js
+teams_plus/popup.bundle.js
+/teams_plus/popup.bundle.css
+teams_plus/popup.bundle.css
+/teams_plus/main.bundle.js
