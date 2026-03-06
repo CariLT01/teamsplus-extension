@@ -7,7 +7,7 @@ import { ThemeList } from "./themeList/ThemeList";
 
 
 export function App() {
-    return <div>
+    return <div className="overflow-auto scrollable w-[100vw] h-[100vh]">
         <Header></Header>
         <EditorSelectionPage></EditorSelectionPage>
         <ThemeList></ThemeList>

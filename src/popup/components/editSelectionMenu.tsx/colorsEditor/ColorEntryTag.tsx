@@ -6,6 +6,8 @@ interface Props {
     description: string;
 }
 
+
+
 export function ColorEntryTag(props: Props) {
     const [showTooltip, setShowTooltip] = useState(false);
     const timerRef = useRef<number>(null);

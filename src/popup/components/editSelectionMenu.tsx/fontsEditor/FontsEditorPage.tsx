@@ -7,6 +7,7 @@ import "ace-builds/src-noconflict/theme-monokai";
 import { useCurrentDataStore } from "../../../store/CurrentDataStore";
 import { useRef } from "react";
 import { dataManagementService } from "../../../services/DataManagementService";
+import { TeamsPlusInput } from "../../basic/TPInput";
 
 export function FontsEditorPage() {
 
@@ -55,7 +56,7 @@ export function FontsEditorPage() {
         <div className={sectionClass}>
             <span className={sectionlabelClass}>Fonts</span>
             <div className="px-2 w-full">
-                <input className="w-full rounded-md border border-black/35 hover:border-black/50 transition-colors duration-300 px-2 py-1 bg-white font-mono" defaultValue={data.fonts["fontFamily"]} onBlur={inputOnBlur}></input>
+                <TeamsPlusInput defaultValue={data.fonts["fontFamily"]} onBlur={inputOnBlur}></TeamsPlusInput>
             </div>
             
         </div>

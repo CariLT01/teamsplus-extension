@@ -1,2 +1,4 @@
 .mypy_cache/
 node_modules/
+teams_plus/docs/*
+/teams_plus/docs/*

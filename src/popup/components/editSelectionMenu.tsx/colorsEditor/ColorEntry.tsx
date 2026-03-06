@@ -27,6 +27,18 @@ interface Props {
     onBlur?: (name: string, value: string) => void;
 }
 
+const TAG_REPLACEMENTS: {[key: string]: string} = {
+    "Hover": "Hovered"
+}
+
+function replaceTagNames(tagName: string) {
+    let s = tagName;
+    for (const t in TAG_REPLACEMENTS) {
+        s = s.replace(t, TAG_REPLACEMENTS[t]);
+    }
+    return s;
+}
+
 export function formatTokenName(token: string): string {
     // remove leading dashes
     let stripped = token.replace(/^--/, "");
@@ -134,7 +146,7 @@ export function ColorEntry(props: Props) {
                 </span>
 
                 {tags.map((value) => {
-                    return <ColorEntryTag tagText={value} description={DESCRIPTIONS[value]} key={value}></ColorEntryTag>;
+                    return <ColorEntryTag tagText={replaceTagNames(value)} description={DESCRIPTIONS[value]} key={value}></ColorEntryTag>;
                 })}
             </div>
 
