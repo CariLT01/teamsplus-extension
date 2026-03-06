@@ -1,5 +1,7 @@
 # TeamsPlus extension
 
+![LoC](https://img.shields.io/endpoint?url=https://ghloc.vercel.app/api/CariLT01/teamsplus-extension/badge?style=flat&logoColor=white&color=c78aff&style=for-the-badge&v=1)
+
 An extension that adds extra features to Microsoft Teams on the web.
 
 > [!WARNING] 
