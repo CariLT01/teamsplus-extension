@@ -34,7 +34,9 @@
         "*.mp3",
         "sounds/*",
         "*.png",
-        "assets/*"
+        "assets/*",
+        "*.css",
+        "teamsFetchBridge.js"
       ],
       "matches": [
         "<all_urls>"

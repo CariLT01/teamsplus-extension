@@ -20,6 +20,8 @@ import { LoadingScreen } from "./runtime/loadingScreen";
 import { AppsMenuManager } from "./ui/appsMenuManager";
 import { ImageLoadingOptimizer } from "./runtime/imageLoadingOptimizer";
 import { TeamNameMappings } from "./runtime/teamNameMappings";
+import { UserBrowser } from "./userBrowser/UserBrowser";
+import { injectStyles } from "./injectStyles";
 
 // Important objects
 
@@ -35,15 +37,38 @@ const teamNameMappings = new TeamNameMappings(dataManager);
 if (window.self === window.top) { // Don't initialize in iframes!
     const themesShopHandler = new ThemesShopHandler(new ThemeManager(dataManager), appsMenuManager, authProvider);
     const gamblingGame = new GamblingGame(authProvider);
-    const encryptionProvider =  new EncryptionProvider(authProvider);
+    const encryptionProvider = new EncryptionProvider(authProvider);
     const snakeGame = new SnakeGame();
+    const usersBrowser = new UserBrowser();
 }
+
+
+injectStyles();
 
 
 /////// Utility functions ////////
 
 
+////// Listener for Access Token //////
+async function listenOnDelveToken() {
+    window.addEventListener("message", (event) => {
+        if (event.source !== window) {
+            console.warn("Not from window");
+            return;
+        }
 
+        if (event.data?.type === "DELVE_TOKEN") {
+            const token = event.data.token;
+        
+            console.log("Extension received token: ", token);
+
+            chrome.runtime.sendMessage({
+                type: "DELVE_TOKEN",
+                token
+            });
+        }
+    })
+}
 
 //////// On window load functions //////////
 async function onWindowLoad() {
@@ -62,9 +87,10 @@ async function onWindowLoad() {
     } else {
         console.log("Skip wait in iframe");
     }
-    
+
     console.log("window found main");
     await dataManager.loadAll();
+    
     stylesRuntime.applyFonts(null);
     console.log("Apply colors on win load");
     realtimeUpdatesRuntime.detectChange();
@@ -86,3 +112,4 @@ async function onWindowLoad() {
 /////// Init ////////
 window.onload = onWindowLoad;
 console.log("Hello");
+listenOnDelveToken();
