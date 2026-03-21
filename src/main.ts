@@ -22,6 +22,7 @@ import { ImageLoadingOptimizer } from "./runtime/imageLoadingOptimizer";
 import { TeamNameMappings } from "./runtime/teamNameMappings";
 import { UserBrowser } from "./userBrowser/UserBrowser";
 import { injectStyles } from "./injectStyles";
+import { useUserListStore } from "./userBrowser/stores/UserListStore";
 
 // Important objects
 
@@ -66,6 +67,9 @@ async function listenOnDelveToken() {
                 type: "DELVE_TOKEN",
                 token
             });
+
+            console.log("SET STATE");
+            useUserListStore.setState({token: token});
         }
     })
 }

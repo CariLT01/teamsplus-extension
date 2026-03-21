@@ -14,19 +14,25 @@ interface UserListStore {
     userListPages: UserListPage[];
     lastNextPage: string | null;
     lastNextPageForIndex: number;
+    token: string;
 }
 
 export const useUserListStore = create<UserListStore>(() => {
     return {
         userListPages: [],
         lastNextPage: null,
-        lastNextPageForIndex: -1
+        lastNextPageForIndex: -1,
+        token: ""
     }
 });
 
 async function loadPage(url: string, index: number) {
-    const response = await _teamsFetch(url, {
-        credentials: 'include',
+    console.log("LOADING PAGE");
+    const token = useUserListStore.getState().token;
+    const response = await fetch(url, {
+        headers: {
+            Authorization: token
+        },
         method: 'POST'
     });
     console.log(response.status);

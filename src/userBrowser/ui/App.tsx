@@ -1,12 +1,15 @@
 import { useEffect } from "react";
 import { PersonItem } from "./PersonItem";
-import { getPage } from "../stores/UserListStore";
+import { getPage, useUserListStore } from "../stores/UserListStore";
 
 export function UserBrowserApp() {
 
+    const token = useUserListStore(state => state.token);
+
     useEffect(() => {
+        console.log("TOKEN CHANGED");
         getPage(0);
-    }, []);
+    }, [token]);
 
     return (
         <div className="tailwind-root">
@@ -22,6 +25,9 @@ export function UserBrowserApp() {
                             </span>
                         </div>
 
+                        {token == "" && <div className="w-100 items-center flex flex-col gap-2 py-4">
+                            <span className="text-black/50">No token was successfully captured.<br></br>Cannot search for users without an access token.<br></br>Try reloading?</span>
+                        </div>}
                         <PersonItem
                             name="Bob Robert"
                             email="bobrobert@gmail.com"
