@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .gamblingReward {
+            text-align: center;
+            background-color: white;
+            color: black;
+            border-radius: 6px;
+            padding: 20px;
+            border: 1px solid rgba(0, 0, 0, 0.5);
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 99999;
+            background: linear-gradient(270deg, #ff0000, #ffea00, #00ffea, #ff00ff);
+            background-size: 800% 800%;
+            animation: gradientAnimation 5s ease infinite;
+            font-family: sans-serif;
+
+        }
+        .gamblingClaimReward {
+            background-color: white;
+            padding: 10px;
+            cursor: pointer;
+            border: black;
+            border-radius: 6px;
+        }
+
+        
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="gamblingReward">
+        <h3>You got money</h3>
+        <p>Click below to get your $$$</p>
+        <button type="button" class="gamblingClaimReward">Claim reward</button>
+    </div>
+</body>
+</html>
