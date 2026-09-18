@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 site_name: My Docs
 
 theme:
@@ -50,4 +51,58 @@ site_name: "TeamsPlus documentation"
 
 
 use_directory_urls: false
+=======
+site_name: My Docs
+
+theme:
+  name: material
+  features:
+    - navigation.sections  # collapsible sections in sidebar
+    - navigation.expand    # expand active section by default
+    - content.code.annotate    # ← turn on code annotations :contentReference[oaicite:0]{index=0}
+  dark: false
+
+nav:
+  - Home: index.md
+  - What's coming next?: next.md
+  - Known Issues: issues.md
+  - Customization:
+    - Custom Colors: customization/colors.md
+    - Custom Fonts: customization/fonts.md
+    - Custom Design Details: customization/details.md
+    - Support for Twemoji: customization/twemoji.md
+    - Background: customization/background.md
+    - Themes: customization/themes.md
+    - Experimental:
+      - Full Background Experience: customization/fullBackgroundExperience.md
+
+  - Games:
+    - Fun Minigame: games/minigame.md
+    - Snake: games/snake.md
+  - Other features:
+    - Save, export, and load settings: other/settings.md
+    - Encryption: other/encryption.md
+  - Contributing: contribute.md
+  - Remove TeamsPlus from your PC: remove.md
+
+
+
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - pymdownx.tabbed
+  - pymdownx.tasklist
+  - attr_list
+  - md_in_html
+
+
+
+site_name: "TeamsPlus documentation"
+
+
+use_directory_urls: false
+>>>>>>> origin/main
 site_dir: "./teams_plus/docs"

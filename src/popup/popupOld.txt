@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /**
  * File: popup.js
  * 
@@ -134,3 +135,141 @@ function p_onload() {
 /// Trigger when window finishes loading ///
 //document.addEventListener("DOMContentLoaded", p_onload);
 
+=======
+/**
+ * File: popup.js
+ * 
+ * Controls all of extension popup.
+ *  
+ *
+ */
+
+////////// Imports //////////
+
+import { DataManager } from '../dataManagement';
+import { ThemeManager } from './themes';
+import { ButtonHandlers } from './buttons';
+import { ColorInputsManager } from './colorInputs';
+import { popupUI_init } from './popupUi';
+import { updateVersionNumberAndStatus } from './updateChecker';
+
+
+const dataManager = new DataManager();
+const themeManager = new ThemeManager(dataManager);
+const buttonHandlers = new ButtonHandlers(dataManager, themeManager);
+const colorInputs = new ColorInputsManager(dataManager);
+//// Onload functions ////
+
+async function loadAdvanced() {
+    await dataManager.loadAll();
+
+
+    ////// FONTS //////
+
+    const fontsContainer1 = document.querySelector("#current-font-container") as HTMLDivElement;
+    const fontsContainer2 = document.querySelector("#font-imports-container") as HTMLDivElement;
+
+    fontsContainer1.innerHTML = '';
+    fontsContainer2.innerHTML = '';
+    
+
+    // Fonts input
+    const fontsInput = document.createElement("input");
+
+    fontsInput.value = dataManager.currentData["fonts"]["fontFamily"];
+    fontsInput.addEventListener("input", () => {
+        console.log("Font changed");
+        dataManager.currentData["fonts"]["fontFamily"] = fontsInput.value;
+        dataManager.saveAll();
+    })
+    fontsContainer1.appendChild(fontsInput);
+    //console.error(dataManager.currentData["fonts"]);
+
+
+    // Font imports //
+    const importsInput = document.createElement("textarea");
+    importsInput.setAttribute("rows", "5");
+    importsInput.setAttribute("placeholder", "Additional custom imports");
+    importsInput.value = dataManager.currentData["fonts"]["imports"];
+    importsInput.addEventListener("input", () => {
+        console.log("Imports changed!");
+        dataManager.currentData["fonts"]["imports"] = importsInput.value;
+        dataManager.saveAll();
+    })
+    fontsContainer2.appendChild(importsInput);
+    // Twemoji support //
+    const i = document.querySelector("#twemojiSupport") as HTMLInputElement;
+    if (i) {
+        i.checked = dataManager.currentData["emojis"]["set"] == "twemoji"
+        i.addEventListener("input", function () {
+            console.log("Save Twemoji state");
+            dataManager.currentData["emojis"]["set"] = i.checked ? "twemoji" : "default";
+            dataManager.saveAll();
+        })
+    }
+
+
+    // Color inputs //
+    colorInputs.p_createColorInputs(document.querySelector("#css-variable-colors") as HTMLDivElement);
+    colorInputs.p_createClassColorInputs(document.querySelector("#css-classes-colors") as HTMLDivElement);
+
+
+    colorInputs.p_createPixelValues(document.querySelector("#css-custom-values") as HTMLDivElement);
+
+    const backgroundsValuesDiv = document.querySelector("#backgrounds");
+    colorInputs.p_createBackgroundsInputs(backgroundsValuesDiv as HTMLDivElement);
+
+    for (let i = 0; i < 15; i++) {
+        await new Promise(requestAnimationFrame); // Wait for frame update
+    }
+    
+}
+
+async function p_postLoad() {
+
+    popupUI_init(loadAdvanced);
+
+    buttonHandlers.p_exportHandlers();
+    buttonHandlers.importHandlers();
+
+    await dataManager.loadThemes();
+    await dataManager.loadAll();
+
+    ///// DELETE DATA HANDLER /////
+
+    document.querySelector("#deldata")?.addEventListener("click", function () {
+        const a = prompt("enter y/n");
+        if (a == 'y') {
+            chrome.storage.local.remove("themeData");
+            alert("deleted data");
+        } else {
+            alert("data not deleted");
+        }
+
+    })
+    console.error("Loaded");
+
+    ///// Documentation link /////
+
+    const docsBtn = document.querySelector("#readTheDocs");
+    if (docsBtn) {
+        docsBtn.addEventListener("click", function () {
+            window.open(chrome.runtime.getURL("/docs/index.html"));
+        })
+    }
+
+
+    // Update theme //
+    await themeManager.updateThemesList();
+
+}
+
+function p_onload() {
+    updateVersionNumberAndStatus();
+    setTimeout(p_postLoad, 250);
+}
+
+/// Trigger when window finishes loading ///
+//document.addEventListener("DOMContentLoaded", p_onload);
+
+>>>>>>> origin/main

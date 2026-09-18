@@ -283,6 +283,12 @@
   .h-\[85\%\] {
     height: 85%;
   }
+<<<<<<< HEAD
+=======
+  .h-\[100vh\] {
+    height: 100vh;
+  }
+>>>>>>> origin/main
   .h-full {
     height: 100%;
   }
@@ -304,6 +310,12 @@
   .w-\[85\%\] {
     width: 85%;
   }
+<<<<<<< HEAD
+=======
+  .w-\[100vw\] {
+    width: 100vw;
+  }
+>>>>>>> origin/main
   .w-full {
     width: 100%;
   }
@@ -1093,4 +1105,7 @@
     }
   }
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/main

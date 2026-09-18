@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* styles.css */
 
 :root {
@@ -108,4 +109,116 @@ img.digit {
     left: calc(50% + calc((var(--digitWidth) * 3 + 50px) / 2 + 7px));
     transform: translate(-50%, -50%);
     pointer-events: none;
+=======
+/* styles.css */
+
+:root {
+    --digitWidth: 48px;
+    --digitHeight: 72px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f4f4f4;
+}
+
+
+
+.counter-container {
+    width: var(--digitWidth);
+    overflow: hidden;
+}
+
+.counter {
+    display: flex;
+    flex-direction: column;
+    width: var(--digitWidth);
+    height: var(--digitHeight);
+    position: relative;
+    background-image: url("assets/digitBg.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    image-rendering: pixelated;
+}
+
+.digit {
+    font-size: 40px;
+    font-weight: bold;
+    height: var(--digitHeight);
+    width: var(--digitWidth);
+    background-color: transparent;
+    color: white;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    justify-content: center;
+    text-align: center;
+}
+
+img.digit {
+    image-rendering: pixelated;
+}
+
+.counters {
+    display: flex;
+    gap: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#roll {
+    position: absolute;
+    width: calc((var(--digitWidth) * 3 + 50px) / 36 * 3);
+
+    position: absolute;
+    top: calc(50% + 20px);
+    left: calc(50% + calc((var(--digitWidth) * 3 + 50px) / 2 + 7px));
+    transform: translate(-50%, -50%);
+    height: 100px;
+    z-index: 99;
+    cursor: pointer;
+    opacity: 0;
+}
+#gambling_login {
+    position: fixed;
+    bottom: 20%;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.window {
+    position: fixed;
+    width: 70%;
+    height: 70%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.window-background {
+    position: absolute;
+    width: calc(var(--digitWidth) * 3 + 50px);
+    height: auto;
+    top: calc(50% + 20px);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+.handle-img {
+    width: calc((var(--digitWidth) * 3 + 50px) / 36 * 3);
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+    position: absolute;
+    top: calc(50% + 20px);
+    left: calc(50% + calc((var(--digitWidth) * 3 + 50px) / 2 + 7px));
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+>>>>>>> origin/main
 }

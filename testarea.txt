@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 
@@ -187,4 +188,195 @@
 
 </body>
 
+=======
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apps Menu Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Container for button + menu */
+        .apps-container {
+            position: relative;
+            color: black;
+        }
+
+        /* Apps button */
+        .apps-btn {
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+        }
+
+        /* The floating menu */
+        .apps-menu {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 120%;
+            /* Position to the side of the button */
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            width: 600px;
+            min-height: 300px;
+            z-index: 100;
+            border: 1px solid rgba(0, 0, 0, 0.35);
+            overflow: hidden;
+
+            flex-direction: column;
+        }
+
+        .apps-menu.active {
+            display: flex;
+        }
+
+        .apps-menu-header {
+            width: 100%;
+            height: 35px;
+            background-color: transparent;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+            background-color: #fafafa;
+        }
+
+        .apps-menu-title {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            text-align: center;
+            line-height: 35px;
+        }
+
+        .apps-list {
+            flex-grow: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            grid-auto-rows: minmax(100px, 1fr);
+            gap: 0px;
+            padding: 10px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .apps-list-app {
+            width: 100px;
+            
+            height: 100px;
+            border: 1px solid transparent;
+
+            position: relative;
+        }
+
+        .apps-list-app-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            border: 0px solid rgba(0, 0, 0, 0.25);
+            border-radius: 8px;
+            background-color: #ffffff;
+            transition: 0.25s;
+            cursor: pointer;
+            
+        }
+
+        .apps-list-app-card:hover {
+            background-color: #ddd;
+        }
+
+        .app-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0;
+            margin-top: 5px;
+            padding: 0;
+        }
+
+        .apps-list-filler {
+            flex-grow: 1;
+        }
+
+        .app-name {
+            margin-bottom: 0;
+            flex-grow: 1;
+            overflow: hidden;
+        }
+
+
+
+        .app-pin-button {
+            position: absolute;
+            right: 0;
+            top: 0;
+            padding: 5px;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            border-radius: 8px;
+            z-index: 10;
+        }
+        .app-pin-button img {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .app-pin-button:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="apps-container">
+        <!-- Apps button -->
+        <button class="apps-btn" id="appsButton">
+
+
+            <!-- Apps menu -->
+            <span class="apps-menu" id="appsMenu">
+                <span class="apps-menu-header">
+                    <h3 class="apps-menu-title">TeamsPlus apps</h3>
+                </span>
+                <span class="apps-list" id="appList">
+
+
+                </span>
+            </span>
+        </button>
+
+
+    </div>
+
+    <script>
+        const appsButton = document.getElementById("appsButton");
+        const appsMenu = document.getElementById("appsMenu");
+
+        appsButton.addEventListener("click", () => {
+            appsMenu.classList.toggle("active");
+        });
+
+        // Close menu if clicked outside
+        document.addEventListener("click", (event) => {
+            if (!appsButton.contains(event.target) && !appsMenu.contains(event.target)) {
+                appsMenu.classList.remove("active");
+            }
+        });
+    </script>
+
+</body>
+
+>>>>>>> origin/main
 </html>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,4 +24,31 @@
         </div>
     </div>
 </body>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="inject.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="top-navbar">
+            <input type="text" name="" id="container-search" class="container-search" placeholder="Search" autocomplete="off">
+            <button class="container-search-submit" id="search-submit">Search</button>
+            <p class="container-n-points">0 coins</p>
+            <button class="shop-close-button">
+                <img src="https://www.svgrepo.com/show/12848/x-symbol.svg" alt="X">
+            </button>
+        </div>
+        <div class="listings">
+            <div class="listings-loader-parent" id="listings-loader">
+                <span class="listings-loader"></span>
+            </div>
+        </div>
+    </div>
+</body>
+>>>>>>> origin/main
 </html>

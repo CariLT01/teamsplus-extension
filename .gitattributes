@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Ignore node_modules and build files
 node_modules/** linguist-vendored
 teams_plus/main.bundle.js linguist-vendored
@@ -13,4 +14,21 @@ teams_plus/popup.bundle.js.map linguist-vendored
 *.html linguist-language=HTML
 
 # Ignore temporary files
+=======
+# Ignore node_modules and build files
+node_modules/** linguist-vendored
+teams_plus/main.bundle.js linguist-vendored
+teams_plus/main.bundle.js.map linguist-vendored
+teams_plus/popup.bundle.js linguist-vendored
+teams_plus/popup.bundle.js.map linguist-vendored
+
+
+# Force certain files to a specific language
+*.ts linguist-language=TypeScript
+*.tsx linguist-language=TypeScript
+*.css linguist-language=CSS
+*.html linguist-language=HTML
+
+# Ignore temporary files
+>>>>>>> origin/main
 *.log linguist-generated

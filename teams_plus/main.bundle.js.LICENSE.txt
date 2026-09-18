@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*
  * based on code from:
  *
@@ -6,6 +7,8 @@
  * see: http://github.com/jrburke/requirejs for details
  */
 
+=======
+>>>>>>> origin/main
 /**
  * @license React
  * react-dom.production.js

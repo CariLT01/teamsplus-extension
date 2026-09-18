@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .mypy_cache/
 node_modules/
 teams_plus/docs/*
@@ -6,4 +7,14 @@ teams_plus/docs/*
 teams_plus/popup.bundle.js
 /teams_plus/popup.bundle.css
 teams_plus/popup.bundle.css
+=======
+.mypy_cache/
+node_modules/
+teams_plus/docs/*
+/teams_plus/docs/*
+/teams_plus/popup.bundle.js
+teams_plus/popup.bundle.js
+/teams_plus/popup.bundle.css
+teams_plus/popup.bundle.css
+>>>>>>> origin/main
 /teams_plus/main.bundle.js
