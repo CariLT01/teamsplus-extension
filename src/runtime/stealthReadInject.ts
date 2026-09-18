@@ -25,9 +25,34 @@ async function injectStealthReadButton() {
     injectedButton.addEventListener("click", async () => {
         const stealthReadMode = await ExtensionStorageProvider.loadKey("stealthRead");
 
+
+        if (!stealthReadMode) {
+            // Now enabled
+            const warningShown = await ExtensionStorageProvider.loadKey("stealthReadWarningShown");
+
+            if (!warningShown) {
+                alert(`
+**StealthRead is NOT infallible.**
+
+StealthRead normally works as intended, but it may occasionally fail due to Microsoft Teams updates, temporary issues, or extension bugs.
+
+If it fails, the sender may be notified that you read their message. There is no reliable way for you to verify whether a particular read receipt was successfully blocked.
+
+For anything important, do not treat StealthRead as a guarantee. If a single read receipt could have serious consequences for you, do not rely on StealthRead.
+
+This warning will only be shown once.
+                    `);
+
+                await ExtensionStorageProvider.storeKey("stealthReadWarningShown", true);
+
+            }
+        }
+
         ExtensionStorageProvider.storeKey("stealthRead", !stealthReadMode);
 
         button.textContent = (!stealthReadMode) ? "Stealth Read Enabled" : "StealthRead";
+
+
 
         alert("Refresh to apply changes");
     });
