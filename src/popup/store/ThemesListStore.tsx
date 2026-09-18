@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { create } from "zustand";
 import { dataManagementService } from "../services/DataManagementService";
 
@@ -16,23 +15,4 @@ export const useThemesListStore = create<ThemesListStore>((set) => ({
 
 dataManagementService.onChangeThemes(() => {
     useThemesListStore.setState({themes: { ...dataManagementService.getThemes() }});
-=======
-import { create } from "zustand";
-import { dataManagementService } from "../services/DataManagementService";
-
-interface ThemesListStore {
-    themes: {[key: string]: string},
-    setThemesList: (themes: {[key: string]: string}) => void;
-}
-
-export const useThemesListStore = create<ThemesListStore>((set) => ({
-    themes: dataManagementService.getThemes(),
-    setThemesList: (themes: {[key: string]: string}) => {
-        set({themes: themes})
-    }
-}))
-
-dataManagementService.onChangeThemes(() => {
-    useThemesListStore.setState({themes: { ...dataManagementService.getThemes() }});
->>>>>>> origin/main
 })

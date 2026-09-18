@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { create } from "zustand";
 
 interface NavigationStore {
@@ -11,18 +10,4 @@ export const useNavigationStore = create<NavigationStore>((set) => ({
     setLocation: (newLocation: string) => {
         set({location: newLocation})
     }
-=======
-import { create } from "zustand";
-
-interface NavigationStore {
-    location: string;
-    setLocation: (newLocation: string) => void;
-}
-
-export const useNavigationStore = create<NavigationStore>((set) => ({
-    location: "",
-    setLocation: (newLocation: string) => {
-        set({location: newLocation})
-    }
->>>>>>> origin/main
 }))

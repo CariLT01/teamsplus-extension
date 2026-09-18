@@ -23,7 +23,6 @@ import { TeamNameMappings } from "./runtime/teamNameMappings";
 import { UserBrowser } from "./userBrowser/UserBrowser";
 import { injectStyles } from "./injectStyles";
 import { useUserListStore } from "./userBrowser/stores/UserListStore";
-import { onLoadPopup } from "./popup/popup";
 import { injectStealthRead } from "./runtime/stealthReadInject";
 
 // Important objects
@@ -113,7 +112,8 @@ async function onWindowLoad() {
     injectStealthRead();
     
     if (__DESKTOP_APP__) {
-        onLoadPopup();
+        const popup = await import("./popup/popup")
+        ;popup.onLoadPopup();
     }
 }
 

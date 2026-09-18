@@ -28,6 +28,8 @@ async function injectStealthReadButton() {
         ExtensionStorageProvider.storeKey("stealthRead", !stealthReadMode);
 
         button.textContent = (!stealthReadMode) ? "Stealth Read Enabled" : "StealthRead";
+
+        alert("Refresh to apply changes");
     });
 
     console.log("Stealth read button injected");
