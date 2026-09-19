@@ -1,5 +1,6 @@
 import { DataManager } from "../dataManagement";
-import { CLASS_PROPERTIES } from "../shared";
+import { Overlay } from "../overlay/Overlay";
+import { CLASS_PROPERTIES, DARK_MODE_PATCHES } from "../shared";
 
 let USE_FULL_BACKGROUND = true;
 
@@ -226,6 +227,20 @@ export class RuntimeStyles {
         for (const property in this.dataManager.currentData["classColors"]) {
             const propertyName = CLASS_PROPERTIES[property];
             classCSSContent += `.${property}{${propertyName}: ${this.dataManager.currentData["classColors"][property]} !important;}\n`;
+        }
+
+        // Detect dark mode
+        if (document.documentElement.classList.contains("theme-darkV2")) {
+            console.warn("Teams dark mode detected: applying dark mode patches");
+
+            for (const patchName in DARK_MODE_PATCHES) {
+                const patchValue = DARK_MODE_PATCHES[patchName];
+                classCSSContent += `${patchName} {${patchValue}}\n`;
+            }
+
+            console.log("Applied dark mode patches");
+
+            Overlay.notify("warning", "Dark mode support is limited", "TeamsPlus has experimental support for dark mode. Switch to light mode for better stability.");
         }
 
         // Inject the CSS content into the <style> element

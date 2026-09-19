@@ -35,7 +35,7 @@ export class UserBrowser {
         shadow.appendChild(link);
         */
 
-        injectStyles();
+        injectStyles(shadow);
 
         const reactContainer = document.createElement("div");
         shadow.appendChild(reactContainer);

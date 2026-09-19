@@ -18,12 +18,10 @@ import { AuthProvider } from "./api/authorizationProvider";
 import { SnakeGame } from "./games/snake";
 import { LoadingScreen } from "./runtime/loadingScreen";
 import { AppsMenuManager } from "./ui/appsMenuManager";
-import { ImageLoadingOptimizer } from "./runtime/imageLoadingOptimizer";
 import { TeamNameMappings } from "./runtime/teamNameMappings";
-import { UserBrowser } from "./userBrowser/UserBrowser";
 import { injectStyles } from "./injectStyles";
-import { useUserListStore } from "./userBrowser/stores/UserListStore";
 import { injectStealthRead } from "./runtime/stealthReadInject";
+import { Overlay } from "./overlay/Overlay";
 
 // Important objects
 
@@ -33,7 +31,6 @@ const twemojiRuntime = new TwemojiRuntime(dataManager);
 const stylesRuntime = new RuntimeStyles(dataManager);
 const realtimeUpdatesRuntime = new RealtimeUpdatesManager(dataManager, stylesRuntime);
 const loadingScreenRuntime = new LoadingScreen();
-const imageLoadingOptimizer = new ImageLoadingOptimizer();
 const authProvider = new AuthProvider();
 const teamNameMappings = new TeamNameMappings(dataManager);
 if (window.self === window.top) { // Don't initialize in iframes!
@@ -41,7 +38,7 @@ if (window.self === window.top) { // Don't initialize in iframes!
     const gamblingGame = new GamblingGame(authProvider);
     const encryptionProvider = new EncryptionProvider(authProvider);
     const snakeGame = new SnakeGame();
-    const usersBrowser = new UserBrowser();
+
 }
 
 
@@ -50,41 +47,9 @@ injectStyles();
 
 /////// Utility functions ////////
 
-
-////// Listener for Access Token //////
-async function listenOnDelveToken() {
-    window.addEventListener("message", (event) => {
-        if (event.source !== window) {
-            console.warn("Not from window");
-            return;
-        }
-
-        if (event.data?.type === "DELVE_TOKEN") {
-            const token = event.data.token;
-        
-            console.log("Extension received token: ", token);
-
-            if (__DESKTOP_APP__) {
-                console.log("Unsupported: desktop app");
-                return;
-            }
-
-            chrome.runtime.sendMessage({
-                type: "DELVE_TOKEN",
-                token
-            });
-
-            console.log("SET STATE");
-            useUserListStore.setState({token: token});
-        }
-    })
-}
-
 //////// On window load functions //////////
 async function onWindowLoad() {
     console.log("window loaded, wait for main");
-
-    imageLoadingOptimizer.onLoad();
 
     loadingScreenRuntime.startMutationObserver();
 
@@ -92,11 +57,11 @@ async function onWindowLoad() {
         throw new Error("Reject loading in iframe, feature not stable");
     }
 
-    if (window.self === window.top) {
+    /* if (window.self === window.top) {
         await waitForElement('[data-tid="app-layout-area--main"]');
     } else {
         console.log("Skip wait in iframe");
-    }
+    } */
 
     console.log("window found main");
     await dataManager.loadAll();
@@ -108,6 +73,7 @@ async function onWindowLoad() {
     stylesRuntime.applyColors();
     stylesRuntime.applyBackgrounds();
     teamNameMappings.start();
+    Overlay.run();
 
     injectStealthRead();
     
@@ -129,4 +95,3 @@ async function onWindowLoad() {
 /////// Init ////////
 window.onload = onWindowLoad;
 console.log("Hello");
-listenOnDelveToken();

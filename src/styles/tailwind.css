@@ -21,6 +21,12 @@
     }
 }
 
+@layer base {
+    svg {
+        fill: currentColor;
+    }
+}
+
 @layer utilities {
     .bg-checkerboard {
         background-color: #ffffff;

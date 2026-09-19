@@ -376,6 +376,12 @@ const DefaultColors: {[key: string] : string} = {
     "--colorTeamsCompositeActiveShadow4":"rgba(121, 207, 255, 0.2)"
 };
 
+const DarkModePatches: {[key: string]: string} = {
+    ".fypbzun": "background-color: var(--colorBrandBackground2); !important",
+    ".f8js68m": "background-color: var(--colorNeutralBackground3); !important",
+    ".fqf9ox1": "border-bottom-color: var(--colorNeutralShadowAmbientLighter); !important"
+}
+
 // CSS Variables for other settings
 const aDEFAULT_PIXEL_VALUES: {[key: string]: string} = {
     "--borderRadiusNone": "0",
@@ -500,3 +506,4 @@ export const GROUP_DESCRIPTIONS = aGROUP_DESCRIPTIONS;
 export const CLASS_PROPERTIES = aCLASS_PROPERTIES;
 export const DEFAULT_BACKGROUNDS = aDEFAULT_BACKGROUNDS;
 export const DEFAULT_EMOJIS = aDEFAULT_EMOJIS;
+export const DARK_MODE_PATCHES = DarkModePatches;
